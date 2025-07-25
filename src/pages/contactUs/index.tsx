@@ -1,6 +1,5 @@
 import "animate.css";
 // import Mainvideo from '../../../public/images/ip.mp4';
-import ContactBox from "../../components/contactBox";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import InnerBanner from "../../components/innerBanner";
@@ -27,7 +26,6 @@ const Home = () => {
             </video>
             <Header />
             <InnerBanner title="contact us"/>
-            <ContactBox />
             <Footer />
         </>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface NavItemProps {
-    label: string;
+label: React.ReactNode;
     isActive?: boolean;
     onClick?: () => void;
 }

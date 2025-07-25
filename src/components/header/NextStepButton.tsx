@@ -5,16 +5,13 @@ interface NextStepButtonProps {
   onClick?: () => void;
 }
 
-const NextStepButton: React.FC<NextStepButtonProps> = ({ onClick }) => {
+const NextStepButton: React.FC<NextStepButtonProps> = ({  }) => {
   return (
     <button
       className="site-btn flex items-center justify-between bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-      onClick={onClick}
+    // onClick={onClick}
     >
-      <span className="mr-2">Next Step</span>
-      <span className='btn-icon'>
-        <ChevronRight className="h-5 w-5" />
-      </span>
+      <span className="mr-2">Member Sign up</span>
     </button>
   );
 };
