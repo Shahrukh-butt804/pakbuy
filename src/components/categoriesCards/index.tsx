@@ -11,7 +11,7 @@ const categories = [
 const ChooseSection: React.FC = () => {
   return (
     <div className="flex items-center justify-center p-8">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full">
         {categories.map((item, index) => (
           <div
             key={index}

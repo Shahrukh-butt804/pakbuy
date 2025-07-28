@@ -6,6 +6,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
     id: number;
@@ -77,6 +78,7 @@ const ProductWithSidebar: React.FC = () => {
     const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string>("Mind");
     const [sortBy, setSortBy] = useState<string>("");
+    const navigate = useNavigate();
 
     // const collections = ["Mind", "Ultra", "Shift", "Beat", "Snooze"];
 
@@ -359,6 +361,7 @@ const ProductWithSidebar: React.FC = () => {
                                     </p>
                                     <Button
                                         type="primary"
+                                        onClick={() => navigate("/checkout")}
                                         className="mt-2 w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                                     >
                                         CHECKOUT

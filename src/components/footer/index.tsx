@@ -31,9 +31,10 @@ const Footer: React.FC = () => {
                                         <div>
                                             <h2 className="text-sm font-bold mb-4">QUICK LINKS</h2>
                                             <ul className="space-y-2 text-sm text-gray-300">
-                                                <li><a href="#" className="hover:text-white">Home</a></li>
-                                                <li><a href="#" className="hover:text-white">About Us</a></li>
-                                                <li><a href="#" className="hover:text-white">Contact Us</a></li>
+                                                <li><a href="/" className="hover:text-white">Home</a></li>
+                                                <li><a href="/" className="hover:text-white">About Us</a></li>
+                                                <li><a href="/shop" className="hover:text-white">Shop</a></li>
+                                                <li><a href="/" className="hover:text-white">Contact Us</a></li>
                                             </ul>
                                         </div>
 
@@ -73,35 +74,35 @@ const Footer: React.FC = () => {
                         {/* Copyright */}
                         <div className="border-t border-white/10 pt-2 ">
 
-                            <div className="flex space-x-2 mt-4 justify-between items-center">
+                            <div className="flex space-x-2 mt-4 justify-between items-center copyright-section">
                                 <p className="text-white text-sm">
                                     CHOOSE  © {currentYear}  Copyright 2025. All rights reserved
                                 </p>
-                                <div className="flex space-x-4">
+                                <div className="flex space-x-4 copyright-icons">
                                     <a href="#"><img
                                         src={ImageUrl("fb.png")}
                                         alt="well"
-                                        className=""
+                                        className="w-7"
                                     /></a>
                                     <a href="#"><img
                                         src={ImageUrl("tw.png")}
                                         alt="well"
-                                        className=""
+                                        className="w-7"
                                     /></a>
                                     <a href="#"><img
                                         src={ImageUrl("in.png")}
                                         alt="well"
-                                        className=""
+                                        className="w-7"
                                     /></a>
                                     <a href="#"><img
                                         src={ImageUrl("yt.png")}
                                         alt="well"
-                                        className=""
+                                        className="w-7"
                                     /></a>
                                     <a href="#"><img
                                         src={ImageUrl("insta.png")}
                                         alt="well"
-                                        className=""
+                                        className="w-7"
                                     /></a>
                                     {/* <a href="#"><img src="/icons/youtube.svg" alt="YouTube" className="w-4 h-4" /></a> */}
                                 </div>

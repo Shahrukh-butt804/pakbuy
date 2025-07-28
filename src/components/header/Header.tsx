@@ -6,7 +6,7 @@ import NavItem from './NavItem';
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
-    { id: 'about', label: 'Coming Soon', path: '/aboutUs' },
+    { id: 'about', label: 'Coming Soon', path: '/shop' },
     {
         id: 'science',
         label: (
@@ -14,7 +14,7 @@ const navigationItems = [
                 CHOOSE <span className='mist-font'>Serenity</span>
             </div>
         ),
-        path: '/ourScience',
+        path: '/shop',
     },
     {
         id: 'tests',
@@ -23,7 +23,7 @@ const navigationItems = [
                 CHOOSE <span className='mist-font'>Relief</span>
             </div>
         ),
-        path: '/shopTests',
+        path: '/shop',
     },
 ];
 
@@ -32,6 +32,9 @@ const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showRegPassword, setShowRegPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleNavClick = (id: string, path: string) => {
@@ -40,13 +43,13 @@ const Header: React.FC = () => {
         navigate(path);
     };
 
-     const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('Username:', username);
-    console.log('Password:', password);
-  };
+    const handleLogin = () => {
+        console.log('Username:', username);
+        console.log('Password:', password);
+    };
 
     return (
         <header className="w-full z-10 bg-[#374159]">
@@ -121,7 +124,7 @@ const Header: React.FC = () => {
                             </nav>
 
                             {/* Bottom Buttons */}
-                            <div className="mt-auto pb-8 flex flex-col space-y-4">
+                            <div className="mt-auto pb-8 flex flex-col space-y-4 nav-btns">
 
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
@@ -142,82 +145,85 @@ const Header: React.FC = () => {
 
 
 
-           {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-          <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out">
-            
-            {/* Close Button */}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
-            >
-              ✕
-            </button>
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out">
 
-            {/* Heading */}
-            <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome !</h3>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">Login</h2>
-            <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                        >
+                            ✕
+                        </button>
 
-            {/* Form */}
-            <div className="space-y-4">
-              {/* Username */}
-              <div>
-                <label className="block text-sm text-gray-700 mb-1">User name</label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter your user name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                />
-              </div>
+                        {/* Heading */}
+                        <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome !</h3>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Login</h2>
+                        <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
 
-              {/* Password */}
-              <div>
-                <label className="block text-sm text-gray-700 mb-1">Password</label>
-                <div className="relative">
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your Password"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
-                  />
-                  <span className="absolute right-3 top-2.5 text-gray-400 cursor-pointer">
-                    👁️
-                  </span>
+                        {/* Form */}
+                        <div className="space-y-4">
+                            {/* Username */}
+                            <div>
+                                <label className="block text-sm text-gray-700 mb-1">User name</label>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="Enter your user name"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                />
+                            </div>
+
+                            {/* Password */}
+                            <div>
+                                <label className="block text-sm text-gray-700 mb-1">Password</label>
+                                <div className="relative">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Enter your Password"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                    />
+                                    <span
+                                        className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? "🙈" : "👁️"}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Options */}
+                            <div className="flex items-center justify-between text-sm text-gray-600">
+                                <label className="flex items-center gap-2">
+                                    <input type="checkbox" className="accent-black" />
+                                    Remember Me
+                                </label>
+                                <button className="hover:underline">Forgot Password ?</button>
+                            </div>
+
+                            {/* Login Button */}
+                            <button
+                                onClick={handleLogin}
+                                className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition"
+                            >
+                                LOGIN
+                            </button>
+
+                            {/* Footer */}
+                            <p className="text-sm text-center text-gray-600 mt-4">
+                                Don’t have an Account?{" "}
+                                <span className="font-semibold text-black cursor-pointer hover:underline">
+                                    Register Here
+                                </span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              {/* Options */}
-              <div className="flex items-center justify-between text-sm text-gray-600">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-black" />
-                  Remember Me
-                </label>
-                <button className="hover:underline">Forgot Password ?</button>
-              </div>
-
-              {/* Login Button */}
-              <button
-                onClick={handleLogin}
-                className="w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition"
-              >
-                LOGIN
-              </button>
-
-              {/* Footer */}
-              <p className="text-sm text-center text-gray-600 mt-4">
-                Don’t have an Account?{" "}
-                <span className="font-semibold text-black cursor-pointer hover:underline">
-                  Register Here
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+            )}
 
 
             {isRegisterModalOpen && (
@@ -263,12 +269,15 @@ const Header: React.FC = () => {
                             <div className="relative">
                                 <label className="block text-sm text-gray-700 mb-1">Password</label>
                                 <input
-                                    type="password"
+                                    type={showRegPassword ? "text" : "password"}
                                     placeholder="Enter your Password"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
                                 />
-                                <span className="absolute right-3 top-9 text-gray-400 cursor-pointer">
-                                    👁️
+                                <span
+                                    className="absolute right-3 top-9 text-gray-400 cursor-pointer"
+                                    onClick={() => setShowRegPassword(!showRegPassword)}
+                                >
+                                    {showRegPassword ? "🙈" : "👁️"}
                                 </span>
                             </div>
 
@@ -276,12 +285,15 @@ const Header: React.FC = () => {
                             <div className="relative">
                                 <label className="block text-sm text-gray-700 mb-1">Confirm Password</label>
                                 <input
-                                    type="password"
+                                    type={showConfirmPassword ? "text" : "password"}
                                     placeholder="Enter your Password"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
                                 />
-                                <span className="absolute right-3 top-9 text-gray-400 cursor-pointer">
-                                    👁️
+                                <span
+                                    className="absolute right-3 top-9 text-gray-400 cursor-pointer"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                >
+                                    {showConfirmPassword ? "🙈" : "👁️"}
                                 </span>
                             </div>
                         </form>
@@ -296,7 +308,7 @@ const Header: React.FC = () => {
 
                         {/* Register Button */}
                         <div className="mt-6">
-                            <button className="w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
+                            <button className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
                                 REGISTER
                             </button>
                         </div>

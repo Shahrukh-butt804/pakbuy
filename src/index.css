@@ -726,14 +726,14 @@ footer a {
   height: 50px;
 }
 
-.web-textarea{
+.web-textarea {
   border-radius: 10px;
   border: 0.6px solid rgba(255, 255, 255, 0.40);
   background: rgba(255, 255, 255, 0.20);
 }
 
-.web-input option{
-background-color: #4d525f;
+.web-input option {
+  background-color: #4d525f;
 }
 
 /* //// checkout page end  */
@@ -796,6 +796,22 @@ background-color: #4d525f;
   .web-logo {
     max-width: 200px;
   }
+
+  header .header-navs span {
+    font-size: 16px;
+  }
+
+  .times-font {
+    font-size: 20px;
+  }
+
+  .ethics-bound-section h3 {
+    font-size: 32px;
+  }
+
+  .leave-bg-content h2 {
+    font-size: 60px;
+  }
 }
 
 @media screen and (max-width: 1199px) {}
@@ -803,6 +819,10 @@ background-color: #4d525f;
 @media screen and (max-width: 991px) {
   .home-banner h1 {
     font-size: 40px;
+  }
+
+  .nav-btns {
+    gap: 5px !important;
   }
 }
 
@@ -819,11 +839,101 @@ background-color: #4d525f;
     height: 700px;
   }
 
+  .home-top-content .home-top-title {
+    font-size: 60px;
+  }
+
+  .collections-heading h3 {
+    font-size: 80px;
+  }
+
+  .access-exclusive {
+    font-size: 38px;
+  }
+
 }
 
 @media screen and (max-width: 575px) {
   .banner-img {
     display: none;
+  }
+
+  .home-top-content .home-top-title {
+    font-size: 50px;
+  }
+
+  .collections-heading h3 {
+    font-size: 70px;
+  }
+
+  .access-exclusive {
+    font-size: 30px;
+  }
+
+  .home-top-content .home-top-subtitle {
+    font-size: 90px;
+  }
+
+  .home-top-bg {
+    background-image: url(/public/images/home-top-bg.png);
+    background-size: contain;
+    background-position: top;
+    min-height: 100vh;
+  }
+
+  .choose-features-section h2 {
+    font-size: 20px;
+    line-height: 27px;
+  }
+
+  .leave-bg-content h2 {
+    font-size: 30px;
+
+  }
+
+  .leave-bg-content {
+    padding: 0 20px;
+  }
+
+  .leave-bg-content h2 span {
+    font-size: 28px;
+  }
+
+  .memberBenefits-bg h3 {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .ethics-bound-section {
+    padding: 10px 0;
+  }
+
+  .bond-bg-change {
+    padding: 15px 20px;
+    min-height: fit-content;
+  }
+
+  .ethics-bound-section h3 {
+    font-size: 26px;
+  }
+
+  .bound-itaclic-text {
+    font-size: 36px;
+  }
+
+  .collections-heading h5 {
+    color: #FFF;
+    text-align: center;
+    font-family: 'Mistrully';
+    font-size: 28px;
+    padding: 20px 0;
+  }
+  .copyright-section{
+    display: block;
+    text-align: center;
+  }
+  .copyright-icons{
+    justify-content: center;
   }
 }
 
