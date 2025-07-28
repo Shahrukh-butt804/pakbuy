@@ -32,4 +32,4 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./dist/
-          server-dir: /centerpiece/
+          server-dir: /choosewell/

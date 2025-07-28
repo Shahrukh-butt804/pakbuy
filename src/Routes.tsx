@@ -28,7 +28,7 @@ function AppRoutes() {
     <>
       <Provider store={store}>
         {/* <BrowserRouter basename={basename}> */}
-        <BrowserRouter>
+        <BrowserRouter basename="/choosewell">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contactUs" element={<ContactUs />} />
