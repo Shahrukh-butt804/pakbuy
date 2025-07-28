@@ -7,6 +7,7 @@ import CategoriesCards from "../../components/categoriesCards";
 import { ChooseFeatures } from "../../components/chooseFeatures";
 import { MemberBenefits } from "../../components/memberBenefits";
 import { EthicsBound } from "../../components/ethicsBound";
+import { ChooseInfoSection } from "../../components/chooseInfoSection";
 // import Mainvideo from '../../../public/images/ip.mp4';
 
 
@@ -64,7 +65,18 @@ const Home = () => {
                         <EthicsBound />
                     </div>
                 </div>
+                <div className="relative w-full collections-heading text-center">
+                    <h5 className="inset-0 flex items-center justify-center text-6xl font-bold text-white mix-blend-exclusion">
+                        Member only marketplace
+                    </h5>
+                    <button
+                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                    >
+                        GET MEMBERSHIP
+                    </button>
+                </div>
                 <CategoriesCards />
+                <ChooseInfoSection />
                 <Footer />
             </section>
         </>

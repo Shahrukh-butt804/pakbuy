@@ -1,6 +1,8 @@
 import { Provider } from "react-redux";
 import Home from "./pages/home";
 import ContactUs from "./pages/contactUs";
+import Checkout from "./pages/checkout";
+import Shop from "./pages/shop";
 
 
 import { store } from "./redux/store";
@@ -30,6 +32,8 @@ function AppRoutes() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contactUs" element={<ContactUs />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/shop" element={<Shop />} />
 
             {/* <Route element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />

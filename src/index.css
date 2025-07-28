@@ -189,15 +189,58 @@ header .header-navs span {
 }
 
 /* footer Start*/
+
+.footer-p {
+  color: #FFF;
+  font-family: 'SF Pro Display';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  /* 215% */
+}
+
 .footer-box {
-  border-radius: 61px;
-  background: #05022B;
+  border-radius: 40px;
+  /* background: #05022B; */
   margin-bottom: 40px;
+}
+
+.email-box h3 {
+  color: #1C003B;
+  font-family: 'SF Pro Display';
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.48px;
+  text-transform: uppercase;
+}
+
+.email-box p {
+  color: #333;
+  font-family: 'SF Pro Display';
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  /* 168.75% */
+}
+
+.email-box input {
+  border-radius: 5px;
+  background: #EDEDED;
+  height: 50px;
+}
+
+.email-box button {
+  height: 50px;
+  border-radius: 3px;
+  background: #374159;
 }
 
 .footer {
   width: 100%;
-  background-color: #0a0b1e;
+  /* background-color: #0a0b1e; */
   color: #ffffff;
   padding: 48px 0 24px;
   font-family: "Istok Web", sans-serif;
@@ -208,9 +251,7 @@ footer a {
   font-family: "Istok Web", sans-serif;
 }
 
-footer h3 {
-  color: #fff !important;
-}
+
 
 .footer-container {
   max-width: 1200px;
@@ -586,11 +627,11 @@ footer h3 {
 }
 
 .ethicsBoundary-bg {
-  background-image: url(../public/images/ethicsBoundary-bg.png);
+  background-image: url(../public/images/ethicsBoundary-bg2.png);
   background-size: cover;
   background-position: top center;
   min-height: 100vh;
-  padding: 50px 0;
+  padding: 50px 0 0 0;
 }
 
 .ethics-bound-section h3 {
@@ -621,10 +662,81 @@ footer h3 {
   text-align: end;
 }
 
-.ethic-thirthd-card{
+.ethic-thirthd-card {
   margin-top: 50px;
 }
+
+.bond-bg-change {
+  position: relative;
+  overflow: hidden;
+}
+
+.bond-bg-change::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url(../public/images/bond-bg-change.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  z-index: 0;
+}
+
+.bond-bg-change:hover::before {
+  opacity: 1;
+}
+
+/* Content above background */
+.bond-bg-change>* {
+  position: relative;
+  z-index: 1;
+}
+
+.collections-heading h5 {
+  color: #FFF;
+  text-align: center;
+  font-family: 'Mistrully';
+  font-size: 70px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 0;
+}
+
+.footerinfo-p p {
+  color: #FFF;
+  text-align: center;
+  font-family: 'SF Pro Display';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  /* 144.444% */
+}
+
 /* //// home page end  */
+
+/* //// checkout page start  */
+.web-input {
+  border-radius: 10px;
+  border: 0.6px solid rgba(255, 255, 255, 0.40);
+  background: rgba(255, 255, 255, 0.20);
+  height: 50px;
+}
+
+.web-textarea{
+  border-radius: 10px;
+  border: 0.6px solid rgba(255, 255, 255, 0.40);
+  background: rgba(255, 255, 255, 0.20);
+}
+
+.web-input option{
+background-color: #4d525f;
+}
+
+/* //// checkout page end  */
 
 
 

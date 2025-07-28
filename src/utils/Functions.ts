@@ -2,7 +2,7 @@ export const getBasename = () => {
     const { hostname } = window.location;
     var basename = ""
     if (hostname.includes("react.customdev.solutions")) {
-        basename = "/genematrix"
+        basename = "/choosewell"
     }
     return basename;
 };

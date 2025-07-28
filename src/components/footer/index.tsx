@@ -1,10 +1,7 @@
+import { Col, Row, Button, Input, Space } from 'antd';
 import React from 'react';
-import { Facebook, Twitter, Youtube, Instagram, Globe } from 'lucide-react';
-import { Col, Row } from 'antd';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { ImageUrl } from '../../utils/Functions';
-import { Link } from 'react-router';
+
 
 
 const Footer: React.FC = () => {
@@ -13,165 +10,102 @@ const Footer: React.FC = () => {
     return (
         <Row justify={"center"}>
             <Col lg={22}>
-                <footer className="w-full text-white py-12 px-8 font-sans footer-box">
+                <footer className="w-full text-white py-12 px-8 font-sans footer-box bg-white/10 backdrop-blur-2xl">
                     <div className=" mx-auto">
 
-                        <Row gutter={[32, 32]}>
-                            <Col xl={4} lg={5} md={24}>
-                                <div className="lg:col-span-2">
-                                    <img
-                                        src={ImageUrl("logo.png")}
-                                        alt={""}
-                                        className="mb-4"
-                                    />
-                                    <p className="text-gray-300 text-sm leading-relaxed">
-                                        The tests offered through the Gene Matrix LLC® are not intended to diagnose or treat disease. Our tests are not intended to be a substitute for seeking professional medical advice. Do not make any changes to your current medications or dosing without consulting your healthcare provider.
-                                    </p>
-                                </div>
-                            </Col>
-                            <Col xl={20} lg={19} md={24}>
-                                <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-4 mb-12">
-                                    {/* Navigation Columns */}
-                                    <div className="space-y-4">
-                                        <h3 className="text-lg font-semibold mb-3">Company</h3>
-                                        <ul className="space-y-2">
-                                            {[
-                                                { name: 'About Us', path: '/aboutUs' },
-                                                { name: 'Contact Us', path: '/contactUs' },
-                                                { name: 'Our Science', path: '/ourScience' },
-                                                { name: 'R&D and Innovation', path: '/rdInnovation' },
-                                                { name: 'Franchise', path: '/franchise' },
-                                                { name: 'Testimonials', path: '/testimonials' },
-                                                { name: 'Newsroom & Blog', path: '/newsroomBlog' },
-                                            ].map((item) => (
-                                                <li key={item.name}>
-                                                    <Link
-                                                        to={item.path}
-                                                        className="text-gray-300 hover:text-white text-sm transition-colors duration-200"
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
+                        <div className=" text-white py-10">
+                            {/* <div className="mx-auto grid grid-cols-1 md:grid-cols-4 gap-10"> */}
+                            <Row>
+                                <Col lg={8}>
+                                    <div>
+                                        <h2 className="text-lg font-semibold mb-4">CHOOSE</h2>
+                                        <p className="text-sm text-white w-[90%] footer-p">
+                                            CHOOSE Well is a marketplace for proven health options. The CHOOSE team has selected
+                                            the best from a variety of companies located throughout the world and have brought them
+                                            together to form the CHOOSE Well Collections® with common sense pricing.
+                                        </p>
                                     </div>
+                                </Col>
+                                <Col lg={8}>
+                                    <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+                                        <div>
+                                            <h2 className="text-sm font-bold mb-4">QUICK LINKS</h2>
+                                            <ul className="space-y-2 text-sm text-gray-300">
+                                                <li><a href="#" className="hover:text-white">Home</a></li>
+                                                <li><a href="#" className="hover:text-white">About Us</a></li>
+                                                <li><a href="#" className="hover:text-white">Contact Us</a></li>
+                                            </ul>
+                                        </div>
 
-                                    <div className="space-y-4">
-                                        <h3 className="text-lg font-semibold mb-3">Learn</h3>
-                                        <ul className="space-y-2">
-                                            {[
-                                                { name: 'Patients Portal', path: '/patientsPortal' },
-                                                { name: 'Healthcare Providers Portal', path: '/healthcare' },
-                                                { name: 'Careers', path: '/careers' },
-                                                { name: 'Global Impact', path: '/globalImpact' },
-                                            ].map((item) => (
-                                                <li key={item.name}>
-                                                    <Link
-                                                        to={item.path}
-                                                        className="text-gray-300 hover:text-white text-sm transition-colors duration-200"
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-
-                                    <div className="space-y-4">
-                                        <h3 className="text-lg font-semibold mb-3">Tests</h3>
-                                        <ul className="space-y-2">
-                                            {[
-                                                { name: 'Shop All Tests', path: '/shop-all-tests' },
-                                                { name: 'GeneCore', path: '/geneCore' },
-                                                { name: 'GeneDiet', path: '/geneDiet' },
-                                                { name: 'GeneMind', path: '/geneMind' },
-                                                { name: 'GenePain', path: '/genePain' },
-                                                { name: 'GeneEstrogen', path: '/geneEstrogen' },
-                                                { name: 'GeneBaby', path: '/geneBaby' },
-                                                { name: 'GeneSport', path: '/geneSport' },
-                                                { name: 'GeneHealth', path: '/geneHealth' },
-                                                { name: 'GeneResilience', path: '/geneResilience' },
-                                                { name: 'GeneCancer', path: '/geneCancer' },
-                                                { name: 'GenePharma', path: '/genePharma' },
-                                            ].map((item) => (
-                                                <li key={item.name}>
-                                                    <Link
-                                                        to={item.path}
-                                                        className="text-gray-300 hover:text-white text-sm transition-colors duration-200"
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-
-                                    <div className="space-y-4">
-                                        <h3 className="text-lg font-semibold mb-3">Legal</h3>
-                                        <ul className="space-y-2">
-                                            {[
-                                                { name: 'Privacy Policy', path: '/privacyPolicy' },
-                                                { name: 'Terms of Service', path: '/termsService' },
-                                                { name: 'HIPAA / GDPR Compliance', path: '/hipaa' },
-                                                { name: 'Medical Disclaimer', path: '/medicalDisclaimer' },
-                                                { name: 'Waiver of Liability', path: '/waiverLiability' },
-                                                { name: 'DPA', path: '/dpa' },
-                                                { name: 'News Artical', path: '/newsartical' },
-                                                { name: 'News Article Expands', path: '/newsArticleExpands' },
-                                                { name: 'Consent Form', path: '/consentForm' },
-                                            ].map((item) => (
-                                                <li key={item.name}>
-                                                    <Link
-                                                        to={item.path}
-                                                        className="text-gray-300 hover:text-white text-sm transition-colors duration-200"
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-                                    <div className="space-y-4 ">
-                                        <h3 className="text-lg font-semibold mb-3">Social</h3>
-                                        <div className="flex flex-wrap gap-2 mb-12">
-                                            {[
-                                                { icon: <Facebook size={18} />, label: 'Facebook' },
-                                                { icon: <Twitter size={18} />, label: 'Twitter' },
-                                                { icon: <Instagram size={18} />, label: 'Instagram' },
-                                                { icon: <Youtube size={18} />, label: 'YouTube' },
-                                                { icon: <Globe size={18} />, label: 'Website' }
-                                            ].map((social, index) => (
-                                                <a
-                                                    key={index}
-                                                    href="#"
-                                                    className="w-6 h-10 bg-white/10 rounded-full flex items-center  hover:bg-purple-600 transition-all duration-300 hover:-translate-y-1"
-                                                    aria-label={social.label}
-                                                >
-                                                    {social.icon}
-                                                </a>
-                                            ))}
+                                        <div>
+                                            <h2 className="text-sm font-bold mb-4">USEFUL LINKS</h2>
+                                            <ul className="space-y-2 text-sm text-gray-300">
+                                                <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
+                                                <li><a href="#" className="hover:text-white">Terms & Conditions</a></li>
+                                                <li><a href="#" className="hover:text-white">Help</a></li>
+                                            </ul>
                                         </div>
                                     </div>
-                                </div>
-                            </Col>
-                        </Row>
-                        {/* Top Section */}
-
-
-                        {/* Social Media Section */}
-
-
-                        {/* Trust Badges */}
-                      
+                                </Col>
+                                <Col lg={8}>
+                                    <div className="bg-white p-6 rounded-3xl shadow-md text-black email-box">
+                                        <h3 className="font-semibold text-sm mb-2">STAY IN TOUCH</h3>
+                                        <p className="text-xs mb-3 text-gray-700">
+                                            Provide your email address and we'll keep you updated with CHOOSE Well Collections.
+                                        </p>
+                                        <Space direction="vertical" size="middle" className='mb-4 w-full'>
+                                            <Space.Compact style={{ width: '100%' }}>
+                                                <Input defaultValue="Enter Your Email Here" />
+                                                <Button type="primary"><svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="20" height="20">
+                                                    <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+                                                </svg></Button>
+                                            </Space.Compact>
+                                        </Space>
+                                        <p className="text-[10px] mt-2 text-gray-600">
+                                            By clicking Send, you agree to receive periodic emails from CHOOSE. We will never disclose your email address to anyone else.
+                                        </p>
+                                    </div>
+                                </Col>
+                            </Row>
+                            {/* </div> */}
+                        </div>
 
                         {/* Copyright */}
-                        <div className="border-t border-white/10 pt-6 text-center">
-                            <p className="text-gray-400 text-sm">
-                                © {currentYear} Gene Matrix LLC | All Rights Reserved
-                            </p>
+                        <div className="border-t border-white/10 pt-2 ">
+
+                            <div className="flex space-x-2 mt-4 justify-between items-center">
+                                <p className="text-white text-sm">
+                                    CHOOSE  © {currentYear}  Copyright 2025. All rights reserved
+                                </p>
+                                <div className="flex space-x-4">
+                                    <a href="#"><img
+                                        src={ImageUrl("fb.png")}
+                                        alt="well"
+                                        className=""
+                                    /></a>
+                                    <a href="#"><img
+                                        src={ImageUrl("tw.png")}
+                                        alt="well"
+                                        className=""
+                                    /></a>
+                                    <a href="#"><img
+                                        src={ImageUrl("in.png")}
+                                        alt="well"
+                                        className=""
+                                    /></a>
+                                    <a href="#"><img
+                                        src={ImageUrl("yt.png")}
+                                        alt="well"
+                                        className=""
+                                    /></a>
+                                    <a href="#"><img
+                                        src={ImageUrl("insta.png")}
+                                        alt="well"
+                                        className=""
+                                    /></a>
+                                    {/* <a href="#"><img src="/icons/youtube.svg" alt="YouTube" className="w-4 h-4" /></a> */}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </footer>
