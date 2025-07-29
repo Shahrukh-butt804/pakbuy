@@ -3,8 +3,11 @@ import { Menu, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavItem from './NavItem';
-import { useRegisterMutation } from '../../redux/services/authSlice';
+import { useLoginMutation, useLogoutMutation, useRegisterMutation } from '../../redux/services/authSlice';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
+import { useSelector } from 'react-redux';
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
@@ -39,6 +42,12 @@ const Header: React.FC = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
+
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+
+
+
     const [signupData, setSignupData] = useState({
         fullName: '',
         email: '',
@@ -54,6 +63,10 @@ const Header: React.FC = () => {
     };
 
     const [register, { isLoading }] = useRegisterMutation();
+    const [login, { isLoading: loginLoading }] = useLoginMutation()
+    const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
+
+
 
     const handleNavClick = (id: string, path: string) => {
         setActiveItem(id);
@@ -61,12 +74,38 @@ const Header: React.FC = () => {
         navigate(path);
     };
 
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        console.log('Username:', username);
-        console.log('Password:', password);
+    const handleLogin = async () => {
+
+        try {
+            const response: any = await login({ email, password }).unwrap();
+            if (response.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: response.message,
+                });
+                dispatch(setUser(response.user));
+                setIsModalOpen(false);
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.message,
+                });
+            }
+        } catch (error: any) {
+            console.error('Error registering user:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.data.message,
+            });
+        }
+
     };
 
 
@@ -113,6 +152,33 @@ const Header: React.FC = () => {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            const response = await logoutUser({}).unwrap();
+            if (response.success) {
+                dispatch(logout());
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: response.message,
+                })
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.message,
+                })
+            }
+        } catch (error: any) {
+            console.error('Error logging out:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.error || error.data.message || "Something went wrong!",
+            })
+        }
+    }
+
 
 
 
@@ -143,18 +209,40 @@ const Header: React.FC = () => {
                         </nav>
 
                         {/* Right Buttons */}
-                        <div className="hidden lg:flex items-center space-x-4 gap-2">
-                            <button
-                                className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                            >
-                                <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
-                            </button>
-                            <button
-                                className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
-                            >
-                                <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
-                            </button>
-                        </div>
+                        {user && user._id ? <button
+                            disabled={logoutLoading}
+                            className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                        >
+                            <span className="" onClick={() => {
+                                Swal.fire({
+                                    title: 'Are you sure you want to logout?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, logout!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        handleLogout();
+                                    }
+                                })
+                            }}>logout</span>
+                        </button> :
+
+                            <div className="hidden lg:flex items-center space-x-4 gap-2">
+                                <button
+                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
+                                </button>
+                                <button
+                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
+                                </button>
+                            </div>
+                        }
                     </div>
 
                     {/* Overlay */}
@@ -189,19 +277,39 @@ const Header: React.FC = () => {
                             </nav>
 
                             {/* Bottom Buttons */}
-                            <div className="mt-auto pb-8 flex flex-col space-y-4 nav-btns">
+                            {user && user._id ? <button
+                                className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 "
+                            >
+                                <span className="" onClick={() => {
+                                    Swal.fire({
+                                        title: 'Are you sure you want to logout?',
+                                        text: "You won't be able to revert this!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Yes, logout!'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            handleLogout();
+                                        }
+                                    })
+                                }}>logout</span>
+                            </button> :
+                                <div className="mt-auto pb-8 flex flex-col space-y-4 nav-btns">
 
-                                <button
-                                    className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                                >
-                                    <span className="">Member Sign up</span>
-                                </button>
-                                <button
-                                    className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                                >
-                                    <span className="">Login</span>
-                                </button>
-                            </div>
+                                    <button
+                                        className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
+                                    >
+                                        <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
+                                    </button>
+                                    <button
+                                        className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
+                                    >
+                                        <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
                 </Col>
@@ -231,11 +339,11 @@ const Header: React.FC = () => {
                         <div className="space-y-4">
                             {/* Username */}
                             <div>
-                                <label className="block text-sm text-gray-700 mb-1">User name</label>
+                                <label className="block text-sm text-gray-700 mb-1">Email</label>
                                 <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your user name"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                 />
@@ -272,10 +380,11 @@ const Header: React.FC = () => {
 
                             {/* Login Button */}
                             <button
+                                disabled={loginLoading}
                                 onClick={handleLogin}
                                 className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition"
                             >
-                                LOGIN
+                                {loginLoading ? "LOGGING-IN" : "LOGIN"}
                             </button>
 
                             {/* Footer */}
