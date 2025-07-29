@@ -3,6 +3,8 @@ import { Menu, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavItem from './NavItem';
+import { useRegisterMutation } from '../../redux/services/authSlice';
+import Swal from 'sweetalert2';
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
@@ -37,6 +39,22 @@ const Header: React.FC = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
+    const [signupData, setSignupData] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSignupData({
+            ...signupData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const [register, { isLoading }] = useRegisterMutation();
+
     const handleNavClick = (id: string, path: string) => {
         setActiveItem(id);
         setMobileMenuOpen(false);
@@ -50,6 +68,53 @@ const Header: React.FC = () => {
         console.log('Username:', username);
         console.log('Password:', password);
     };
+
+
+    const handleSignup = async () => {
+
+        if (signupData.password !== signupData.confirmPassword) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Passwords do not match!",
+            });
+        }
+
+        const formData = new FormData();
+        formData.append('fullName', signupData.fullName);
+        formData.append('email', signupData.email);
+        formData.append('password', signupData.password);
+        formData.append('confirmPassword', signupData.confirmPassword);
+
+        try {
+            const response = await register(formData).unwrap();
+            if (response.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: response.message,
+                });
+            }
+            else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.message,
+                });
+            }
+        } catch (error: any) {
+            console.error('Error registering user:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.error || error.data.message || "Something went wrong!",
+            })
+
+        }
+    };
+
+
+
 
     return (
         <header className="w-full z-10 bg-[#374159]">
@@ -249,6 +314,9 @@ const Header: React.FC = () => {
                             <div>
                                 <label className="block text-sm text-gray-700 mb-1">Full Name</label>
                                 <input
+                                    value={signupData.fullName}
+                                    onChange={onChange}
+                                    name='fullName'
                                     type="text"
                                     placeholder="Enter your user name"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
@@ -259,6 +327,9 @@ const Header: React.FC = () => {
                             <div>
                                 <label className="block text-sm text-gray-700 mb-1">Email</label>
                                 <input
+                                    value={signupData.email}
+                                    onChange={onChange}
+                                    name='email'
                                     type="email"
                                     placeholder="Enter your user name"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
@@ -269,6 +340,9 @@ const Header: React.FC = () => {
                             <div className="relative">
                                 <label className="block text-sm text-gray-700 mb-1">Password</label>
                                 <input
+                                    value={signupData.password}
+                                    onChange={onChange}
+                                    name='password'
                                     type={showRegPassword ? "text" : "password"}
                                     placeholder="Enter your Password"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
@@ -285,6 +359,9 @@ const Header: React.FC = () => {
                             <div className="relative">
                                 <label className="block text-sm text-gray-700 mb-1">Confirm Password</label>
                                 <input
+                                    value={signupData.confirmPassword}
+                                    onChange={onChange}
+                                    name='confirmPassword'
                                     type={showConfirmPassword ? "text" : "password"}
                                     placeholder="Enter your Password"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
@@ -308,8 +385,11 @@ const Header: React.FC = () => {
 
                         {/* Register Button */}
                         <div className="mt-6">
-                            <button className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
-                                REGISTER
+                            <button
+                                disabled={isLoading}
+                                onClick={handleSignup}
+                                className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
+                                {isLoading ? "REGISTERING..." : "REGISTER"}
                             </button>
                         </div>
 

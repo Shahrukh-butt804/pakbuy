@@ -14,8 +14,6 @@ export const authSlice = createApi({
             }),
         }),
 
-
-
         register: builder.mutation({
             query: (formData) => ({
                 url: "/signup",
