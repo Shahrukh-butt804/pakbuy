@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import NavItem from './NavItem';
 import { CloseOutlined } from "@ant-design/icons";
 import { ImageUrl } from '../../utils/Functions';
-import { useLoginMutation, useLogoutMutation, useRegisterMutation } from '../../redux/services/authSlice';
-import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
-import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
-import { useSelector } from 'react-redux';
+// import { useLoginMutation, useLogoutMutation, useRegisterMutation } from '../../redux/services/authSlice';
+// import Swal from 'sweetalert2';
+// import { useDispatch } from 'react-redux';
+// import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
+// import { useSelector } from 'react-redux';
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
@@ -131,7 +131,7 @@ const Header: React.FC = () => {
         window.addEventListener('localStorageUpdated', checkStorage);
         return () => window.removeEventListener('localStorageUpdated', checkStorage);
     }, []);
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     const [cartItems, setCartItems] = useState<Product[]>([
         {
             id: 999,
@@ -142,9 +142,9 @@ const Header: React.FC = () => {
         },
     ]);
 
-    const showDrawer = () => setOpen(true);
+    // const showDrawer = () => setOpen(true);
     const onClose = () => {
-        setOpen(false)
+        // setOpen(false)
         setShowCart(false);
         localStorage.setItem('myBooleanFlag', 'false');
     };
@@ -215,7 +215,7 @@ const Header: React.FC = () => {
                                 <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
                             </button>
                         </div>
-                        {user && user._id ? <button
+                        {/* {user && user._id ? <button
                             disabled={logoutLoading}
                             className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                         >
@@ -248,7 +248,7 @@ const Header: React.FC = () => {
                                     <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
                                 </button>
                             </div>
-                        }
+                        } */}
                     </div>
 
                     {/* Overlay */}
