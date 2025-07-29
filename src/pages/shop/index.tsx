@@ -1,37 +1,13 @@
-import React, { useState } from "react";
-import { Star, Heart, Eye, Lock, ShoppingCart } from "lucide-react";
-import { ImageUrl } from '../../utils/Functions';
-import { Drawer, Button, Divider, Image, List, } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
+import React, {  useState } from "react";
+import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
-import { ChooseInfoSection } from "../../components/chooseInfoSection";
-import { useNavigate } from 'react-router-dom';
+import { ImageUrl } from '../../utils/Functions';
 
-interface Product {
-    id: number;
-    title: string;
-    price: number;
-    image: string;
-    rating: number;
-}
 
-const addOns: Product[] = [
-    {
-        id: 1,
-        title: "Muse S Athena",
-        price: 200,
-        image: "product1.png",
-        rating: 5,
-    },
-    {
-        id: 2,
-        title: "Brain HQ",
-        price: 150,
-        image: "product1.png",
-        rating: 4,
-    },
-];
+
+
 
 
 const productsData = [
@@ -78,7 +54,8 @@ const ProductWithSidebar: React.FC = () => {
     const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string>("Mind");
     const [sortBy, setSortBy] = useState<string>("");
-    const navigate = useNavigate();
+ 
+
 
     // const collections = ["Mind", "Ultra", "Shift", "Beat", "Snooze"];
 
@@ -97,31 +74,8 @@ const ProductWithSidebar: React.FC = () => {
 
 
 
-    const [open, setOpen] = useState(false);
-    const [cartItems, setCartItems] = useState<Product[]>([
-        {
-            id: 999,
-            title: "CHOOSE Mind",
-            price: 600,
-            image: "product1.png",
-            rating: 5,
-        },
-    ]);
 
-    const showDrawer = () => setOpen(true);
-    const onClose = () => setOpen(false);
-
-    const handleAddToCart = (product: Product) => {
-        setCartItems((prev) => [...prev, product]);
-    };
-
-    const handleRemove = (id: number) => {
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
-    };
-
-    const subtotal = cartItems.reduce((acc, curr) => acc + curr.price, 0);
-    const tax = subtotal * 0.2;
-    const total = subtotal + tax;
+    
 
 
 
@@ -129,6 +83,7 @@ const ProductWithSidebar: React.FC = () => {
         <>
             <Header />
             <div className="min-h-screen bg-[#181d2c] text-white px-4 md:px-8 py-6">
+                <h6 className="shop-heading">SHOP</h6>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Sidebar */}
                     <div className="bg-[#1f2638] rounded-xl p-6 space-y-4 w-full">
@@ -261,7 +216,7 @@ const ProductWithSidebar: React.FC = () => {
                                                 {product.description}
                                             </p>
 
-                                            <button className={`site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 ${isGridView ? "w-full" : "w-auto"}`} onClick={showDrawer}>
+                                            <button className={`site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 ${isGridView ? "w-full" : "w-auto"}`} >
                                                 Buy Now
                                             </button>
                                         </div>
@@ -270,13 +225,11 @@ const ProductWithSidebar: React.FC = () => {
                             })}
                         </div>
 
-
-
-                        <Drawer
+                        {/* {showCart && <Drawer
                             title="Bonus Add-On Options"
                             placement="right"
                             onClose={onClose}
-                            open={open}
+                            open={showCart}
                             width={600}
                             extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
                         >
@@ -317,7 +270,7 @@ const ProductWithSidebar: React.FC = () => {
 
                             <Divider />
 
-                            {/* My Cart Section */}
+                            
                             <div>
                                 <h3 className="text-lg font-bold mb-2">My Cart</h3>
                                 <List
@@ -338,7 +291,7 @@ const ProductWithSidebar: React.FC = () => {
                                         >
                                             <List.Item.Meta
                                                 avatar={<Image src={ImageUrl(item.image)} width={60} />}
-                                                //  src={ImageUrl(item.image)}
+                                                
                                                 title={item.title}
                                                 description={`$${item.price.toFixed(2)}`}
                                             />
@@ -348,7 +301,7 @@ const ProductWithSidebar: React.FC = () => {
 
                                 <Divider />
 
-                                {/* Totals */}
+                               
                                 <div className="text-right space-y-1">
                                     <p>
                                         Sub-total: <strong>${subtotal.toFixed(2)}</strong>
@@ -368,7 +321,7 @@ const ProductWithSidebar: React.FC = () => {
                                     </Button>
                                 </div>
                             </div>
-                        </Drawer>
+                        </Drawer>} */}
                     </div>
                 </div>
             </div>

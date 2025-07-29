@@ -736,6 +736,18 @@ footer a {
   background-color: #4d525f;
 }
 
+.shop-heading {
+  color: #FFF;
+  font-family: Times;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 52px;
+  /* 80% */
+  letter-spacing: -1.3px;
+  text-transform: uppercase;
+}
+
 /* //// checkout page end  */
 
 
@@ -928,11 +940,13 @@ footer a {
     font-size: 28px;
     padding: 20px 0;
   }
-  .copyright-section{
+
+  .copyright-section {
     display: block;
     text-align: center;
   }
-  .copyright-icons{
+
+  .copyright-icons {
     justify-content: center;
   }
 }
