@@ -10,17 +10,22 @@ export const authSlice = createApi({
             query: (body) => ({
                 url: "/login",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
-
-
 
         register: builder.mutation({
             query: (formData) => ({
                 url: "/signup",
                 method: "POST",
                 body: formData,
+            }),
+        }),
+
+        logout: builder.mutation({
+            query: () => ({
+                url: "/logout",
+                method: "POST",
             }),
         }),
 
@@ -48,7 +53,7 @@ export const authSlice = createApi({
         }),
 
 
-        
+
 
 
 
@@ -58,6 +63,7 @@ export const authSlice = createApi({
 export const {
     useLoginMutation,
     useRegisterMutation,
+    useLogoutMutation,
     useForgetPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,

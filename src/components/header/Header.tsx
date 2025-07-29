@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import NavItem from './NavItem';
 import { CloseOutlined } from "@ant-design/icons";
 import { ImageUrl } from '../../utils/Functions';
+import { useLoginMutation, useLogoutMutation, useRegisterMutation } from '../../redux/services/authSlice';
+import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
+import { useSelector } from 'react-redux';
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
@@ -126,7 +131,7 @@ const Header: React.FC = () => {
         window.addEventListener('localStorageUpdated', checkStorage);
         return () => window.removeEventListener('localStorageUpdated', checkStorage);
     }, []);
-    // const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const [cartItems, setCartItems] = useState<Product[]>([
         {
             id: 999,
@@ -137,9 +142,9 @@ const Header: React.FC = () => {
         },
     ]);
 
-    // const showDrawer = () => setOpen(true);
+    const showDrawer = () => setOpen(true);
     const onClose = () => {
-        // setOpen(false)
+        setOpen(false)
         setShowCart(false);
         localStorage.setItem('myBooleanFlag', 'false');
     };
@@ -210,6 +215,40 @@ const Header: React.FC = () => {
                                 <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
                             </button>
                         </div>
+                        {user && user._id ? <button
+                            disabled={logoutLoading}
+                            className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                        >
+                            <span className="" onClick={() => {
+                                Swal.fire({
+                                    title: 'Are you sure you want to logout?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, logout!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        handleLogout();
+                                    }
+                                })
+                            }}>logout</span>
+                        </button> :
+
+                            <div className="hidden lg:flex items-center space-x-4 gap-2">
+                                <button
+                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
+                                </button>
+                                <button
+                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
+                                </button>
+                            </div>
+                        }
                     </div>
 
                     {/* Overlay */}
