@@ -4,17 +4,19 @@ import { apiSlice } from "./services/apiSlice";
 import { authSlice } from "./services/authSlice";
 import { eventSlice } from "./services/eventSlice";
 import userReducer from "./reducers/userSlice";
+import { productSlice } from "./services/productSlice";
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer, // Add API slice reducer
     [authSlice.reducerPath]: authSlice.reducer,
     [eventSlice.reducerPath]: eventSlice.reducer,
+    [productSlice.reducerPath]: productSlice.reducer,
     user: userReducer,
 
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware, eventSlice.middleware), // Add RTK Query middleware
+    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware, eventSlice.middleware).concat(productSlice.middleware), // Add RTK Query middleware
 });
 
 setupListeners(store.dispatch);
