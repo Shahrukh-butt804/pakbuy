@@ -3,25 +3,34 @@ import Home from "./pages/home";
 import ContactUs from "./pages/contactUs";
 import Checkout from "./pages/checkout";
 import Shop from "./pages/shop";
+import Aboutus from "./pages/aboutus";
 
 
 import { store } from "./redux/store";
-import { BrowserRouter, Route, Routes } from "react-router";
-
-// const PrivateRoute = () => {
-//   // const { token } = useSelector((state) => state.auth);
-//   const token = "";
-
-//   return token ? <Outlet /> : <Navigate to="/comingsoon" />;
-// };
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
+import { useSelector } from "react-redux";
+import { selectUser } from "./redux/reducers/userSlice";
+import Swal from "sweetalert2";
 
 
 
-// const { hostname } = window.location;
-// var basename = "/"
-// if (hostname.includes("react.customdev.solutions")) {
-//   basename = "/cruise-tails"
-// }
+
+const PrivateRoute = () => {
+  const user = useSelector(selectUser);
+
+  const isAuthenticated = user && user._id;
+
+  if (!isAuthenticated) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'You need to login first!',
+    })
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+};
+
 
 function AppRoutes() {
   return (
@@ -32,8 +41,12 @@ function AppRoutes() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contactUs" element={<ContactUs />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route path="/aboutus" element={<Aboutus />} />
+
+            <Route element={<PrivateRoute />}>
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/shop" element={<Shop />} />
+            </Route>
 
             {/* <Route element={<PrivateRoute />}>
               <Route path="/" element={<Home />} />

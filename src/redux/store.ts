@@ -3,16 +3,25 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiSlice } from "./services/apiSlice";
 import { authSlice } from "./services/authSlice";
 import { eventSlice } from "./services/eventSlice";
+import { productSlice } from "./services/productSlice";
+import userReducer from "./reducers/userSlice";
+import cartReducer from "./reducers/cartSlice";
+import { orderSlice } from "./services/orderSlice";
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer, // Add API slice reducer
     [authSlice.reducerPath]: authSlice.reducer,
-    [eventSlice.reducerPath]: eventSlice.reducer
+    [eventSlice.reducerPath]: eventSlice.reducer,
+    [productSlice.reducerPath]: productSlice.reducer,
+    [orderSlice.reducerPath]: orderSlice.reducer,
+    user: userReducer,
+    cart: cartReducer,
+
 
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware , eventSlice.middleware), // Add RTK Query middleware
+    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware, eventSlice.middleware).concat(productSlice.middleware).concat(orderSlice.middleware), // Add RTK Query middleware
 });
 
 setupListeners(store.dispatch);

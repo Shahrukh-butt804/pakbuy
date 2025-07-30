@@ -10,11 +10,9 @@ export const authSlice = createApi({
             query: (body) => ({
                 url: "/login",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
-
-
 
         register: builder.mutation({
             query: (formData) => ({
@@ -24,11 +22,18 @@ export const authSlice = createApi({
             }),
         }),
 
+        logout: builder.mutation({
+            query: () => ({
+                url: "/logout",
+                method: "POST",
+            }),
+        }),
+
         forgetPassword: builder.mutation({
             query: (body) => ({
                 url: "/forgot-password",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
 
@@ -36,19 +41,19 @@ export const authSlice = createApi({
             query: (body) => ({
                 url: "/verify-otp",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
         resetPassword: builder.mutation({
             query: (body) => ({
                 url: "/reset-password",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
 
 
-        
+
 
 
 
@@ -58,6 +63,7 @@ export const authSlice = createApi({
 export const {
     useLoginMutation,
     useRegisterMutation,
+    useLogoutMutation,
     useForgetPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
