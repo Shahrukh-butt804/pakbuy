@@ -863,6 +863,10 @@ footer a {
     font-size: 38px;
   }
 
+  .about-pic{
+    display: none;
+  }
+
 }
 
 @media screen and (max-width: 575px) {
