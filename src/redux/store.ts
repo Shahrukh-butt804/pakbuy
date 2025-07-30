@@ -3,8 +3,9 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiSlice } from "./services/apiSlice";
 import { authSlice } from "./services/authSlice";
 import { eventSlice } from "./services/eventSlice";
-import userReducer from "./reducers/userSlice";
 import { productSlice } from "./services/productSlice";
+import userReducer from "./reducers/userSlice";
+import cartReducer from "./reducers/cartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,8 @@ export const store = configureStore({
     [eventSlice.reducerPath]: eventSlice.reducer,
     [productSlice.reducerPath]: productSlice.reducer,
     user: userReducer,
+    cart: cartReducer,
+
 
   },
   middleware: (getDefaultMiddleware) =>
