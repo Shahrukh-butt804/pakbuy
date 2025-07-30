@@ -430,35 +430,37 @@ const Header: React.FC = () => {
 
 
 
-                        {user && user._id ? <button
-                            disabled={logoutLoading}
-                            className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                        >
-                            <span className="" onClick={() => {
-                                Swal.fire({
-                                    title: 'Are you sure you want to logout?',
-                                    text: "You won't be able to revert this!",
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Yes, logout!'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        handleLogout();
-                                    }
-                                })
-                            }}>logout</span>
-                        </button> :
+                        {user && user._id ?
+                            <>  <button
+                                onClick={handleCartClick}
+                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                            >
+                                <ShoppingCart className="h-5 w-5" />
+                            </button><button
+                                disabled={logoutLoading}
+                                className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                            >
+                                    <span className="" onClick={() => {
+                                        Swal.fire({
+                                            title: 'Are you sure you want to logout?',
+                                            text: "You won't be able to revert this!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Yes, logout!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                handleLogout();
+                                            }
+                                        })
+                                    }}>logout</span>
+
+                                </button></> :
 
                             <div className="hidden lg:flex items-center space-x-4 gap-2">
-                                <button
-                                    onClick={handleCartClick}
-                                    className="text-white rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center"
-                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
-                                >
-                                    <ShoppingCart className="h-5 w-5" />
-                                </button>
+
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                                 >

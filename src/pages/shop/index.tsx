@@ -60,7 +60,7 @@ const ProductWithSidebar: React.FC = () => {
                                 </div>
 
                                 <button className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
-                                    Buy Now
+                                    Add To Cart
                                 </button>
                             </>
                         )}
