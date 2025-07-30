@@ -57,7 +57,6 @@ const ProductWithSidebar: React.FC = () => {
                                 </label>
                             ))}
 
-
                         </div>
 
 
