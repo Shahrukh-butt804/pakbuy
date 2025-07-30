@@ -163,7 +163,7 @@ const ProductWithSidebar: React.FC = () => {
                                                 <ShoppingCart className="w-4 h-4 text-[#ff6680]" />
                                             </div>
                                             <h3 className="text-lg font-semibold mb-1">
-                                                {product.title}
+                                                {product.name}
                                             </h3>
                                             <div className="flex items-center text-sm text-yellow-400 mb-1">
                                                 {Array.from({ length: 5 }).map((_, i) => (
