@@ -1,9 +1,11 @@
 import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
+import { addToCart } from "../../redux/reducers/cartSlice";
 import { useGetAllProductsQuery } from "../../redux/services/productSlice";
 
 
@@ -12,13 +14,20 @@ const ProductWithSidebar: React.FC = () => {
     const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string | any>();
 
+    const dispatch = useDispatch();
+
+
     const { data: packages } = useGetAllProductsQuery({})
 
-    const toggleLike = (id: number) => {
+    const toggleLike = (id: number) => {    
         setLikedItems((prev) =>
             prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
         );
     };
+
+    function handleAddToCart(item: any) {
+        dispatch(addToCart(item));
+        }
 
 
     return (
@@ -59,7 +68,7 @@ const ProductWithSidebar: React.FC = () => {
                                     <p className="text-lg font-bold text-white">${selectedCollection?.price}</p>
                                 </div>
 
-                                <button className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
+                                <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
                                     Add To Cart
                                 </button>
                             </>

@@ -1,10 +1,12 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Drawer, Image, List, Row } from 'antd';
+import { Button, Col, Divider, Drawer, List, Row } from 'antd';
 import { Menu, ShoppingCart, Star, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { UPLOADS_URL } from "../../constants/api";
+import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import { ImageUrl } from '../../utils/Functions';
@@ -74,6 +76,13 @@ const Header: React.FC = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const user = useSelector(selectUser);
+    const myCart = useSelector(selectCartItems)
+
+    const subTotal = myCart?.reduce((total: number, item: any) => total + item.price, 0);
+    const tax = subTotal * 0.2;
+
+
 
     const handleNavClick = (id: string, path: string) => {
         setActiveItem(id);
@@ -112,7 +121,6 @@ const Header: React.FC = () => {
         })
     }
 
-    const user = useSelector(selectUser);
 
 
     const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation()
@@ -153,35 +161,18 @@ const Header: React.FC = () => {
         window.addEventListener('localStorageUpdated', checkStorage);
         return () => window.removeEventListener('localStorageUpdated', checkStorage);
     }, []);
-    // const [open, setOpen] = useState(false);
-    const [cartItems, setCartItems] = useState<Product[]>([
-        {
-            id: 999,
-            title: "CHOOSE Mind",
-            price: 600,
-            image: "product1.png",
-            rating: 5,
-        },
-    ]);
 
-    // const showDrawer = () => setOpen(true);
+
     const onClose = () => {
         // setOpen(false)
         setShowCart(false);
         localStorage.setItem('myBooleanFlag', 'false');
     };
 
-    const handleAddToCart = (product: Product) => {
-        setCartItems((prev) => [...prev, product]);
+    const handleRemove = (id: string) => {
+        dispatch(removeFromCart(id))
     };
 
-    const handleRemove = (id: number) => {
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
-    };
-
-    const subtotal = cartItems.reduce((acc, curr) => acc + curr.price, 0);
-    const tax = subtotal * 0.2;
-    const total = subtotal + tax;
 
     async function handleLogout() {
         try {
@@ -230,7 +221,6 @@ const Header: React.FC = () => {
                 })
             }
         } catch (error: any) {
-            console.log("🚀 ~ handleLogin ~ error:", error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -281,7 +271,6 @@ const Header: React.FC = () => {
                 })
             }
         } catch (error: any) {
-            console.log("🚀 ~ handleRegister ~ error:", error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -312,7 +301,6 @@ const Header: React.FC = () => {
                 })
             }
         } catch (error: any) {
-            console.log("🚀 ~ handleForgotPassword ~ error:", error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -343,7 +331,6 @@ const Header: React.FC = () => {
                 })
             }
         } catch (error: any) {
-            console.log("🚀 ~ handleVerifyOtp ~ error:", error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -382,7 +369,6 @@ const Header: React.FC = () => {
                 })
             }
         } catch (error: any) {
-            console.log("🚀 ~ handleResetPassword ~ error:", error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -890,7 +876,7 @@ const Header: React.FC = () => {
 
 
 
-
+            {/* cart */}
             {showCart && <Drawer
                 title="Bonus Add-On Options"
                 placement="right"
@@ -924,7 +910,7 @@ const Header: React.FC = () => {
 
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
-                                    onClick={() => handleAddToCart(item)}
+                                    // onClick={() => handleAddToCart(item)}
                                 >
                                     Add to Cart
                                 </button>
@@ -938,26 +924,38 @@ const Header: React.FC = () => {
                     <h3 className="text-lg font-bold mb-2">My Cart</h3>
                     <List
                         itemLayout="horizontal"
-                        dataSource={cartItems}
-                        renderItem={(item) => (
+                        dataSource={myCart}
+                        renderItem={(item: any) => (
                             <List.Item
                                 actions={[
                                     <Button
                                         size="small"
                                         type="text"
                                         danger
-                                        onClick={() => handleRemove(item.id)}
+                                        onClick={() => handleRemove(item._id)}
                                     >
                                         ✕
                                     </Button>,
                                 ]}
                             >
-                                <List.Item.Meta
-                                    avatar={<Image src={ImageUrl(item.image)} width={60} />}
 
-                                    title={item.title}
-                                    description={`$${item.price.toFixed(2)}`}
-                                />
+                                <div className="flex items-center gap-4">
+                                    {item.products?.map((product: any, index: number) => (
+                                        <div key={index} className="flex flex-col items-center">
+                                            <img
+                                                crossOrigin="anonymous"
+                                                src={UPLOADS_URL + product.image}
+                                                alt={product.name || `product-${index}`}
+                                                className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
+                                            />
+                                        </div>
+                                    ))}
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
+                                        <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                    </div>
+                                </div>
+
                             </List.Item>
                         )}
                     />
@@ -965,13 +963,13 @@ const Header: React.FC = () => {
                     <Divider />
                     <div className="text-right space-y-1">
                         <p>
-                            Sub-total: <strong>${subtotal.toFixed(2)}</strong>
+                            Sub-total: <strong>${subTotal.toFixed(2)}</strong>
                         </p>
                         <p>
                             Tax (20%): <strong>${tax.toFixed(2)}</strong>
                         </p>
                         <p className="text-xl">
-                            Total: <strong>${total.toFixed(2)}</strong>
+                            Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
                         </p>
                         <Button
                             type="primary"
@@ -983,6 +981,8 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </Drawer>}
+            {/* cart */}
+
 
         </header>
     );

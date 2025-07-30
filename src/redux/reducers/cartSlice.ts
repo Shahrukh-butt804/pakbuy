@@ -1,5 +1,6 @@
 // store/cartSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 interface CartItem {
     productId: string;
@@ -22,11 +23,22 @@ const cartSlice = createSlice({
         addToCart: (state, action: PayloadAction<any>) => {
             const existing = state.items.find((item: any) => item._id === action.payload._id);
             if (existing) {
-                existing.quantity += action.payload.quantity;
+                // existing.quantity += action.payload.quantity;
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Item Already exists in cart",
+                })
+                return
             } else {
                 state.items.push(action.payload);
             }
             localStorage.setItem("cartItems", JSON.stringify(state.items));
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Item added to cart successfully',
+            })
         },
         updateQuantity: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
             const item = state.items.find((i: any) => i._id === action.payload.productId);
