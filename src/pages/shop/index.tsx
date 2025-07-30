@@ -10,7 +10,7 @@ import { useGetAllProductsQuery } from "../../redux/services/productSlice";
 const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
     const [likedItems, setLikedItems] = useState<number[]>([]);
-    const [selectedCollection, setSelectedCollection] = useState<string | any>("Mind");
+    const [selectedCollection, setSelectedCollection] = useState<string | any>();
 
     const { data: packages } = useGetAllProductsQuery({})
 
@@ -51,14 +51,21 @@ const ProductWithSidebar: React.FC = () => {
 
                         </div>
 
-                        <div>
-                            <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
-                            <p className="text-lg font-bold text-white">$600</p>
-                        </div>
 
-                        <button className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
-                            Buy Now
-                        </button>
+                        {selectedCollection && (
+                            <>
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
+                                    <p className="text-lg font-bold text-white">${selectedCollection?.price}</p>
+                                </div>
+
+                                <button className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
+                                    Buy Now
+                                </button>
+                            </>
+                        )}
+
+
                     </div>
 
                     {/* Product Section */}
