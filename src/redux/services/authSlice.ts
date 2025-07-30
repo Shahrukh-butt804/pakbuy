@@ -33,7 +33,7 @@ export const authSlice = createApi({
             query: (body) => ({
                 url: "/forgot-password",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
 
@@ -41,14 +41,14 @@ export const authSlice = createApi({
             query: (body) => ({
                 url: "/verify-otp",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
         resetPassword: builder.mutation({
             query: (body) => ({
                 url: "/reset-password",
                 method: "POST",
-                body,
+                body: { ...body, role: "user" },
             }),
         }),
 

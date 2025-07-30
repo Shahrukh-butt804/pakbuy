@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
-import { useLoginMutation, useLogoutMutation, useRegisterMutation } from '../../redux/services/authSlice';
+import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
 
@@ -118,6 +118,9 @@ const Header: React.FC = () => {
     const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation()
     const [login, { isLoading }] = useLoginMutation()
     const [register, { isLoading: registerLoading }] = useRegisterMutation()
+    const [forgetPassword, { isLoading: forgetPasswordLoading }] = useForgetPasswordMutation()
+    const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation()
+    const [resetPassword, { isLoading: resetPasswordLoading }] = useResetPasswordMutation()
 
 
     const handleCartClick = () => {
@@ -211,7 +214,6 @@ const Header: React.FC = () => {
     const handleLogin = async () => {
         try {
             const response: any = await login({ email: loginEmail, password })
-            console.log("🚀 ~ handleLogin ~ response:", response)
             if (response?.data?.success) {
                 Swal.fire({
                     icon: 'success',
@@ -219,6 +221,7 @@ const Header: React.FC = () => {
                     text: response?.data?.message,
                 })
                 dispatch(setUser(response?.data?.user))
+                setIsModalOpen(false);
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -241,7 +244,6 @@ const Header: React.FC = () => {
 
 
     };
-
 
     async function handleRegister() {
 
@@ -289,8 +291,106 @@ const Header: React.FC = () => {
         }
     }
 
+    async function handleForgotPassword() {
+
+        try {
+            const response: any = await forgetPassword({ email })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                setIsForgotModalOpen(false);
+                setIsOtpModalOpen(true);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            console.log("🚀 ~ handleForgotPassword ~ error:", error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+        }
+
+    }
+
+    async function handleVerifyOtp() {
+        try {
+            const response: any = await verifyOtp({ email, otp: Number(otp) })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                    timer: 2000
+                })
+                setIsOtpModalOpen(false);
+                setIsResetModalOpen(true);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            console.log("🚀 ~ handleVerifyOtp ~ error:", error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+        }
+    }
+
+    async function handleResetPassword() {
+
+        if (newPassword !== confirmNewPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Password and Confirm Password should be same',
+            })
+            return
+        }
 
 
+        try {
+            const response: any = await resetPassword({ email, otp: Number(otp), password: newPassword })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                setIsResetModalOpen(false);
+                setIsModalOpen(true);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            console.log("🚀 ~ handleResetPassword ~ error:", error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+        }
+
+    }
 
 
     return (
@@ -683,14 +783,13 @@ const Header: React.FC = () => {
                         />
 
                         <button
+                            disabled={forgetPasswordLoading}
                             className="site-btn w-full mt-4 bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
-                            onClick={() => {
-                                setIsForgotModalOpen(false);
-                                setIsOtpModalOpen(true);
-                            }}
+                            onClick={handleForgotPassword}
                             style={{ marginTop: '16px' }}
                         >
-                            Send OTP
+                            {forgetPasswordLoading ? "SENDING..." : "SEND OTP"}
+
                         </button>
                     </div>
                 </div>
@@ -717,14 +816,12 @@ const Header: React.FC = () => {
                         />
 
                         <button
+                            disabled={verifyOtpLoading}
                             className="site-btn w-full mt-4 bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
-                            onClick={() => {
-                                setIsOtpModalOpen(false);
-                                setIsResetModalOpen(true);
-                            }}
+                            onClick={handleVerifyOtp}
                             style={{ marginTop: '16px' }}
                         >
-                            Verify OTP
+                            {verifyOtpLoading ? "VERIFYING..." : "VERIFY OTP"}
                         </button>
                     </div>
                 </div>
@@ -778,19 +875,12 @@ const Header: React.FC = () => {
                         </div>
 
                         <button
+                            disabled={resetPasswordLoading}
                             className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
-                            onClick={() => {
-                                if (newPassword === confirmNewPassword && newPassword) {
-                                    alert("Password reset successful!");
-                                    setIsResetModalOpen(false);
-                                    setIsModalOpen(true); // Go back to login
-                                } else {
-                                    alert("Passwords do not match.");
-                                }
-                            }}
+                            onClick={handleResetPassword}
                             style={{ marginTop: '16px' }}
                         >
-                            Reset Password
+                            {resetPasswordLoading ? "RESETING..." : "RESET PASSWORD"}
                         </button>
                     </div>
                 </div>
