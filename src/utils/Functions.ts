@@ -14,6 +14,6 @@ export const getBasename = () => {
 // };
 
 export const ImageUrl = (image: string) => {
-    return `${getBasename()}/images/${image}`;
+    return `images/${image}`;
 };
 
