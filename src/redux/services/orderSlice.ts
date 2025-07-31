@@ -7,6 +7,14 @@ export const orderSlice = createApi({
 
     endpoints: (builder) => ({
 
+        getStripeKey: builder.query({
+            query: () => ({
+                url: "/get-stripe-keys",
+                method: "GET",
+            }),
+            transformResponse: (response: any) => response?.publishableKey
+        }),
+
         createOrder: builder.mutation({
             query: (body) => ({
                 url: "/create-order",
@@ -34,6 +42,7 @@ export const orderSlice = createApi({
 })
 
 export const {
+    useGetStripeKeyQuery,
     useCreateOrderMutation,
     useGetOrderByIdQuery,
     useGetOrderByUserQuery

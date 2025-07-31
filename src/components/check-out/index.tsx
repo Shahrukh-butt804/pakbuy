@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -7,11 +5,12 @@ import type { StripeCardElement } from '@stripe/stripe-js';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
+import { useGetStripeKeyQuery } from '../../redux/services/orderSlice';
 
-// Load Stripe once
-const stripePromise = loadStripe('pk_test_51QwMvhJMgPmQ9gVNbdIJVohtSFZ3cFGmU3JRAeMOGSi5UA4pNgna6xBxohqh96RTkQDjZXXEmmXJVyyxz8xk71gn00Is6RXKBJ');
+
 
 function CheckoutForm({ handleSubmitForm }: any) {
+
     const navigate = useNavigate();
     const stripe = useStripe();
     const elements = useElements();
@@ -79,6 +78,21 @@ function CheckoutForm({ handleSubmitForm }: any) {
 
 
 export default function PaymentPage({ handleSubmit }: any) {
+    const { data: publishableKey, isLoading } = useGetStripeKeyQuery({});
+
+    // Load Stripe once
+    let stripePromise = null
+
+    if (publishableKey) {
+        stripePromise = loadStripe(publishableKey);
+    }
+
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
+
     return (
         <div className="mx-auto p-6 ">
             <Elements stripe={stripePromise}>

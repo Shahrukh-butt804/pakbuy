@@ -1,5 +1,5 @@
 import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
@@ -19,7 +19,13 @@ const ProductWithSidebar: React.FC = () => {
 
     const { data: packages } = useGetAllProductsQuery({})
 
-    const toggleLike = (id: number) => {    
+    useEffect(() => {
+        if (packages && packages.length > 0) {
+            setSelectedCollection(packages[0]);
+        }
+    }, [packages]);
+
+    const toggleLike = (id: number) => {
         setLikedItems((prev) =>
             prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
         );
@@ -27,7 +33,7 @@ const ProductWithSidebar: React.FC = () => {
 
     function handleAddToCart(item: any) {
         dispatch(addToCart(item));
-        }
+    }
 
 
     return (
@@ -42,20 +48,31 @@ const ProductWithSidebar: React.FC = () => {
                             <h3 className="text-sm font-semibold text-gray-300 mb-2">
                                 COLLECTION
                             </h3>
-                            {packages?.map((pkg: any) => (
-                                <label
-                                    key={pkg?._id}
-                                    className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedCollection === pkg}
-                                        onChange={() => setSelectedCollection(pkg)}
-                                        className="form-checkbox accent-green-500"
-                                    />
-                                    <span className="text-white pl-2">CHOOSE {pkg?.name}</span>
-                                </label>
-                            ))}
+                            {packages && packages.length > 0 ?
+
+                                packages?.map((pkg: any) => (
+                                    <label
+                                        key={pkg?._id}
+                                        className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedCollection === pkg}
+                                            onChange={() => setSelectedCollection(pkg)}
+                                            className="form-checkbox accent-green-500"
+                                        />
+                                        <span className="text-white pl-2">CHOOSE {pkg?.name}</span>
+                                    </label>
+                                ))
+
+                                :
+
+                                <div className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2">
+                                    <span className="text-white pl-2">No Collection</span>
+                                </div>
+
+
+                            }
 
                         </div>
 
@@ -179,9 +196,6 @@ const ProductWithSidebar: React.FC = () => {
                                                 {product.description}
                                             </p>
 
-                                            {/* <button className={`site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 ${isGridView ? "w-full" : "w-auto"}`} >
-                                                Buy Now
-                                            </button> */}
                                         </div>
                                     </div>
                                 );
