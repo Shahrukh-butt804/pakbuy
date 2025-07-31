@@ -183,7 +183,7 @@ const Header: React.FC = () => {
                     title: 'Success',
                     text: response?.data?.message,
                 })
-                dispatch(setUser(logout))
+                dispatch(logout())
             } else {
                 Swal.fire({
                     icon: 'error',
