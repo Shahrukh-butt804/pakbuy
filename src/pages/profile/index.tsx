@@ -3,9 +3,16 @@ import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/reducers/userSlice';
 
 const Profile: React.FC = () => {
       const navigate = useNavigate();
+
+      const user = useSelector(selectUser);
+
+
+
     return (
         <>
             <Header />
@@ -31,11 +38,11 @@ const Profile: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4 w-full text-left mb-6">
                             <div>
                                 <p className="text-sm text-gray-500">Name</p>
-                                <p className="font-semibold">Samantha</p>
+                                <p className="font-semibold">{user.fullName}</p>
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">Email Address</p>
-                                <p className="font-semibold">Abc@xyz.com</p>
+                                <p className="font-semibold">{user.email}</p>
                             </div>
                         </div>
 

@@ -5,24 +5,52 @@ import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useNavigate } from 'react-router-dom';
+import { useChangePasswordMutation } from '../../redux/services/authSlice';
+import Swal from 'sweetalert2';
 
 const ChangePassword: React.FC = () => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [changePassword] = useChangePasswordMutation()
 
-    const handleChangePassword = () => {
+    const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
-            alert('New password and confirm password do not match.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'New password and confirm password do not match.',
+            })
             return;
         }
 
-        // Show success modal
-        setIsSuccessModalOpen(true);
+        try {
+            const response: any = await changePassword({ oldPassword: currentPassword, newPassword });
+            console.log(response);
+            if (response?.data?.success) {
+                setIsSuccessModalOpen(true);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+
+        } catch (error: any) {
+            console.log("🚀 ~ handleChangePassword ~ error:", error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+
+        }
     };
 
-    
+
 
     const handleModalOk = () => {
         setIsSuccessModalOpen(false);
@@ -30,6 +58,12 @@ const ChangePassword: React.FC = () => {
     };
 
     const navigate = useNavigate();
+
+
+
+
+
+
 
     return (
         <>
