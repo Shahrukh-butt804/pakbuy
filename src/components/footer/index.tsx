@@ -1,6 +1,7 @@
 import { Col, Row, Button, Input, Space } from 'antd';
 import React from 'react';
 import { ImageUrl } from '../../utils/Functions';
+import { Link } from 'react-router';
 
 
 const Footer: React.FC = () => {
@@ -47,9 +48,9 @@ const Footer: React.FC = () => {
                                             <ul className="space-y-2 text-sm text-gray-300">
                                                 {footerLinks.map((link) => (
                                                     <li key={link.path}>
-                                                        <a href={link.path} className="hover:text-white">
+                                                        <Link to={link.path} className="hover:text-white">
                                                             {link.label}
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
