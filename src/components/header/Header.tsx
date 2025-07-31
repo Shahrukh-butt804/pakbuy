@@ -1,6 +1,6 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Drawer, List, Row } from 'antd';
-import { Menu, ShoppingCart, Star, X } from 'lucide-react';
+import { CircleUser, Menu, ShoppingCart, Star, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -389,6 +389,9 @@ const Header: React.FC = () => {
                         <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={handleCartClick}>
                             <ShoppingCart className="h-5 w-5" />
                         </button>
+                        <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={() => navigate('/profile')}>
+                            <CircleUser className="h-5 w-5" />
+                        </button>
 
                         <button
                             style={{ color: 'white' }}
@@ -417,13 +420,23 @@ const Header: React.FC = () => {
 
 
                         {user && user._id ?
-                            <>  <button
+                            <>  
+                            <button
                                 onClick={handleCartClick}
                                 className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
                                 style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
                             >
                                 <ShoppingCart className="h-5 w-5" />
-                            </button><button
+                            </button>
+                            <button
+                                // onClick={handleCartClick}
+                                onClick={() => navigate('/profile')}
+                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                            >
+                                <CircleUser className="h-5 w-5" />
+                            </button>
+                            <button
                                 disabled={logoutLoading}
                                 className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                             >
