@@ -568,7 +568,7 @@ const Header: React.FC = () => {
                             <div>
                                 <label className="block text-sm text-gray-700 mb-1">Email</label>
                                 <input
-                                    type="text"
+                                    type="email"
                                     value={loginEmail}
                                     onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="Enter your user name"
@@ -910,7 +910,7 @@ const Header: React.FC = () => {
 
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
-                                    // onClick={() => handleAddToCart(item)}
+                                // onClick={() => handleAddToCart(item)}
                                 >
                                     Add to Cart
                                 </button>
