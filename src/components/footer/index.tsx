@@ -7,6 +7,14 @@ import { ImageUrl } from '../../utils/Functions';
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
+    const footerLinks = [
+        { label: "Home", path: "/" },
+        { label: "About Us", path: "/aboutus" },
+        { label: "Shop", path: "/shop" },
+        { label: "Contact Us", path: "/contactUs" },
+        { label: "My Orders", path: "/my-orders" },
+    ];
+
     return (
         <Row justify={"center"}>
             <Col lg={22}>
@@ -30,12 +38,21 @@ const Footer: React.FC = () => {
                                     <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
                                         <div>
                                             <h2 className="text-sm font-bold mb-4">QUICK LINKS</h2>
-                                            <ul className="space-y-2 text-sm text-gray-300">
+                                            {/* <ul className="space-y-2 text-sm text-gray-300">
                                                 <li><a href="/" className="hover:text-white">Home</a></li>
                                                 <li><a href="/aboutus" className="hover:text-white">About Us</a></li>
                                                 <li><a href="/shop" className="hover:text-white">Shop</a></li>
                                                 <li><a href="/contactUs" className="hover:text-white">Contact Us</a></li>
                                                 <li><a href="/my-orders" className="hover:text-white">My Orders</a></li>
+                                            </ul> */}
+                                            <ul className="space-y-2 text-sm text-gray-300">
+                                                {footerLinks.map((link) => (
+                                                    <li key={link.path}>
+                                                        <a href={link.path} className="hover:text-white">
+                                                            {link.label}
+                                                        </a>
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </div>
 
