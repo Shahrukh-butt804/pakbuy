@@ -49,8 +49,8 @@ function AppRoutes() {
             <Route path="/aboutus" element={<Aboutus />} />
 
             <Route element={<PrivateRoute />}>
-              <Route path="/orderlog" element={<Orderlog />} />
-              <Route path="/orderlog/:id" element={<OrderDetails />} />
+              <Route path="/my-orders" element={<Orderlog />} />
+              <Route path="/track-order/:id" element={<OrderDetails />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/edit" element={<EditProfile />} />
               <Route path="/profile/changePassword" element={<ChangePassword />} />
