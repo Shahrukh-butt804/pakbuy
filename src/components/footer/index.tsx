@@ -3,7 +3,6 @@ import React from 'react';
 import { ImageUrl } from '../../utils/Functions';
 
 
-
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
