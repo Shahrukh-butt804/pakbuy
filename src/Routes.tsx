@@ -4,6 +4,11 @@ import ContactUs from "./pages/contactUs";
 import Checkout from "./pages/checkout";
 import Shop from "./pages/shop";
 import Aboutus from "./pages/aboutus";
+import Orderlog from "./pages/orderlog";
+import OrderDetails from "./pages/orderlog/orderDetails";
+import Profile from "./pages/profile";
+import EditProfile from "./pages/profile/editProfile";
+import ChangePassword from "./pages/profile/changePassword";
 
 
 import { store } from "./redux/store";
@@ -42,6 +47,11 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/aboutus" element={<Aboutus />} />
+            <Route path="/orderlog" element={<Orderlog />} />
+            <Route path="/orderlog/:id" element={<OrderDetails />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/edit" element={<EditProfile />} />
+            <Route path="/profile/changePassword" element={<ChangePassword />} />
 
             <Route element={<PrivateRoute />}>
               <Route path="/checkout" element={<Checkout />} />

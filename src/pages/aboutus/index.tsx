@@ -17,12 +17,12 @@ const AboutUs: React.FC = () => {
                 <div className="max-w-8xl mx-auto grid md:grid-cols-2 gap-10">
                     {/* Left Column */}
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-semibold mb-6">About Us</h2>
-                        <h2 className="text-3xl md:text-4xl font-semibold mb-6">Empowering Health, One Choice <br /> At A Time</h2>
-                        <p className="text-sm md:text-base mb-4">
+                        <h2 className="text-3xl md:text-4xl font-semibold mb-6 web-font">About Us</h2>
+                        <h2 className="text-3xl md:text-4xl font-semibold mb-6 web-font">Empowering Health, One Choice <br /> At A Time</h2>
+                        <p className="text-sm md:text-base mb-4 web-font">
                             CHOOSE Well is a marketplace for proven health options.
                         </p>
-                        <p className="text-sm md:text-base mb-4">
+                        <p className="text-sm md:text-base mb-4 web-font">
                             The CHOOSE team has selected the best from a variety of companies located throughout the world and have brought them together to form the CHOOSE Well Collections™ with common sense pricing.
                         </p>
                         <p className="text-sm md:text-base">
@@ -53,8 +53,8 @@ const AboutUs: React.FC = () => {
                         className="rounded-xl w-full shadow-xl"
                     />
                     <div>
-                        <h3 className="text-2xl md:text-3xl font-semibold mb-4">Our Story</h3>
-                        <p className="text-sm md:text-base leading-relaxed">
+                        <h3 className="text-2xl md:text-3xl font-semibold mb-4 web-font">Our Story</h3>
+                        <p className="text-sm md:text-base leading-relaxed web-font">
                             CHOOSE™ was born in response to growing demand for proven health options that aren’t typically covered by insurance—and may not be recommended by physicians.
                             <br /><br />
                             Millions begin their health journey with hope, only to feel lost and frustrated in a sea of influencers, sponsored content, ads, and endless conflicting reviews. This inspired us to change the game.

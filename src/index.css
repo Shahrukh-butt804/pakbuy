@@ -541,6 +541,10 @@ footer a {
   min-height: 170px;
 }
 
+.web-font{
+  font-family: 'SF Pro Display';
+}
+
 .choose-features-section h2 {
   color: #FFF;
   text-align: center;
@@ -724,6 +728,16 @@ footer a {
   border: 0.6px solid rgba(255, 255, 255, 0.40);
   background: rgba(255, 255, 255, 0.20);
   height: 50px;
+  color: #fff;
+}
+.web-input:hover{
+  background: rgba(255, 255, 255, 0.30);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.web-input:focus {
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .web-textarea {
@@ -733,12 +747,26 @@ footer a {
 }
 
 .web-input option {
-  background-color: #4d525f;
+  background-color: #4d525f !important;
+}
+.web-input .ant-select-selector {
+  background-color: #4d525f !important;
+  color: #fff;
+}
+
+::placeholder{
+  color: #FFF !important;
+  opacity: 0.5 !important;
+}
+
+.ant-select-selection-placeholder{
+  color: #FFF !important;
+  opacity: 0.5 !important;
 }
 
 .shop-heading {
   color: #FFF;
-  font-family: Times;
+ font-family: 'SF Pro Display';
   font-size: 50px;
   font-style: normal;
   font-weight: 400;
@@ -749,6 +777,30 @@ footer a {
 }
 
 /* //// checkout page end  */
+
+
+/* //// order log page end  */
+.text-65 {
+  color: #FFF;
+  font-family: 'SF Pro Display';
+  font-size: 42px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 52px;
+  letter-spacing: -1.3px;
+  text-transform: uppercase;
+}
+
+.form-box label{
+  color: #FFF !important;
+  font-family: 'SF Pro Display';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* //// order log page end  */
 
 
 
@@ -863,7 +915,7 @@ footer a {
     font-size: 38px;
   }
 
-  .about-pic{
+  .about-pic {
     display: none;
   }
 
