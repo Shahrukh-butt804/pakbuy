@@ -53,7 +53,13 @@ export const authSlice = createApi({
         }),
 
 
-
+        changePassword: builder.mutation({
+            query: (body) => ({
+                url: "/change-password",
+                method: "POST",
+                body,
+            }),
+        }),
 
 
 
@@ -67,4 +73,5 @@ export const {
     useForgetPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
+    useChangePasswordMutation
 } = authSlice

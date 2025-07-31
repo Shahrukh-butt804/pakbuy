@@ -1,9 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Load user from localStorage
-const userFromStorage = localStorage.getItem('user')
-  ? JSON.parse(localStorage.getItem('user')!)
-  : null;
+// Load user safely from localStorage
+let userFromStorage = null;
+try {
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    userFromStorage = JSON.parse(storedUser);
+  }
+} catch (error) {
+  console.error("Failed to parse user from localStorage:", error);
+  localStorage.removeItem('user');
+}
 
 interface UserState {
   user: any;
@@ -30,12 +37,6 @@ const userSlice = createSlice({
 
 export const { setUser, logout } = userSlice.actions;
 
-// Selector to get the user
 export const selectUser = (state: any) => state.user.user;
 
 export default userSlice.reducer;
-
-
-// import { useSelector } from 'react-redux';
-// import { isLoggedIn, selectUser } from '../redux/slices/userSlice';
-// const user = useSelector(selectUser);

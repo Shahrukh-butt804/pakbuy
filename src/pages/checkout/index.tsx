@@ -225,12 +225,12 @@ const Checkout: React.FC = () => {
                             <Row gutter={16}>
                                 <Col xs={24} md={12}>
                                     <Form.Item label="First Name *" name="firstName" rules={[{ required: true, message: "First Name is required" }]}>
-                                        <Input placeholder="First Name" />
+                                        <Input placeholder="First Name" className="web-input" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
                                     <Form.Item label="Last Name *" name="lastName" rules={[{ required: true, message: "Last Name is required" }]}>
-                                        <Input placeholder="Last Name" />
+                                        <Input className="web-input" placeholder="Last Name" />
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -238,12 +238,12 @@ const Checkout: React.FC = () => {
 
 
                             <Form.Item label="Address *" name="address" rules={[{ required: true, message: "Address is required" }]}>
-                                <Input placeholder="Address" />
+                                <Input className="web-input" placeholder="Address" />
                             </Form.Item>
                             <Row gutter={16}>
                                 <Col xs={24} md={8}>
                                     <Form.Item label="Country *" name="country" rules={[{ required: true, message: "Country is required" }]}>
-                                        <Select placeholder="Select Country">
+                                        <Select className="web-input" placeholder="Select Country">
                                             <Option value="United States">United States</Option>
                                             <Option value="Canada">Canada</Option>
                                         </Select>
@@ -251,7 +251,7 @@ const Checkout: React.FC = () => {
                                 </Col>
                                 <Col xs={24} md={8}>
                                     <Form.Item label="Region/State *" name="state" rules={[{ required: true, message: "Region/State is required" }]}>
-                                        <Select placeholder="Select Region/State">
+                                        <Select className="web-input" placeholder="Select Region/State">
                                             <Option value="New York">New York</Option>
                                             <Option value="Florida">Florida</Option>
                                         </Select>
@@ -259,7 +259,7 @@ const Checkout: React.FC = () => {
                                 </Col>
                                 <Col xs={24} md={8}>
                                     <Form.Item label="City *" name="city" rules={[{ required: true, message: "City is required" }]}>
-                                        <Select placeholder="Select City">
+                                        <Select className="web-input" placeholder="Select City">
                                             <Option value="New York City">New York City</Option>
                                             <Option value="Miami">Miami</Option>
                                         </Select>
@@ -267,17 +267,17 @@ const Checkout: React.FC = () => {
                                 </Col>
                             </Row>
                             <Form.Item label="Zip Code *" name="zipCode" rules={[{ required: true, message: "Zip Code is required" }]}>
-                                <Input placeholder="Zip Code" />
+                                <Input className="web-input" placeholder="Zip Code" />
                             </Form.Item>
                             <Row gutter={16}>
                                 <Col xs={24} md={12}>
                                     <Form.Item label="Email *" name="email" rules={[{ required: true, message: "Email is required" }]}>
-                                        <Input placeholder="Email" type="email" />
+                                        <Input className="web-input" placeholder="Email" type="email" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} md={12}>
                                     <Form.Item label="Phone Number *" name="phone" rules={[{ required: true, message: "Phone Number is required" }]}>
-                                        <Input placeholder="Phone Number" />
+                                        <Input className="web-input" placeholder="Phone Number" />
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -292,17 +292,17 @@ const Checkout: React.FC = () => {
                                     <Row gutter={16}>
                                         <Col xs={24} md={12}>
                                             <Form.Item label="First Name *" name="shippingFirstName" rules={[{ required: true, message: "First Name is required" }]}>
-                                                <Input placeholder="First Name" />
+                                                <Input className="web-input" placeholder="First Name" />
                                             </Form.Item>
                                         </Col>
                                         <Col xs={24} md={12}>
                                             <Form.Item label="Last Name *" name="shippingLastName" rules={[{ required: true, message: "Last Name is required" }]}>
-                                                <Input placeholder="Last Name" />
+                                                <Input className="web-input" placeholder="Last Name" />
                                             </Form.Item>
                                         </Col>
                                     </Row>
                                     <Form.Item label="Address *" name="shippingAddress" rules={[{ required: true, message: "Address is required" }]}>
-                                        <Input placeholder="Address" />
+                                        <Input className="web-input" placeholder="Address" />
                                     </Form.Item>
                                     <Row gutter={16}>
                                         <Col xs={24} md={8}>
@@ -331,17 +331,17 @@ const Checkout: React.FC = () => {
                                         </Col>
                                     </Row>
                                     <Form.Item label="Zip Code *" name="shippingZipCode" rules={[{ required: true, message: "Zip Code is required" }]}>
-                                        <Input placeholder="Zip Code" />
+                                        <Input className="web-input" placeholder="Zip Code" />
                                     </Form.Item>
                                     <Row gutter={16}>
                                         <Col xs={24} md={12}>
                                             <Form.Item label="Email *" name="shippingEmail" rules={[{ required: true, message: "Email is required" }]}>
-                                                <Input placeholder="Email" type="email" />
+                                                <Input className="web-input" placeholder="Email" type="email" />
                                             </Form.Item>
                                         </Col>
                                         <Col xs={24} md={12}>
                                             <Form.Item label="Phone Number *" name="shippingPhone" rules={[{ required: true, message: "Phone Number is required" }]}>
-                                                <Input placeholder="Phone Number" />
+                                                <Input className="web-input" placeholder="Phone Number" />
                                             </Form.Item>
                                         </Col>
                                     </Row>
@@ -349,13 +349,13 @@ const Checkout: React.FC = () => {
                             )}
 
 
-                            <h4>Additional Information</h4>
+                            <h4 className="text-white">Additional Information</h4>
                             <Form.Item label="Order Notes (Optional)" name="orderNote">
-                                <Input.TextArea rows={4} placeholder="Notes about your order" />
+                                <Input.TextArea rows={4} placeholder="Notes about your order" className="web-textarea" />
                             </Form.Item>
 
                             {/* Stripe Implementaion */}
-                            <h4>Card Details ( Debit / Credit)</h4>
+                            <h4 className="text-white">Card Details ( Debit / Credit)</h4>
                             <div className="">
                                 <PaymentPage handleSubmit={handleSubmit} />
                             </div>

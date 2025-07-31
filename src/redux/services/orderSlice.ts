@@ -24,7 +24,7 @@ export const orderSlice = createApi({
         }),
 
         getOrderById: builder.query({
-            query: (id) => ({
+            query: ({id}) => ({
                 url: `/get-order-by-id/${id}`,
                 method: "GET",
             }),

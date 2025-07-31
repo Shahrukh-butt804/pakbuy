@@ -1,6 +1,6 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Drawer, List, Row } from 'antd';
-import { Menu, ShoppingCart, Star, X } from 'lucide-react';
+import { CircleUser, Menu, ShoppingCart, Star, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -183,7 +183,7 @@ const Header: React.FC = () => {
                     title: 'Success',
                     text: response?.data?.message,
                 })
-                dispatch(setUser(logout))
+                dispatch(logout())
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -383,11 +383,14 @@ const Header: React.FC = () => {
         <header className="w-full z-10 bg-[#374159]">
             <Row justify="center">
                 <Col lg={22} md={24} xs={24}>
-                    <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex  justify-end items-center">
+                    <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex  justify-end items-center gap-3">
                         {/* <Logo /> */}
 
                         <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={handleCartClick}>
                             <ShoppingCart className="h-5 w-5" />
+                        </button>
+                        <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={() => navigate('/profile')}>
+                            <CircleUser className="h-5 w-5" />
                         </button>
 
                         <button
@@ -417,13 +420,23 @@ const Header: React.FC = () => {
 
 
                         {user && user._id ?
-                            <>  <button
+                            <>  
+                            <button
                                 onClick={handleCartClick}
                                 className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
                                 style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
                             >
                                 <ShoppingCart className="h-5 w-5" />
-                            </button><button
+                            </button>
+                            <button
+                                // onClick={handleCartClick}
+                                onClick={() => navigate('/profile')}
+                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                            >
+                                <CircleUser className="h-5 w-5" />
+                            </button>
+                            <button
                                 disabled={logoutLoading}
                                 className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                             >
