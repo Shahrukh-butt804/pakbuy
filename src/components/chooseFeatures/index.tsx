@@ -30,7 +30,7 @@ const FEATURES: Feature[] = [
 export const ChooseFeatures: React.FC = () => {
   return (
     <section className="flex justify-center px-4 py-8 choose-features-section">
-      <div className="bg-[#000000c4] text-white container w-full rounded-2xl p-8 md:p-12 shadow-md">
+      <div className="bg-[#000000c4] text-white container w-full rounded-2xl p-8 md:p-12 shadow-md golden_border">
         <h2 className="text-center text-lg md:text-xl font-semibold mb-8">
           The 4 features of each CHOOSE Collection include:
         </h2>

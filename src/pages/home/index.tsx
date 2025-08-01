@@ -54,7 +54,7 @@ const Home = () => {
                 </section>
 
                 <section className="flex justify-center leave-bg-content ">
-                    <div className="container w-full">
+                    <div className="container w-full ">
                         <MemberBenefits />
                     </div>
                 </section>
