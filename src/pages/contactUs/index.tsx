@@ -93,7 +93,7 @@ const Contact: React.FC = () => {
 
                     {/* Right Side - Form */}
                     <div className="bg-[#2b2f3d] rounded-lg p-6 md:p-8 shadow-lg">
-                        <form className="space-y-4" onSubmit={handleSubmit}>
+                        <form className="space-y-4 flex flex-col gap-3" onSubmit={handleSubmit}>
                             <input
                                 type="text"
                                 name="name"
