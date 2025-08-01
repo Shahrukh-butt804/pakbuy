@@ -60,20 +60,20 @@ const Contact: React.FC = () => {
     return (
         <>
             <Header />
-            <section className="bg-[#1b1e28] text-white py-16 px-4 md:px-12">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <section className="bg-[#1b1e28] text-white py-16 px-4 md:px-24">
+                <div className=" mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
 
                     {/* Left Side */}
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">CONTACT US</h2>
-                        <h3 className="text-xl md:text-2xl font-semibold mb-6">Get In Touch With Us</h3>
-                        <p className="text-sm md:text-base text-gray-300 mb-6">
+                        <h2 className="text-3xl md:text-6xl font-bold mb-4">CONTACT US</h2>
+                        <h3 className="text-xl md:text-4xl font-semibold mb-6">Get In Touch With Us</h3>
+                        <p className="text-sm md:text-xl text-gray-300 mb-6">
                             We love connecting with our customers and vendors! Whether you have a question about your order,
                             want to learn more about becoming a vendor, or need assistance with anything else, our team is here
                             to help. Reach out to us and we’ll get back to you as soon as possible.
                         </p>
 
-                        <div className="space-y-4 text-sm md:text-base">
+                        <div className="space-y-4 text-xl">
                             <div className="flex items-center gap-2">
                                 <span>📞</span>
                                 <p>619.405.6500</p>

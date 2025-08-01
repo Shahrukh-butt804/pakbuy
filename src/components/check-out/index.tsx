@@ -59,7 +59,7 @@ function CheckoutForm({ handleSubmitForm }: any) {
                     style: {
                         base: {
                             fontSize: '16px',
-                            color: '#32325d',
+                            color: '#fff',
                             '::placeholder': { color: '#a0aec0' },
                         },
                         invalid: { color: '#fa755a' },
