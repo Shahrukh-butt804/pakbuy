@@ -341,7 +341,7 @@ const Checkout: React.FC = () => {
                             )}
 
 
-                            <h4 className="">Additional Information</h4>
+                            <h4 className="text-white">Additional Information</h4>
                             <Form.Item label="Order Notes (Optional)" name="orderNote">
                                 <Input.TextArea rows={4} placeholder="Notes about your order" className="web-textarea text-white hover:text-black" />
                             </Form.Item>
