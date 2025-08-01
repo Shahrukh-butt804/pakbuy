@@ -1,7 +1,9 @@
 // import React from 'react';
+import { useNavigate } from 'react-router';
 import { ImageUrl } from '../../utils/Functions';
 
 const InfoCards2 = () => {
+    const navigate = useNavigate();
     return (
         <div
             className="bg-cover bg-center flex items-center justify-center px-6 py-6 info-cards2-container"
@@ -34,6 +36,7 @@ const InfoCards2 = () => {
                         forward on their path to better health.
                     </p>
                     <button
+                        onClick={() => navigate("/shop")}
                         className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                     >
                         SEE COLLECTIONS
