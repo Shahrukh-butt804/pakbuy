@@ -10,6 +10,7 @@ import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
+import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 
 
 const navigationItems = [
@@ -68,13 +69,21 @@ const Header: React.FC = () => {
     const [activeItem, setActiveItem] = useState('home');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showRegPassword, setShowRegPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
+
+    const dispatch = useDispatch();
+    const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
+
+
+    function closeModal(){
+        dispatch(toggleRegisterModal())
+    }
+
 
     const navigate = useNavigate();
-    const dispatch = useDispatch()
     const user = useSelector(selectUser);
     const myCart = useSelector(selectCartItems)
 
@@ -462,7 +471,7 @@ const Header: React.FC = () => {
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                                 >
-                                    <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
+                                    <span className="" onClick={() => closeModal()}>Member Sign up</span>
                                 </button>
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
@@ -532,7 +541,7 @@ const Header: React.FC = () => {
                                     <>
                                         <button
                                             className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                                            onClick={() => setIsRegisterModalOpen(true)}
+                                            onClick={() => closeModal()}
                                         >
                                             <span className="">Member Sign up</span>
                                         </button>
@@ -634,7 +643,7 @@ const Header: React.FC = () => {
                                 Don’t have an Account?{" "}
                                 <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
                                     setIsModalOpen(false);
-                                    setIsRegisterModalOpen(true);
+                                    closeModal();
                                 }}>
                                     Register Here
                                 </span>
@@ -650,7 +659,7 @@ const Header: React.FC = () => {
 
                         {/* Close Button */}
                         <button
-                            onClick={() => setIsRegisterModalOpen(false)}
+                            onClick={() => closeModal()}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
                         >
                             ✕
@@ -750,7 +759,7 @@ const Header: React.FC = () => {
                         <p className="text-sm text-center text-gray-600 mt-4">
                             Already have an Account ?{" "}
                             <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
-                                setIsRegisterModalOpen(false);
+                                closeModal();
                                 setIsModalOpen(true);
                             }}>
                                 Login
