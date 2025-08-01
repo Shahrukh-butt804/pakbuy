@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { UPLOADS_URL } from "../../constants/api";
 import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
@@ -547,7 +546,6 @@ const Header: React.FC = () => {
 
 
 
-
                             </div>
 
 
@@ -899,15 +897,15 @@ const Header: React.FC = () => {
                 extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
             >
 
-                <div className="flex gap-5">
+                <div className="flex gap-10">
 
                     <div className={``}>
                         {addOns.map((item) => (
                             <div
                                 key={item.id}
-                                className="bg-[#1f2638] p-4 rounded-lg shadow hover:shadow-lg transition-all"
+                                className=" p-4 rounded-lg  shadow-lg hover:shadow-xl transition-all mt-4 border-2 border-gray-300"
                             >
-                                <div className="bg-white">
+                                <div className="bg-white ">
                                     <img
                                         src={ImageUrl(item.image)}
                                         alt={item.title}
@@ -915,13 +913,13 @@ const Header: React.FC = () => {
                                     />
                                 </div>
                                 <div className="mt-4">
-                                    <h3 className="text-lg font-semibold mb-1 text-white">{item.title}</h3>
+                                    <h3 className="text-lg font-semibold mb-1 ">{item.title}</h3>
                                     <div className="flex items-center text-sm text-yellow-400 mb-1">
                                         {Array.from({ length: item.rating }).map((_, i) => (
                                             <Star key={i} className="w-4 h-4 fill-yellow-400" />
                                         ))}
                                     </div>
-                                    <p className="text-white font-semibold text-lg">${item.price.toFixed(2)}</p>
+                                    <p className=" font-semibold text-lg">${item.price.toFixed(2)}</p>
 
                                     <button
                                         className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
@@ -954,16 +952,26 @@ const Header: React.FC = () => {
                                 >
 
                                     <div className="flex items-center gap-4">
-                                        {item.products?.map((product: any, index: number) => (
+                                        {/* {item.products?.map((product: any, index: number) => (
                                             <div key={index} className="flex flex-col items-center">
                                                 <img
                                                     crossOrigin="anonymous"
                                                     src={UPLOADS_URL + product.image}
+                                                    src={ImageUrl(item.image)}
                                                     alt={product.name || `product-${index}`}
-                                                    className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
+                                                    className="w-6 h-6 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
                                                 />
                                             </div>
-                                        ))}
+                                        ))} */}
+                                        <div className="flex flex-col items-center">
+                                            <img
+                                                crossOrigin="anonymous"
+                                                // src={UPLOADS_URL + product.image}
+                                                src={ImageUrl(item.name + ".png")}
+                                                alt={item.name}
+                                                className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
+                                            />
+                                        </div>
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
                                             <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
@@ -985,13 +993,12 @@ const Header: React.FC = () => {
                             <p className="text-xl">
                                 Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
                             </p>
-                            <Button
-                                type="primary"
+                            <button
                                 onClick={() => navigate("/checkout")}
-                                className="mt-2 w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
                             >
                                 CHECKOUT
-                            </Button>
+                            </button>
                         </div>
                     </div>
 
