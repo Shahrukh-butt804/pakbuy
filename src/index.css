@@ -541,7 +541,7 @@ footer a {
   min-height: 170px;
 }
 
-.web-font{
+.web-font {
   font-family: 'SF Pro Display';
 }
 
@@ -730,7 +730,8 @@ footer a {
   height: 50px;
   color: #fff;
 }
-.web-input:hover{
+
+.web-input:hover {
   background: rgba(255, 255, 255, 0.30);
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
@@ -749,24 +750,25 @@ footer a {
 .web-input option {
   background-color: #4d525f !important;
 }
+
 .web-input .ant-select-selector {
   background-color: #4d525f !important;
   color: #fff;
 }
 
-::placeholder{
+::placeholder {
   color: #FFF !important;
   opacity: 0.5 !important;
 }
 
-.ant-select-selection-placeholder{
+.ant-select-selection-placeholder {
   color: #FFF !important;
   opacity: 0.5 !important;
 }
 
 .shop-heading {
   color: #FFF;
- font-family: 'SF Pro Display';
+  font-family: 'SF Pro Display';
   font-size: 50px;
   font-style: normal;
   font-weight: 400;
@@ -791,7 +793,7 @@ footer a {
   text-transform: uppercase;
 }
 
-.form-box label{
+.form-box label {
   color: #FFF !important;
   font-family: 'SF Pro Display';
   font-size: 18px;
@@ -1015,3 +1017,11 @@ footer a {
 .header-nav-more{
   text-shadow: 2px 2px 3px #000;
 } */
+
+
+.golden_border {
+  border-radius: 22.553px;
+  border: 1px solid rgba(240, 205, 202, 0.92);
+  background: #1D2331;
+  mix-blend-mode: hard-light;
+}
