@@ -420,26 +420,26 @@ const Header: React.FC = () => {
 
 
                         {user && user._id ?
-                            <>  
-                            <button
-                                onClick={handleCartClick}
-                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
-                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
-                            >
-                                <ShoppingCart className="h-5 w-5" />
-                            </button>
-                            <button
-                                // onClick={handleCartClick}
-                                onClick={() => navigate('/profile')}
-                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
-                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
-                            >
-                                <CircleUser className="h-5 w-5" />
-                            </button>
-                            <button
-                                disabled={logoutLoading}
-                                className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                            >
+                            <>
+                                <button
+                                    onClick={handleCartClick}
+                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                >
+                                    <ShoppingCart className="h-5 w-5" />
+                                </button>
+                                <button
+                                    // onClick={handleCartClick}
+                                    onClick={() => navigate('/profile')}
+                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                >
+                                    <CircleUser className="h-5 w-5" />
+                                </button>
+                                <button
+                                    disabled={logoutLoading}
+                                    className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                >
                                     <span className="" onClick={() => {
                                         Swal.fire({
                                             title: 'Are you sure you want to logout?',
@@ -899,100 +899,104 @@ const Header: React.FC = () => {
                 extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
             >
 
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4`}>
-                    {addOns.map((item) => (
-                        <div
-                            key={item.id}
-                            className="bg-[#1f2638] p-4 rounded-lg shadow hover:shadow-lg transition-all"
-                        >
-                            <div className="bg-white">
-                                <img
-                                    src={ImageUrl(item.image)}
-                                    alt={item.title}
-                                    className="rounded object-cover w-full h-44"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <h3 className="text-lg font-semibold mb-1 text-white">{item.title}</h3>
-                                <div className="flex items-center text-sm text-yellow-400 mb-1">
-                                    {Array.from({ length: item.rating }).map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 fill-yellow-400" />
-                                    ))}
-                                </div>
-                                <p className="text-white font-semibold text-lg">${item.price.toFixed(2)}</p>
+                <div className="flex gap-5">
 
-                                <button
-                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
-                                // onClick={() => handleAddToCart(item)}
-                                >
-                                    Add to Cart
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <Divider />
-
-                <div>
-                    <h3 className="text-lg font-bold mb-2">My Cart</h3>
-                    <List
-                        itemLayout="horizontal"
-                        dataSource={myCart}
-                        renderItem={(item: any) => (
-                            <List.Item
-                                actions={[
-                                    <Button
-                                        size="small"
-                                        type="text"
-                                        danger
-                                        onClick={() => handleRemove(item._id)}
-                                    >
-                                        ✕
-                                    </Button>,
-                                ]}
+                    <div className={``}>
+                        {addOns.map((item) => (
+                            <div
+                                key={item.id}
+                                className="bg-[#1f2638] p-4 rounded-lg shadow hover:shadow-lg transition-all"
                             >
-
-                                <div className="flex items-center gap-4">
-                                    {item.products?.map((product: any, index: number) => (
-                                        <div key={index} className="flex flex-col items-center">
-                                            <img
-                                                crossOrigin="anonymous"
-                                                src={UPLOADS_URL + product.image}
-                                                alt={product.name || `product-${index}`}
-                                                className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
-                                            />
-                                        </div>
-                                    ))}
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                        <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
-                                    </div>
+                                <div className="bg-white">
+                                    <img
+                                        src={ImageUrl(item.image)}
+                                        alt={item.title}
+                                        className="rounded object-cover w-full h-44"
+                                    />
                                 </div>
+                                <div className="mt-4">
+                                    <h3 className="text-lg font-semibold mb-1 text-white">{item.title}</h3>
+                                    <div className="flex items-center text-sm text-yellow-400 mb-1">
+                                        {Array.from({ length: item.rating }).map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
+                                        ))}
+                                    </div>
+                                    <p className="text-white font-semibold text-lg">${item.price.toFixed(2)}</p>
 
-                            </List.Item>
-                        )}
-                    />
-
-                    <Divider />
-                    <div className="text-right space-y-1">
-                        <p>
-                            Sub-total: <strong>${subTotal.toFixed(2)}</strong>
-                        </p>
-                        <p>
-                            Tax (20%): <strong>${tax.toFixed(2)}</strong>
-                        </p>
-                        <p className="text-xl">
-                            Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
-                        </p>
-                        <Button
-                            type="primary"
-                            onClick={() => navigate("/checkout")}
-                            className="mt-2 w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                        >
-                            CHECKOUT
-                        </Button>
+                                    <button
+                                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
+                                    // onClick={() => handleAddToCart(item)}
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
+
+                    <div className="w-1/2">
+                        <h3 className="text-xl font-bold mb-2">My Cart</h3>
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={myCart}
+                            renderItem={(item: any) => (
+                                <List.Item
+                                    actions={[
+                                        <Button
+                                            size="small"
+                                            type="text"
+                                            danger
+                                            onClick={() => handleRemove(item._id)}
+                                        >
+                                            ✕
+                                        </Button>,
+                                    ]}
+                                >
+
+                                    <div className="flex items-center gap-4">
+                                        {item.products?.map((product: any, index: number) => (
+                                            <div key={index} className="flex flex-col items-center">
+                                                <img
+                                                    crossOrigin="anonymous"
+                                                    src={UPLOADS_URL + product.image}
+                                                    alt={product.name || `product-${index}`}
+                                                    className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
+                                                />
+                                            </div>
+                                        ))}
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
+                                            <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+
+                                </List.Item>
+                            )}
+                        />
+
+                        <Divider />
+                        <div className="text-center space-y-1">
+                            <p>
+                                Sub-total: <strong>${subTotal.toFixed(2)}</strong>
+                            </p>
+                            <p>
+                                Tax (20%): <strong>${tax.toFixed(2)}</strong>
+                            </p>
+                            <p className="text-xl">
+                                Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
+                            </p>
+                            <Button
+                                type="primary"
+                                onClick={() => navigate("/checkout")}
+                                className="mt-2 w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                            >
+                                CHECKOUT
+                            </Button>
+                        </div>
+                    </div>
+
                 </div>
+
             </Drawer>}
             {/* cart */}
 
