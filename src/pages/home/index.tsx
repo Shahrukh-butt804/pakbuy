@@ -1,13 +1,15 @@
 import "animate.css";
+import { useDispatch } from "react-redux";
+import CategoriesCards from "../../components/categoriesCards";
+import { ChooseFeatures } from "../../components/chooseFeatures";
+import { ChooseInfoSection } from "../../components/chooseInfoSection";
+import { EthicsBound } from "../../components/ethicsBound";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import InfoCards from "../../components/infoCards";
 import InfoCards2 from "../../components/infoCards2";
-import CategoriesCards from "../../components/categoriesCards";
-import { ChooseFeatures } from "../../components/chooseFeatures";
 import { MemberBenefits } from "../../components/memberBenefits";
-import { EthicsBound } from "../../components/ethicsBound";
-import { ChooseInfoSection } from "../../components/chooseInfoSection";
+import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 // import Mainvideo from '../../../public/images/ip.mp4';
 
 
@@ -15,6 +17,12 @@ import { ChooseInfoSection } from "../../components/chooseInfoSection";
 
 const Home = () => {
     // const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+
+    function closeModal() {
+        dispatch(toggleRegisterModal())
+    }
 
 
     return (
@@ -46,6 +54,7 @@ const Home = () => {
                     <div className="container w-full">
                         <h2>A new marketplace for real health options <span>only available to our members</span> </h2>
                         <button
+                            onClick={closeModal}
                             className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                         >
                             Become A member
@@ -70,6 +79,7 @@ const Home = () => {
                         Member only marketplace
                     </h5>
                     <button
+                        onClick={closeModal}
                         className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                     >
                         GET MEMBERSHIP

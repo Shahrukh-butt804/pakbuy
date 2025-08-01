@@ -6,6 +6,7 @@ import { eventSlice } from "./services/eventSlice";
 import { productSlice } from "./services/productSlice";
 import userReducer from "./reducers/userSlice";
 import cartReducer from "./reducers/cartSlice";
+import modalReducer from "./reducers/modalSlice";
 import { orderSlice } from "./services/orderSlice";
 import { profileSlice } from "./services/profileSlice";
 import { contactSlice } from "./services/contactSlice";
@@ -21,6 +22,7 @@ export const store = configureStore({
     [contactSlice.reducerPath]: contactSlice.reducer,
     user: userReducer,
     cart: cartReducer,
+    modal: modalReducer,
 
 
   },
