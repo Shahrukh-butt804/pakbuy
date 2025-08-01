@@ -560,7 +560,7 @@ const Header: React.FC = () => {
 
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
                         {/* Close Button */}
                         <button
@@ -598,7 +598,7 @@ const Header: React.FC = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter your Password"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10 "
                                     />
                                     <span
                                         className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
@@ -648,7 +648,7 @@ const Header: React.FC = () => {
 
             {isRegisterModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
                         {/* Close Button */}
                         <button
@@ -765,7 +765,7 @@ const Header: React.FC = () => {
 
             {isForgotModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
                         <button
                             onClick={() => setIsForgotModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
@@ -798,7 +798,7 @@ const Header: React.FC = () => {
 
             {isOtpModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
                         <button
                             onClick={() => setIsOtpModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
@@ -831,7 +831,7 @@ const Header: React.FC = () => {
 
             {isResetModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
                         <button
                             onClick={() => setIsResetModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"

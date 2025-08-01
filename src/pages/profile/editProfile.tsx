@@ -27,7 +27,6 @@ const EditProfile: React.FC = () => {
         try {
 
             const response: any = await updateProfile({ fullName })
-            console.log("🚀 ~ handleSave ~ response:", response)
             if (response?.data?.success) {
                 setIsModalOpen(true);
                 dispatch(setUser(response?.data?.user))
@@ -64,7 +63,7 @@ const EditProfile: React.FC = () => {
                 <div className="bg-white rounded-lg shadow p-6 max-w-md w-full border-1">
                     <div className="flex flex-col items-center">
                         {/* Input Fields */}
-                        <div className="w-full text-left space-y-4 mb-6">
+                        <div className="w-full text-left space-y-4 mb-6 text-black">
                             <div>
                                 <label className="block text-sm text-gray-600 mb-1">Name</label>
                                 <input
@@ -89,9 +88,10 @@ const EditProfile: React.FC = () => {
 
                         {/* Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
+
                             <button
                                 onClick={() => navigate('/profile')}
-                                className="border border-green-800 text-[#D7C6B7] py-2 px-4 rounded-full hover:bg-[#D7C6B7] transition"
+                                className="site-btn bg-green-700  py-2 px-4 rounded-full hover:bg-green-900 transition"
                             >
                                 Cancel
                             </button>
