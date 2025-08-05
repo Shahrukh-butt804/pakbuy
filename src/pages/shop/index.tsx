@@ -1,86 +1,29 @@
-import React, { useState } from "react";
-import { Star, Heart, Eye, Lock, ShoppingCart } from "lucide-react";
-import { ImageUrl } from '../../utils/Functions';
-import { Drawer, Button, Divider, Image, List, } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
-import { ChooseInfoSection } from "../../components/chooseInfoSection";
-import { useNavigate } from 'react-router-dom';
+import { UPLOADS_URL } from "../../constants/api";
+import { addToCart } from "../../redux/reducers/cartSlice";
+import { useGetAllProductsQuery } from "../../redux/services/productSlice";
 
-interface Product {
-    id: number;
-    title: string;
-    price: number;
-    image: string;
-    rating: number;
-}
-
-const addOns: Product[] = [
-    {
-        id: 1,
-        title: "Muse S Athena",
-        price: 200,
-        image: "product1.png",
-        rating: 5,
-    },
-    {
-        id: 2,
-        title: "Brain HQ",
-        price: 150,
-        image: "product1.png",
-        rating: 4,
-    },
-];
-
-
-const productsData = [
-    {
-        id: 1,
-        title: "Muse S Athena",
-        image: "product1.png",
-        rating: 5,
-        reviews: 2643,
-        description:
-            "Train your brain to achieve peak focus, endurance, and resilience with exclusive EEG and fNIRS technology.",
-    },
-    {
-        id: 2,
-        title: "SecuriGene",
-        image: "product1.png",
-        rating: 4,
-        reviews: 2643,
-        description:
-            "Does late-onset dementia run in your family? SecuriGene Alzheimer’s DNA test helps determine who may be at risk.",
-    },
-    {
-        id: 3,
-        title: "Brain HQ",
-        image: "product1.png",
-        rating: 3,
-        reviews: 2643,
-        description:
-            "Brain HQ is the proven platform for individualized brain engagement.",
-    },
-    {
-        id: 4,
-        title: "LifeSum",
-        image: "product1.png",
-        rating: 5,
-        reviews: 2643,
-        description:
-            "Improving your nutrition can lead to better brain health. Lifesum helps achieve nutrition goals.",
-    },
-];
 
 const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
     const [likedItems, setLikedItems] = useState<number[]>([]);
-    const [selectedCollection, setSelectedCollection] = useState<string>("Mind");
-    const [sortBy, setSortBy] = useState<string>("");
-    const navigate = useNavigate();
+    const [selectedCollection, setSelectedCollection] = useState<string | any>();
 
-    // const collections = ["Mind", "Ultra", "Shift", "Beat", "Snooze"];
+    const dispatch = useDispatch();
+
+
+    const { data: packages } = useGetAllProductsQuery({})
+
+    useEffect(() => {
+        if (packages && packages.length > 0) {
+            setSelectedCollection(packages[0]);
+        }
+    }, [packages]);
 
     const toggleLike = (id: number) => {
         setLikedItems((prev) =>
@@ -88,47 +31,16 @@ const ProductWithSidebar: React.FC = () => {
         );
     };
 
-    const sortedProducts = [...productsData].sort((a, b) => {
-        if (sortBy === "Rating") return b.rating - a.rating;
-        if (sortBy === "Title") return a.title.localeCompare(b.title);
-        return 0;
-    });
-
-
-
-
-    const [open, setOpen] = useState(false);
-    const [cartItems, setCartItems] = useState<Product[]>([
-        {
-            id: 999,
-            title: "CHOOSE Mind",
-            price: 600,
-            image: "product1.png",
-            rating: 5,
-        },
-    ]);
-
-    const showDrawer = () => setOpen(true);
-    const onClose = () => setOpen(false);
-
-    const handleAddToCart = (product: Product) => {
-        setCartItems((prev) => [...prev, product]);
-    };
-
-    const handleRemove = (id: number) => {
-        setCartItems((prev) => prev.filter((item) => item.id !== id));
-    };
-
-    const subtotal = cartItems.reduce((acc, curr) => acc + curr.price, 0);
-    const tax = subtotal * 0.2;
-    const total = subtotal + tax;
-
+    function handleAddToCart(item: any) {
+        dispatch(addToCart(item));
+    }
 
 
     return (
         <>
             <Header />
             <div className="min-h-screen bg-[#181d2c] text-white px-4 md:px-8 py-6">
+                <h6 className="shop-heading">SHOP</h6>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Sidebar */}
                     <div className="bg-[#1f2638] rounded-xl p-6 space-y-4 w-full">
@@ -136,30 +48,49 @@ const ProductWithSidebar: React.FC = () => {
                             <h3 className="text-sm font-semibold text-gray-300 mb-2">
                                 COLLECTION
                             </h3>
-                            {["Mind", "Ultra", "Shift", "Beat", "Snooze"].map((col) => (
-                                <label
-                                    key={col}
-                                    className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedCollection === col}
-                                        onChange={() => setSelectedCollection(col)}
-                                        className="form-checkbox accent-green-500"
-                                    />
-                                    <span className="text-white pl-2">CHOOSE {col}</span>
-                                </label>
-                            ))}
+                            {packages && packages.length > 0 ?
+
+                                packages?.map((pkg: any) => (
+                                    <label
+                                        key={pkg?._id}
+                                        className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedCollection === pkg}
+                                            onChange={() => setSelectedCollection(pkg)}
+                                            className="form-checkbox accent-green-500"
+                                        />
+                                        <span className="text-white pl-2">choose {pkg?.name}</span>
+                                    </label>
+                                ))
+
+                                :
+
+                                <div className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2">
+                                    <span className="text-white pl-2">No Collection</span>
+                                </div>
+
+
+                            }
+
                         </div>
 
-                        <div>
-                            <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
-                            <p className="text-lg font-bold text-white">$600</p>
-                        </div>
 
-                        <button className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
-                            Buy Now
-                        </button>
+                        {selectedCollection && (
+                            <>
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
+                                    <p className="text-lg font-bold text-white">${selectedCollection?.price}</p>
+                                </div>
+
+                                <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
+                                    Add To Cart
+                                </button>
+                            </>
+                        )}
+
+
                     </div>
 
                     {/* Product Section */}
@@ -201,7 +132,7 @@ const ProductWithSidebar: React.FC = () => {
                             </div>
 
                             <select
-                                onChange={(e) => setSortBy(e.target.value)}
+                                // onChange={(e) => setSortBy(e.target.value)}
                                 className="bg-[#2a3146] text-white px-4 py-2 rounded text-sm"
                             >
                                 <option value="">Sort by</option>
@@ -217,7 +148,7 @@ const ProductWithSidebar: React.FC = () => {
                                 : "flex flex-col gap-4"
                                 }`}
                         >
-                            {sortedProducts.map((product) => {
+                            {selectedCollection?.products?.map((product: any) => {
                                 const isLiked = likedItems.includes(product.id);
                                 return (
                                     <div
@@ -227,7 +158,8 @@ const ProductWithSidebar: React.FC = () => {
                                     >
                                         <div className="bg-[#fff]">
                                             <img
-                                                src={ImageUrl(product.image)}
+                                                crossOrigin="anonymous"
+                                                src={UPLOADS_URL + product.image}
                                                 alt={product.title}
                                                 className={`rounded object-cover ${isGridView ? "w-full h-64" : "w-40 h-40"
                                                     }`}
@@ -247,128 +179,28 @@ const ProductWithSidebar: React.FC = () => {
                                                 <ShoppingCart className="w-4 h-4 text-[#ff6680]" />
                                             </div>
                                             <h3 className="text-lg font-semibold mb-1">
-                                                {product.title}
+                                                {product.name}
                                             </h3>
                                             <div className="flex items-center text-sm text-yellow-400 mb-1">
-                                                {Array.from({ length: product.rating }).map((_, i) => (
-                                                    <Star key={i} className="w-4 h-4 fill-yellow-400" />
+                                                {Array.from({ length: 5 }).map((_, i) => (
+                                                    <Star
+                                                        key={i}
+                                                        className={`w-4 h-4 ${i < product.rating ? 'fill-yellow-400' : 'fill-gray-300'}`}
+                                                    />
                                                 ))}
                                                 <span className="ml-2 text-gray-300">
-                                                    {product.reviews}
+                                                    2643
                                                 </span>
                                             </div>
                                             <p className="text-gray-400 text-sm">
                                                 {product.description}
                                             </p>
 
-                                            <button className={`site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 ${isGridView ? "w-full" : "w-auto"}`} onClick={showDrawer}>
-                                                Buy Now
-                                            </button>
                                         </div>
                                     </div>
                                 );
                             })}
                         </div>
-
-
-
-                        <Drawer
-                            title="Bonus Add-On Options"
-                            placement="right"
-                            onClose={onClose}
-                            open={open}
-                            width={600}
-                            extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
-                        >
-
-                            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4`}>
-                                {addOns.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="bg-[#1f2638] p-4 rounded-lg shadow hover:shadow-lg transition-all"
-                                    >
-                                        <div className="bg-white">
-                                            <img
-                                                src={ImageUrl(item.image)}
-                                                alt={item.title}
-                                                className="rounded object-cover w-full h-44"
-                                            />
-                                        </div>
-                                        <div className="mt-4">
-                                            <h3 className="text-lg font-semibold mb-1 text-white">{item.title}</h3>
-                                            <div className="flex items-center text-sm text-yellow-400 mb-1">
-                                                {Array.from({ length: item.rating }).map((_, i) => (
-                                                    <Star key={i} className="w-4 h-4 fill-yellow-400" />
-                                                ))}
-                                            </div>
-                                            <p className="text-white font-semibold text-lg">${item.price.toFixed(2)}</p>
-
-                                            <button
-                                                className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
-                                                onClick={() => handleAddToCart(item)}
-                                            >
-                                                Add to Cart
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-
-                            <Divider />
-
-                            {/* My Cart Section */}
-                            <div>
-                                <h3 className="text-lg font-bold mb-2">My Cart</h3>
-                                <List
-                                    itemLayout="horizontal"
-                                    dataSource={cartItems}
-                                    renderItem={(item) => (
-                                        <List.Item
-                                            actions={[
-                                                <Button
-                                                    size="small"
-                                                    type="text"
-                                                    danger
-                                                    onClick={() => handleRemove(item.id)}
-                                                >
-                                                    ✕
-                                                </Button>,
-                                            ]}
-                                        >
-                                            <List.Item.Meta
-                                                avatar={<Image src={ImageUrl(item.image)} width={60} />}
-                                                //  src={ImageUrl(item.image)}
-                                                title={item.title}
-                                                description={`$${item.price.toFixed(2)}`}
-                                            />
-                                        </List.Item>
-                                    )}
-                                />
-
-                                <Divider />
-
-                                {/* Totals */}
-                                <div className="text-right space-y-1">
-                                    <p>
-                                        Sub-total: <strong>${subtotal.toFixed(2)}</strong>
-                                    </p>
-                                    <p>
-                                        Tax (20%): <strong>${tax.toFixed(2)}</strong>
-                                    </p>
-                                    <p className="text-xl">
-                                        Total: <strong>${total.toFixed(2)}</strong>
-                                    </p>
-                                    <Button
-                                        type="primary"
-                                        onClick={() => navigate("/checkout")}
-                                        className="mt-2 w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                                    >
-                                        CHECKOUT
-                                    </Button>
-                                </div>
-                            </div>
-                        </Drawer>
                     </div>
                 </div>
             </div>

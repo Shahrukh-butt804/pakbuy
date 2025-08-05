@@ -5,14 +5,24 @@ export const MemberBenefits: React.FC = () => {
         <section className="flex justify-center px-4 py-12 memberBenefits-bg">
             <div className="max-w-5xl w-full">
                 {/* Heading */}
-                <h2 className="text-center text-2xl md:text-3xl text-white mb-8">
+                <h2
+                    className="text-center text-2xl md:text-3xl text-white mb-8"
+                    data-aos="fade-up"
+                     data-aos-delay="800"
+                    data-aos-duration="800"
+                >
                     Member benefits
                 </h2>
 
                 {/* Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Card 1 */}
-                    <div className="bg-[#000000c4] backdrop-blur-sm rounded-lg p-6 shadow-md text-white">
+                    <div
+                        className="bg-[#000000c4] backdrop-blur-sm rounded-lg p-6 shadow-md text-white"
+                        data-aos="zoom-in"
+                         data-aos-delay="1000"
+                        data-aos-duration="800"
+                    >
                         <h3 className="font-semibold mb-2">
                             Members enjoy a delightful shopping experience.
                         </h3>
@@ -20,7 +30,12 @@ export const MemberBenefits: React.FC = () => {
                     </div>
 
                     {/* Card 2 */}
-                    <div className="bg-[#000000c4] backdrop-blur-sm rounded-lg p-6 shadow-md text-white">
+                    <div
+                        className="bg-[#000000c4] backdrop-blur-sm rounded-lg p-6 shadow-md text-white"
+                        data-aos="zoom-in"
+                        data-aos-delay="1000"
+                        data-aos-duration="800"
+                    >
                         <h3 className="font-semibold mb-2">
                             All services and products are independently evaluated.
                         </h3>

@@ -1,8 +1,17 @@
-import { Col, Row } from 'antd';
-import { Menu, X } from 'lucide-react';
-import React, { useState } from 'react';
+import { CloseOutlined } from "@ant-design/icons";
+import { Button, Col, Divider, Drawer, List, Row } from 'antd';
+import { CircleUser, Menu, ShoppingCart, Star, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
+import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
+import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
+import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
+import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
+
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
@@ -27,15 +36,61 @@ const navigationItems = [
     },
 ];
 
+
+
+interface Product {
+    id: number;
+    title: string;
+    price: number;
+    image: string;
+    rating: number;
+}
+
+const addOns: Product[] = [
+    {
+        id: 1,
+        title: "Muse S Athena",
+        price: 200,
+        image: "product1.png",
+        rating: 5,
+    },
+    {
+        id: 2,
+        title: "Brain HQ",
+        price: 150,
+        image: "product1.png",
+        rating: 4,
+    },
+];
+
+
+
 const Header: React.FC = () => {
     const [activeItem, setActiveItem] = useState('home');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showRegPassword, setShowRegPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
+
+    const dispatch = useDispatch();
+    const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
+
+
+    function closeModal(){
+        dispatch(toggleRegisterModal())
+    }
+
+
     const navigate = useNavigate();
+    const user = useSelector(selectUser);
+    const myCart = useSelector(selectCartItems)
+
+    const subTotal = myCart?.reduce((total: number, item: any) => total + item.price, 0);
+    const tax = subTotal * 0.2;
+
+
 
     const handleNavClick = (id: string, path: string) => {
         setActiveItem(id);
@@ -43,20 +98,309 @@ const Header: React.FC = () => {
         navigate(path);
     };
 
-    const [username, setUsername] = useState('');
+    const [loginEmail, setLoginEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        console.log('Username:', username);
-        console.log('Password:', password);
+
+
+    const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+    const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
+    const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [showResetPassword, setShowResetPassword] = useState(false);
+    const [showResetConfirmPassword, setShowResetConfirmPassword] = useState(false);
+
+
+    const [signupData, setSignupDate] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    })
+
+    const onChange = (e: any) => {
+        setSignupDate({
+            ...signupData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+
+
+    const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation()
+    const [login, { isLoading }] = useLoginMutation()
+    const [register, { isLoading: registerLoading }] = useRegisterMutation()
+    const [forgetPassword, { isLoading: forgetPasswordLoading }] = useForgetPasswordMutation()
+    const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation()
+    const [resetPassword, { isLoading: resetPasswordLoading }] = useResetPasswordMutation()
+
+
+    const handleCartClick = () => {
+        const alreadyExists = localStorage.getItem('myBooleanFlag');
+        if (!alreadyExists || alreadyExists === 'false') {
+            localStorage.setItem('myBooleanFlag', 'true');
+            window.dispatchEvent(new Event('localStorageUpdated'));
+
+            console.log('Boolean value set in localStorage');
+        } else {
+            console.log('Already exists in localStorage');
+        }
     };
+
+
+
+    const [showCart, setShowCart] = useState(false);
+    useEffect(() => {
+        const checkStorage = () => {
+            const storedVar = localStorage.getItem('myBooleanFlag');
+            if (storedVar === 'true') {
+                setShowCart(true);
+            } else {
+                setShowCart(false);
+            }
+        };
+
+        checkStorage(); // check once on mount
+
+        window.addEventListener('localStorageUpdated', checkStorage);
+        return () => window.removeEventListener('localStorageUpdated', checkStorage);
+    }, []);
+
+
+    const onClose = () => {
+        // setOpen(false)
+        setShowCart(false);
+        localStorage.setItem('myBooleanFlag', 'false');
+    };
+
+    const handleRemove = (id: string) => {
+        dispatch(removeFromCart(id))
+    };
+
+
+    async function handleLogout() {
+        try {
+            const response: any = await logoutUser({})
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                dispatch(logout())
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response?.data?.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Something went wrong',
+            })
+
+        }
+
+    }
+
+    const handleLogin = async () => {
+        try {
+            const response: any = await login({ email: loginEmail, password })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                dispatch(setUser(response?.data?.user))
+                setIsModalOpen(false);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+
+        }
+
+
+
+
+
+    };
+
+    async function handleRegister() {
+
+        if (signupData.password !== signupData.confirmPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Password and Confirm Password should be same',
+            })
+            return
+        }
+
+        const formdata = new FormData();
+
+        formdata.append("fullName", signupData.fullName);
+        formdata.append("email", signupData.email);
+        formdata.append("password", signupData.password);
+        formdata.append("confirmPassword", signupData.confirmPassword);
+        formdata.append("role", "user");
+
+
+        try {
+            const response: any = await register(formdata)
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+
+        }
+    }
+
+    async function handleForgotPassword() {
+
+        try {
+            const response: any = await forgetPassword({ email })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                setIsForgotModalOpen(false);
+                setIsOtpModalOpen(true);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+        }
+
+    }
+
+    async function handleVerifyOtp() {
+        try {
+            const response: any = await verifyOtp({ email, otp: Number(otp) })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                    timer: 2000
+                })
+                setIsOtpModalOpen(false);
+                setIsResetModalOpen(true);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+        }
+    }
+
+    async function handleResetPassword() {
+
+        if (newPassword !== confirmNewPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Password and Confirm Password should be same',
+            })
+            return
+        }
+
+
+        try {
+            const response: any = await resetPassword({ email, otp: Number(otp), password: newPassword })
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                setIsResetModalOpen(false);
+                setIsModalOpen(true);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+        }
+
+    }
+
 
     return (
         <header className="w-full z-10 bg-[#374159]">
             <Row justify="center">
                 <Col lg={22} md={24} xs={24}>
-                    <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex items-baseline justify-end">
+                    <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex  justify-end items-center gap-3">
                         {/* <Logo /> */}
+
+                        <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={handleCartClick}>
+                            <ShoppingCart className="h-5 w-5" />
+                        </button>
+                        <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={() => navigate('/profile')}>
+                            <CircleUser className="h-5 w-5" />
+                        </button>
+
                         <button
                             style={{ color: 'white' }}
                             className="block lg:hidden text-white p-2 z-50 relative"
@@ -64,6 +408,7 @@ const Header: React.FC = () => {
                         >
                             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
+
 
                         {/* Desktop Navigation */}
                         <nav className="hidden lg:flex items-baseline space-x-1 ">
@@ -77,19 +422,64 @@ const Header: React.FC = () => {
                             ))}
                         </nav>
 
-                        {/* Right Buttons */}
-                        <div className="hidden lg:flex items-center space-x-4 gap-2">
-                            <button
-                                className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                            >
-                                <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
-                            </button>
-                            <button
-                                className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
-                            >
-                                <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
-                            </button>
-                        </div>
+
+
+
+
+
+                        {user && user._id ?
+                            <>
+                                <button
+                                    onClick={handleCartClick}
+                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                >
+                                    <ShoppingCart className="h-5 w-5" />
+                                </button>
+                                <button
+                                    // onClick={handleCartClick}
+                                    onClick={() => navigate('/profile')}
+                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                >
+                                    <CircleUser className="h-5 w-5" />
+                                </button>
+                                <button
+                                    disabled={logoutLoading}
+                                    className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => {
+                                        Swal.fire({
+                                            title: 'Are you sure you want to logout?',
+                                            text: "You won't be able to revert this!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Yes, logout!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                handleLogout();
+                                            }
+                                        })
+                                    }}>logout</span>
+
+                                </button></> :
+
+                            <div className="hidden lg:flex items-center space-x-4 gap-2">
+
+                                <button
+                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => closeModal()}>Member Sign up</span>
+                                </button>
+                                <button
+                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
+                                >
+                                    <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
+                                </button>
+                            </div>
+                        }
                     </div>
 
                     {/* Overlay */}
@@ -126,28 +516,58 @@ const Header: React.FC = () => {
                             {/* Bottom Buttons */}
                             <div className="mt-auto pb-8 flex flex-col space-y-4 nav-btns">
 
-                                <button
-                                    className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                                >
-                                    <span className="">Member Sign up</span>
-                                </button>
-                                <button
-                                    className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                                >
-                                    <span className="">Login</span>
-                                </button>
+                                {user && user._id ? <>
+                                    <button
+                                        className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
+                                        onClick={() => {
+                                            Swal.fire({
+                                                title: 'Are you sure you want to logout?',
+                                                text: "You won't be able to revert this!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Yes, logout!'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    handleLogout();
+                                                }
+                                            })
+                                        }}
+                                    >
+                                        <span className="">Logout</span>
+                                    </button></>
+                                    :
+                                    <>
+                                        <button
+                                            className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
+                                            onClick={() => closeModal()}
+                                        >
+                                            <span className="">Member Sign up</span>
+                                        </button>
+                                        <button
+                                            className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
+                                            onClick={() => setIsModalOpen(true)}
+                                        >
+                                            <span className="">Login</span>
+                                        </button>
+                                    </>}
+
+
+
                             </div>
+
+
+
+
                         </div>
                     </div>
                 </Col>
             </Row>
 
-
-
-
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
                         {/* Close Button */}
                         <button
@@ -166,11 +586,11 @@ const Header: React.FC = () => {
                         <div className="space-y-4">
                             {/* Username */}
                             <div>
-                                <label className="block text-sm text-gray-700 mb-1">User name</label>
+                                <label className="block text-sm text-gray-700 mb-1">Email</label>
                                 <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    type="email"
+                                    value={loginEmail}
+                                    onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="Enter your user name"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                 />
@@ -185,7 +605,7 @@ const Header: React.FC = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter your Password"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10 "
                                     />
                                     <span
                                         className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
@@ -202,21 +622,29 @@ const Header: React.FC = () => {
                                     <input type="checkbox" className="accent-black" />
                                     Remember Me
                                 </label>
-                                <button className="hover:underline">Forgot Password ?</button>
+                                <button className="hover:underline" onClick={() => {
+                                    setIsModalOpen(false);
+                                    setIsForgotModalOpen(true);
+                                }}>Forgot Password ?</button>
                             </div>
 
                             {/* Login Button */}
                             <button
+                                disabled={isLoading}
                                 onClick={handleLogin}
                                 className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition"
                             >
-                                LOGIN
+                                {isLoading ? "LOGGING IN" : "LOGIN"}
+
                             </button>
 
                             {/* Footer */}
                             <p className="text-sm text-center text-gray-600 mt-4">
                                 Don’t have an Account?{" "}
-                                <span className="font-semibold text-black cursor-pointer hover:underline">
+                                <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
+                                    setIsModalOpen(false);
+                                    closeModal();
+                                }}>
                                     Register Here
                                 </span>
                             </p>
@@ -225,14 +653,13 @@ const Header: React.FC = () => {
                 </div>
             )}
 
-
             {isRegisterModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
                         {/* Close Button */}
                         <button
-                            onClick={() => setIsRegisterModalOpen(false)}
+                            onClick={() => closeModal()}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
                         >
                             ✕
@@ -249,6 +676,9 @@ const Header: React.FC = () => {
                             <div>
                                 <label className="block text-sm text-gray-700 mb-1">Full Name</label>
                                 <input
+                                    value={signupData.fullName}
+                                    name='fullName'
+                                    onChange={onChange}
                                     type="text"
                                     placeholder="Enter your user name"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
@@ -259,6 +689,9 @@ const Header: React.FC = () => {
                             <div>
                                 <label className="block text-sm text-gray-700 mb-1">Email</label>
                                 <input
+                                    value={signupData.email}
+                                    name='email'
+                                    onChange={onChange}
                                     type="email"
                                     placeholder="Enter your user name"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
@@ -269,6 +702,9 @@ const Header: React.FC = () => {
                             <div className="relative">
                                 <label className="block text-sm text-gray-700 mb-1">Password</label>
                                 <input
+                                    value={signupData.password}
+                                    name='password'
+                                    onChange={onChange}
                                     type={showRegPassword ? "text" : "password"}
                                     placeholder="Enter your Password"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
@@ -285,6 +721,9 @@ const Header: React.FC = () => {
                             <div className="relative">
                                 <label className="block text-sm text-gray-700 mb-1">Confirm Password</label>
                                 <input
+                                    value={signupData.confirmPassword}
+                                    name='confirmPassword'
+                                    onChange={onChange}
                                     type={showConfirmPassword ? "text" : "password"}
                                     placeholder="Enter your Password"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
@@ -308,15 +747,21 @@ const Header: React.FC = () => {
 
                         {/* Register Button */}
                         <div className="mt-6">
-                            <button className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
-                                REGISTER
+                            <button
+                                onClick={handleRegister}
+                                disabled={registerLoading}
+                                className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
+                                {registerLoading ? "REGISTERING..." : "REGISTER"}
                             </button>
                         </div>
 
                         {/* Footer */}
                         <p className="text-sm text-center text-gray-600 mt-4">
                             Already have an Account ?{" "}
-                            <span className="font-semibold text-black cursor-pointer hover:underline">
+                            <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
+                                closeModal();
+                                setIsModalOpen(true);
+                            }}>
                                 Login
                             </span>
                         </p>
@@ -324,6 +769,252 @@ const Header: React.FC = () => {
                 </div>
             )}
 
+
+            {isForgotModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
+                        <button
+                            onClick={() => setIsForgotModalOpen(false)}
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                        >
+                            ✕
+                        </button>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Forgot Password</h2>
+                        <p className="text-sm text-gray-500 mb-4">Enter your email to receive an OTP</p>
+
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                        />
+
+                        <button
+                            disabled={forgetPasswordLoading}
+                            className="site-btn w-full mt-4 bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
+                            onClick={handleForgotPassword}
+                            style={{ marginTop: '16px' }}
+                        >
+                            {forgetPasswordLoading ? "SENDING..." : "SEND OTP"}
+
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {isOtpModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
+                        <button
+                            onClick={() => setIsOtpModalOpen(false)}
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                        >
+                            ✕
+                        </button>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Enter OTP</h2>
+                        <p className="text-sm text-gray-500 mb-4">We've sent a code to {email}</p>
+
+                        <input
+                            type="text"
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                        />
+
+                        <button
+                            disabled={verifyOtpLoading}
+                            className="site-btn w-full mt-4 bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
+                            onClick={handleVerifyOtp}
+                            style={{ marginTop: '16px' }}
+                        >
+                            {verifyOtpLoading ? "VERIFYING..." : "VERIFY OTP"}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+
+            {isResetModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
+                        <button
+                            onClick={() => setIsResetModalOpen(false)}
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                        >
+                            ✕
+                        </button>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Reset Password</h2>
+                        <p className="text-sm text-gray-500 mb-4">Set a new password for your account</p>
+
+                        {/* New Password */}
+                        <div className="relative mb-4">
+                            <input
+                                type={showResetPassword ? "text" : "password"}
+                                placeholder="New Password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                            />
+                            <span
+                                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                                onClick={() => setShowResetPassword(!showResetPassword)}
+                            >
+                                {showResetPassword ? "🙈" : "👁️"}
+                            </span>
+                        </div>
+
+                        {/* Confirm New Password */}
+                        <div className="relative mb-4">
+                            <input
+                                type={showResetConfirmPassword ? "text" : "password"}
+                                placeholder="Confirm Password"
+                                value={confirmNewPassword}
+                                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                            />
+                            <span
+                                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                                onClick={() => setShowResetConfirmPassword(!showResetConfirmPassword)}
+                            >
+                                {showResetConfirmPassword ? "🙈" : "👁️"}
+                            </span>
+                        </div>
+
+                        <button
+                            disabled={resetPasswordLoading}
+                            className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
+                            onClick={handleResetPassword}
+                            style={{ marginTop: '16px' }}
+                        >
+                            {resetPasswordLoading ? "RESETING..." : "RESET PASSWORD"}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+
+
+            {/* cart */}
+            {showCart && <Drawer
+                title="Bonus Add-On Options"
+                placement="right"
+                onClose={onClose}
+                open={showCart}
+                width={600}
+                extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
+            >
+
+                <div className="flex gap-10">
+
+                    <div className={``}>
+                        {addOns.map((item) => (
+                            <div
+                                key={item.id}
+                                className=" p-4 rounded-lg  shadow-lg hover:shadow-xl transition-all mt-4 border-2 border-gray-300"
+                            >
+                                <div className="bg-white ">
+                                    <img
+                                        src={ImageUrl(item.image)}
+                                        alt={item.title}
+                                        className="rounded object-cover w-full h-44"
+                                    />
+                                </div>
+                                <div className="mt-4">
+                                    <h3 className="text-lg font-semibold mb-1 ">{item.title}</h3>
+                                    <div className="flex items-center text-sm text-yellow-400 mb-1">
+                                        {Array.from({ length: item.rating }).map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
+                                        ))}
+                                    </div>
+                                    <p className=" font-semibold text-lg">${item.price.toFixed(2)}</p>
+
+                                    <button
+                                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
+                                    // onClick={() => handleAddToCart(item)}
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="w-1/2">
+                        <h3 className="text-xl font-bold mb-2">My Cart</h3>
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={myCart}
+                            renderItem={(item: any) => (
+                                <List.Item
+                                    actions={[
+                                        <Button
+                                            size="small"
+                                            type="text"
+                                            danger
+                                            onClick={() => handleRemove(item._id)}
+                                        >
+                                            ✕
+                                        </Button>,
+                                    ]}
+                                >
+
+                                    <div className="flex items-center gap-4">
+                                        {/* {item.products?.map((product: any, index: number) => (
+                                            <div key={index} className="flex flex-col items-center">
+                                                <img
+                                                    crossOrigin="anonymous"
+                                                    src={UPLOADS_URL + product.image}
+                                                    src={ImageUrl(item.image)}
+                                                    alt={product.name || `product-${index}`}
+                                                    className="w-6 h-6 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
+                                                />
+                                            </div>
+                                        ))} */}
+                                        <div className="flex flex-col items-center">
+                                            <img
+                                                crossOrigin="anonymous"
+                                                // src={UPLOADS_URL + product.image}
+                                                src={ImageUrl(item.name + ".png")}
+                                                alt={item.name}
+                                                className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
+                                            <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        </div>
+                                    </div>
+
+                                </List.Item>
+                            )}
+                        />
+
+                        <Divider />
+                        <div className="text-center space-y-1">
+                            <p>
+                                Sub-total: <strong>${subTotal.toFixed(2)}</strong>
+                            </p>
+                            <p>
+                                Tax (20%): <strong>${tax.toFixed(2)}</strong>
+                            </p>
+                            <p className="text-xl">
+                                Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
+                            </p>
+                            <button
+                                onClick={() => navigate("/checkout")}
+                                className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
+                            >
+                                CHECKOUT
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </Drawer>}
+            {/* cart */}
 
 
         </header>

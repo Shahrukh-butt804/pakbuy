@@ -1,18 +1,17 @@
-// const { hostname } = window.location;
+const { hostname } = window.location;
 
-// const servers = {
-//   local: "http://localhost:3038",
-//   customDev: "https://react.customdev.solutions:3038",
-//   live: "https://react.customdev.solutions:3038",
-//   dummy: "https://9d2f-204-157-158-10.ngrok-free.app",
-// };
+const servers = {
+    local: "http://localhost:3054",
+    customDev: "https://react.customdev.solutions:3054",
+    live: "https://react.customdev.solutions:3054",
+};
 
-// var URL;
-// if (hostname.includes("react.customdev.solutions"))
-//   URL = servers.customDev;
-// else if (hostname.includes("cruisetales.com"))
-//   URL = servers.customDev;
-// else URL = servers.local;
+var URL;
+if (hostname.includes("react.customdev.solutions"))
+    URL = servers.customDev;
+else if (hostname.includes("choosewell"))
+    URL = servers.live;
+else URL = servers.customDev;
 
 export const SOCKET_URL = `${URL}`;
 export const UPLOADS_URL = URL + "/";
