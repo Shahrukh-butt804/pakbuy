@@ -16,6 +16,9 @@ const ChooseSection: React.FC = () => {
           <div
             key={index}
             className="border border-white/10 bg-[#000000c4] rounded-lg p-4 text-center hover:shadow-md transition relative categories-main-cards"
+            data-aos="zoom-in"
+            data-aos-delay={index * 300} // 0, 100, 200, ...
+            data-aos-duration="800"
           >
             <p className="text-sm text-white/70 mb-2 categories-title">{item.title}</p>
             <p className="text-white text-sm categories-choose">CHOOSE</p>
