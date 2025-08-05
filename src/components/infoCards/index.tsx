@@ -6,7 +6,7 @@ const InfoCards = () => {
       <div className="flex flex-col md:flex-row gap-6 max-w-6xl w-full">
         {/* Left Card */}
         <div
-          className="bg-[#000000c4] text-white rounded-xl p-8 flex-1"
+          className="bg-[#000000c4] text-white rounded-xl p-8 flex-1 "
           data-aos="fade-right"
              data-aos-delay="800"
           data-aos-duration="1000"

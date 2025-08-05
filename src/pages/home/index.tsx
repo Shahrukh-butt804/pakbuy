@@ -1,13 +1,15 @@
 import "animate.css";
+import { useDispatch } from "react-redux";
+import CategoriesCards from "../../components/categoriesCards";
+import { ChooseFeatures } from "../../components/chooseFeatures";
+import { ChooseInfoSection } from "../../components/chooseInfoSection";
+import { EthicsBound } from "../../components/ethicsBound";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import InfoCards from "../../components/infoCards";
 import InfoCards2 from "../../components/infoCards2";
-import CategoriesCards from "../../components/categoriesCards";
-import { ChooseFeatures } from "../../components/chooseFeatures";
 import { MemberBenefits } from "../../components/memberBenefits";
-import { EthicsBound } from "../../components/ethicsBound";
-import { ChooseInfoSection } from "../../components/chooseInfoSection";
+import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 // import Mainvideo from '../../../public/images/ip.mp4';
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -18,6 +20,12 @@ import { useEffect } from "react";
 
 const Home = () => {
     // const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+
+    function closeModal() {
+        dispatch(toggleRegisterModal())
+    }
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
@@ -61,6 +69,7 @@ const Home = () => {
                         </h2>
 
                         <button
+                            onClick={closeModal}
                             className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                             data-aos="zoom-in"
                             data-aos-delay="800"
@@ -73,7 +82,7 @@ const Home = () => {
 
 
                 <section className="flex justify-center leave-bg-content ">
-                    <div className="container w-full">
+                    <div className="container w-full ">
                         <MemberBenefits />
                     </div>
                 </section>
@@ -95,6 +104,7 @@ const Home = () => {
                     </h5>
 
                     <button
+                        onClick={closeModal}
                         className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 mt-4"
                         data-aos="zoom-in"
                         data-aos-delay="1100"

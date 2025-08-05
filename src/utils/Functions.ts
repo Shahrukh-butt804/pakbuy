@@ -2,7 +2,8 @@ export const getBasename = () => {
     const { hostname } = window.location;
     var basename = ""
     if (hostname.includes("react.customdev.solutions")) {
-        basename = "/choosewell"
+        // basename = "/choosewell"
+        basename = "/"
     }
     return basename;
 };
@@ -13,6 +14,6 @@ export const getBasename = () => {
 // };
 
 export const ImageUrl = (image: string) => {
-    return `${getBasename()}/images/${image}`;
+    return `images/${image}`;
 };
 

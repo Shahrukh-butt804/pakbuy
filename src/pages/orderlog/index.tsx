@@ -5,39 +5,49 @@ import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useNavigate } from "react-router";
+import { useGetOrderByUserQuery } from "../../redux/services/orderSlice";
 
 
 const AboutUs: React.FC = () => {
     const navigate = useNavigate();
+
+    const { data: orderData, isLoading } = useGetOrderByUserQuery({});
+
+
     const columns = [
         {
             title: "S.no",
             dataIndex: "sno",
             key: "sno",
+            render: (_: any, __: any, index: number) => index + 1,
         },
         {
             title: "Order Id",
-            dataIndex: "orderId",
+            dataIndex: "_id",
             key: "orderId",
         },
         {
             title: "Order Date",
-            dataIndex: "orderDate",
+            dataIndex: "createdAt",
             key: "orderDate",
+            render: (date: string) => new Date(date).toLocaleDateString(),
         },
         {
             title: "Title",
-            dataIndex: "title",
+            dataIndex: "products",
             key: "title",
+            render: (products: any[]) => products?.map((p) => p.packageId?.name).join(", "),
         },
         {
             title: "Quantity",
-            dataIndex: "quantity",
+            dataIndex: "products",
             key: "quantity",
+            render: (products: any[]) =>
+                products?.reduce((sum, p) => sum + (p.quantity || 1), 0),
         },
         {
             title: "Amount Paid",
-            dataIndex: "amount",
+            dataIndex: "totalAmount",
             key: "amount",
             render: (amount: number) => `$ ${amount.toFixed(2)}`,
         },
@@ -47,98 +57,43 @@ const AboutUs: React.FC = () => {
             key: "status",
             render: (status: string) => {
                 let color = "";
-                switch (status) {
-                    case "Pending":
+
+                switch (status?.toLowerCase()) {
+                    case "pending":
                         color = "red";
                         break;
-                    case "In Progress":
+                    case "confirmed":
+                        color = "blue";
+                        break;
+                    case "dispatched":
                         color = "gold";
                         break;
-                    case "Delivered":
+                    case "delivered":
                         color = "green";
+                        break;
+                    case "cancelled":
+                        color = "volcano";
                         break;
                     default:
                         color = "gray";
                 }
+
                 return <Tag color={color}>{status}</Tag>;
             },
         },
         {
             title: "Action",
-            dataIndex: "action",
             key: "action",
             render: (_: any, record: any) => (
                 <Button
                     type="text"
                     icon={<EyeOutlined />}
-                    onClick={() => navigate(`/orderlog/${record.orderId}`)}
+                    onClick={() => navigate(`/track-order/${record._id}`)}
                 />
             ),
-        }
+        },
     ];
 
-    const data = [
-        {
-            key: "1",
-            sno: "01",
-            orderId: "001",
-            orderDate: "mm/dd/yy",
-            title: "Product Name",
-            quantity: 5,
-            amount: 150,
-            status: "Pending",
-        },
-        {
-            key: "2",
-            sno: "02",
-            orderId: "002",
-            orderDate: "mm/dd/yy",
-            title: "Product Name",
-            quantity: 5,
-            amount: 150,
-            status: "In Progress",
-        },
-        {
-            key: "3",
-            sno: "03",
-            orderId: "003",
-            orderDate: "mm/dd/yy",
-            title: "Product Name",
-            quantity: 5,
-            amount: 150,
-            status: "In Progress",
-        },
-        {
-            key: "4",
-            sno: "04",
-            orderId: "004",
-            orderDate: "mm/dd/yy",
-            title: "Product Name",
-            quantity: 5,
-            amount: 150,
-            status: "Delivered",
-        },
-        {
-            key: "5",
-            sno: "05",
-            orderId: "005",
-            orderDate: "mm/dd/yy",
-            title: "Product Name",
-            quantity: 5,
-            amount: 150,
-            status: "In Progress",
-        },
-        {
-            key: "6",
-            sno: "06",
-            orderId: "006",
-            orderDate: "mm/dd/yy",
-            title: "Product Name",
-            quantity: 5,
-            amount: 150,
-            status: "Pending",
-        },
-    ];
 
     return (
         <>
@@ -148,7 +103,8 @@ const AboutUs: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-md overflow-hidden p-4">
                     <Table
                         columns={columns}
-                        dataSource={data}
+                        dataSource={orderData || []}
+                        loading={isLoading}
                         pagination={{ pageSize: 6 }}
                         bordered
                     />

@@ -1,27 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
+import { useSubmitFormMutation } from "../../redux/services/contactSlice";
+import Swal from "sweetalert2";
 
 
 const Contact: React.FC = () => {
+
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+    });
+
+    const [submitForm, { isLoading }] = useSubmitFormMutation()
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response: any = await submitForm(formData);
+            console.log("Response Data:", response);
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                    timer: 2000
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            console.log("🚀 ~ handleSubmit ~ error:", error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+
+        }
+
+    };
+
+
     return (
         <>
             <Header />
-            <section className="bg-[#1b1e28] text-white py-16 px-4 md:px-12">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <section className="bg-[#1b1e28] text-white py-16 px-4 md:px-24">
+                <div className=" mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
 
                     {/* Left Side */}
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">CONTACT US</h2>
-                        <h3 className="text-xl md:text-2xl font-semibold mb-6">Get In Touch With Us</h3>
-                        <p className="text-sm md:text-base text-gray-300 mb-6">
+                        <h2 className="text-3xl md:text-6xl font-bold mb-4">CONTACT US</h2>
+                        <h3 className="text-xl md:text-4xl font-semibold mb-6">Get In Touch With Us</h3>
+                        <p className="text-sm md:text-xl text-gray-300 mb-6">
                             We love connecting with our customers and vendors! Whether you have a question about your order,
                             want to learn more about becoming a vendor, or need assistance with anything else, our team is here
                             to help. Reach out to us and we’ll get back to you as soon as possible.
                         </p>
 
-                        <div className="space-y-4 text-sm md:text-base">
+                        <div className="space-y-4 text-xl">
                             <div className="flex items-center gap-2">
                                 <span>📞</span>
                                 <p>619.405.6500</p>
@@ -41,36 +93,45 @@ const Contact: React.FC = () => {
 
                     {/* Right Side - Form */}
                     <div className="bg-[#2b2f3d] rounded-lg p-6 md:p-8 shadow-lg">
-                        <form className="space-y-4">
+                        <form className="space-y-4 flex flex-col gap-3" onSubmit={handleSubmit}>
                             <input
                                 type="text"
+                                name="name"
                                 placeholder="Full Name"
-                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 web-input"
-                                style={{ marginBottom: '1rem' }}
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                             <input
                                 type="email"
+                                name="email"
                                 placeholder="Email Address"
-                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 web-input"
-                                style={{ marginBottom: '1rem' }}
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                             <input
                                 type="text"
+                                name="subject"
                                 placeholder="Subject"
-                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 web-input"
-                                style={{ marginBottom: '1rem' }}
+                                value={formData.subject}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                             <textarea
+                                name="message"
                                 placeholder="Message"
                                 rows={5}
-                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 web-input"
-                                style={{ marginBottom: '1rem' }}
+                                value={formData.message}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 rounded-md bg-[#3a3f50] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             ></textarea>
                             <button
+                                disabled={isLoading}
                                 type="submit"
                                 className="site-btn w-full bg-[#e4cfc2] text-black py-2 rounded-full font-semibold hover:opacity-90 transition"
                             >
-                                Submit
+                                {isLoading ? 'Submitting...' : 'Submit'}
                             </button>
                         </form>
                     </div>

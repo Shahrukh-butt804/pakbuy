@@ -61,7 +61,7 @@ const ProductWithSidebar: React.FC = () => {
                                             onChange={() => setSelectedCollection(pkg)}
                                             className="form-checkbox accent-green-500"
                                         />
-                                        <span className="text-white pl-2">CHOOSE {pkg?.name}</span>
+                                        <span className="text-white pl-2">choose {pkg?.name}</span>
                                     </label>
                                 ))
 

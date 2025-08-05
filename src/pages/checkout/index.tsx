@@ -287,49 +287,41 @@ const Checkout: React.FC = () => {
                             </Checkbox>
 
                             {shipDifferent && (
-                                <div style={{ border: "1px solid #EEE", padding: 16, borderRadius: 8, background: "#fff", marginBottom: 24 }}>
+                                <div style={{ border: "1px solid #EEE", padding: 16, borderRadius: 8, marginBottom: 24 }}>
 
-                                    <Row gutter={16}>
-                                        <Col xs={24} md={12}>
-                                            <Form.Item label="First Name *" name="shippingFirstName" rules={[{ required: true, message: "First Name is required" }]}>
-                                                <Input className="web-input" placeholder="First Name" />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={24} md={12}>
-                                            <Form.Item label="Last Name *" name="shippingLastName" rules={[{ required: true, message: "Last Name is required" }]}>
-                                                <Input className="web-input" placeholder="Last Name" />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                    <Form.Item label="Address *" name="shippingAddress" rules={[{ required: true, message: "Address is required" }]}>
-                                        <Input className="web-input" placeholder="Address" />
-                                    </Form.Item>
+
                                     <Row gutter={16}>
                                         <Col xs={24} md={8}>
                                             <Form.Item label="Country *" name="shippingCountry" rules={[{ required: true, message: "Country is required" }]}>
-                                                <Select placeholder="Select Country">
-                                                    <Option value="us">United States</Option>
-                                                    <Option value="ca">Canada</Option>
+                                                <Select className="web-input" placeholder="Select Country">
+                                                    <Option value="United States">United States</Option>
+                                                    <Option value="Canada">Canada</Option>
                                                 </Select>
                                             </Form.Item>
                                         </Col>
                                         <Col xs={24} md={8}>
                                             <Form.Item label="Region/State *" name="shippingState" rules={[{ required: true, message: "Region/State is required" }]}>
-                                                <Select placeholder="Select Region/State">
-                                                    <Option value="ny">New York</Option>
-                                                    <Option value="fl">Florida</Option>
+                                                <Select className="web-input" placeholder="Select Region/State">
+                                                    <Option value="New York">New York</Option>
+                                                    <Option value="Florida">Florida</Option>
                                                 </Select>
                                             </Form.Item>
                                         </Col>
                                         <Col xs={24} md={8}>
                                             <Form.Item label="City *" name="shippingCity" rules={[{ required: true, message: "City is required" }]}>
-                                                <Select placeholder="Select City">
-                                                    <Option value="nyc">New York City</Option>
-                                                    <Option value="miami">Miami</Option>
+                                                <Select className="web-input" placeholder="Select City">
+                                                    <Option value="New York City">New York City</Option>
+                                                    <Option value="Miami">Miami</Option>
                                                 </Select>
                                             </Form.Item>
                                         </Col>
                                     </Row>
+
+
+
+
+
+
                                     <Form.Item label="Zip Code *" name="shippingZipCode" rules={[{ required: true, message: "Zip Code is required" }]}>
                                         <Input className="web-input" placeholder="Zip Code" />
                                     </Form.Item>
@@ -351,7 +343,7 @@ const Checkout: React.FC = () => {
 
                             <h4 className="text-white">Additional Information</h4>
                             <Form.Item label="Order Notes (Optional)" name="orderNote">
-                                <Input.TextArea rows={4} placeholder="Notes about your order" className="web-textarea" />
+                                <Input.TextArea rows={4} placeholder="Notes about your order" className="web-textarea text-white hover:text-black" />
                             </Form.Item>
 
                             {/* Stripe Implementaion */}

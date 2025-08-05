@@ -47,13 +47,13 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/aboutus" element={<Aboutus />} />
-            <Route path="/orderlog" element={<Orderlog />} />
-            <Route path="/orderlog/:id" element={<OrderDetails />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/profile/changePassword" element={<ChangePassword />} />
 
             <Route element={<PrivateRoute />}>
+              <Route path="/my-orders" element={<Orderlog />} />
+              <Route path="/track-order/:id" element={<OrderDetails />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit" element={<EditProfile />} />
+              <Route path="/profile/changePassword" element={<ChangePassword />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/shop" element={<Shop />} />
             </Route>

@@ -5,12 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { UPLOADS_URL } from "../../constants/api";
 import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
+import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 
 
 const navigationItems = [
@@ -69,13 +69,21 @@ const Header: React.FC = () => {
     const [activeItem, setActiveItem] = useState('home');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showRegPassword, setShowRegPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
+
+    const dispatch = useDispatch();
+    const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
+
+
+    function closeModal(){
+        dispatch(toggleRegisterModal())
+    }
+
 
     const navigate = useNavigate();
-    const dispatch = useDispatch()
     const user = useSelector(selectUser);
     const myCart = useSelector(selectCartItems)
 
@@ -183,7 +191,7 @@ const Header: React.FC = () => {
                     title: 'Success',
                     text: response?.data?.message,
                 })
-                dispatch(setUser(logout))
+                dispatch(logout())
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -420,26 +428,26 @@ const Header: React.FC = () => {
 
 
                         {user && user._id ?
-                            <>  
-                            <button
-                                onClick={handleCartClick}
-                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
-                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
-                            >
-                                <ShoppingCart className="h-5 w-5" />
-                            </button>
-                            <button
-                                // onClick={handleCartClick}
-                                onClick={() => navigate('/profile')}
-                                className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
-                                style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
-                            >
-                                <CircleUser className="h-5 w-5" />
-                            </button>
-                            <button
-                                disabled={logoutLoading}
-                                className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                            >
+                            <>
+                                <button
+                                    onClick={handleCartClick}
+                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                >
+                                    <ShoppingCart className="h-5 w-5" />
+                                </button>
+                                <button
+                                    // onClick={handleCartClick}
+                                    onClick={() => navigate('/profile')}
+                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
+                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                >
+                                    <CircleUser className="h-5 w-5" />
+                                </button>
+                                <button
+                                    disabled={logoutLoading}
+                                    className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                >
                                     <span className="" onClick={() => {
                                         Swal.fire({
                                             title: 'Are you sure you want to logout?',
@@ -463,7 +471,7 @@ const Header: React.FC = () => {
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                                 >
-                                    <span className="" onClick={() => setIsRegisterModalOpen(true)}>Member Sign up</span>
+                                    <span className="" onClick={() => closeModal()}>Member Sign up</span>
                                 </button>
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
@@ -533,7 +541,7 @@ const Header: React.FC = () => {
                                     <>
                                         <button
                                             className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                                            onClick={() => setIsRegisterModalOpen(true)}
+                                            onClick={() => closeModal()}
                                         >
                                             <span className="">Member Sign up</span>
                                         </button>
@@ -544,7 +552,6 @@ const Header: React.FC = () => {
                                             <span className="">Login</span>
                                         </button>
                                     </>}
-
 
 
 
@@ -560,7 +567,7 @@ const Header: React.FC = () => {
 
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
                         {/* Close Button */}
                         <button
@@ -598,7 +605,7 @@ const Header: React.FC = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter your Password"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10 "
                                     />
                                     <span
                                         className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
@@ -636,7 +643,7 @@ const Header: React.FC = () => {
                                 Don’t have an Account?{" "}
                                 <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
                                     setIsModalOpen(false);
-                                    setIsRegisterModalOpen(true);
+                                    closeModal();
                                 }}>
                                     Register Here
                                 </span>
@@ -648,11 +655,11 @@ const Header: React.FC = () => {
 
             {isRegisterModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
                         {/* Close Button */}
                         <button
-                            onClick={() => setIsRegisterModalOpen(false)}
+                            onClick={() => closeModal()}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
                         >
                             ✕
@@ -752,7 +759,7 @@ const Header: React.FC = () => {
                         <p className="text-sm text-center text-gray-600 mt-4">
                             Already have an Account ?{" "}
                             <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
-                                setIsRegisterModalOpen(false);
+                                closeModal();
                                 setIsModalOpen(true);
                             }}>
                                 Login
@@ -765,7 +772,7 @@ const Header: React.FC = () => {
 
             {isForgotModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
                         <button
                             onClick={() => setIsForgotModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
@@ -798,7 +805,7 @@ const Header: React.FC = () => {
 
             {isOtpModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
                         <button
                             onClick={() => setIsOtpModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
@@ -831,7 +838,7 @@ const Header: React.FC = () => {
 
             {isResetModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
                         <button
                             onClick={() => setIsResetModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
@@ -899,100 +906,113 @@ const Header: React.FC = () => {
                 extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
             >
 
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4`}>
-                    {addOns.map((item) => (
-                        <div
-                            key={item.id}
-                            className="bg-[#1f2638] p-4 rounded-lg shadow hover:shadow-lg transition-all"
-                        >
-                            <div className="bg-white">
-                                <img
-                                    src={ImageUrl(item.image)}
-                                    alt={item.title}
-                                    className="rounded object-cover w-full h-44"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <h3 className="text-lg font-semibold mb-1 text-white">{item.title}</h3>
-                                <div className="flex items-center text-sm text-yellow-400 mb-1">
-                                    {Array.from({ length: item.rating }).map((_, i) => (
-                                        <Star key={i} className="w-4 h-4 fill-yellow-400" />
-                                    ))}
-                                </div>
-                                <p className="text-white font-semibold text-lg">${item.price.toFixed(2)}</p>
+                <div className="flex gap-10">
 
-                                <button
-                                    className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
-                                // onClick={() => handleAddToCart(item)}
-                                >
-                                    Add to Cart
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <Divider />
-
-                <div>
-                    <h3 className="text-lg font-bold mb-2">My Cart</h3>
-                    <List
-                        itemLayout="horizontal"
-                        dataSource={myCart}
-                        renderItem={(item: any) => (
-                            <List.Item
-                                actions={[
-                                    <Button
-                                        size="small"
-                                        type="text"
-                                        danger
-                                        onClick={() => handleRemove(item._id)}
-                                    >
-                                        ✕
-                                    </Button>,
-                                ]}
+                    <div className={``}>
+                        {addOns.map((item) => (
+                            <div
+                                key={item.id}
+                                className=" p-4 rounded-lg  shadow-lg hover:shadow-xl transition-all mt-4 border-2 border-gray-300"
                             >
+                                <div className="bg-white ">
+                                    <img
+                                        src={ImageUrl(item.image)}
+                                        alt={item.title}
+                                        className="rounded object-cover w-full h-44"
+                                    />
+                                </div>
+                                <div className="mt-4">
+                                    <h3 className="text-lg font-semibold mb-1 ">{item.title}</h3>
+                                    <div className="flex items-center text-sm text-yellow-400 mb-1">
+                                        {Array.from({ length: item.rating }).map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-yellow-400" />
+                                        ))}
+                                    </div>
+                                    <p className=" font-semibold text-lg">${item.price.toFixed(2)}</p>
 
-                                <div className="flex items-center gap-4">
-                                    {item.products?.map((product: any, index: number) => (
-                                        <div key={index} className="flex flex-col items-center">
+                                    <button
+                                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 w-full mt-3 text-white"
+                                    // onClick={() => handleAddToCart(item)}
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="w-1/2">
+                        <h3 className="text-xl font-bold mb-2">My Cart</h3>
+                        <List
+                            itemLayout="horizontal"
+                            dataSource={myCart}
+                            renderItem={(item: any) => (
+                                <List.Item
+                                    actions={[
+                                        <Button
+                                            size="small"
+                                            type="text"
+                                            danger
+                                            onClick={() => handleRemove(item._id)}
+                                        >
+                                            ✕
+                                        </Button>,
+                                    ]}
+                                >
+
+                                    <div className="flex items-center gap-4">
+                                        {/* {item.products?.map((product: any, index: number) => (
+                                            <div key={index} className="flex flex-col items-center">
+                                                <img
+                                                    crossOrigin="anonymous"
+                                                    src={UPLOADS_URL + product.image}
+                                                    src={ImageUrl(item.image)}
+                                                    alt={product.name || `product-${index}`}
+                                                    className="w-6 h-6 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
+                                                />
+                                            </div>
+                                        ))} */}
+                                        <div className="flex flex-col items-center">
                                             <img
                                                 crossOrigin="anonymous"
-                                                src={UPLOADS_URL + product.image}
-                                                alt={product.name || `product-${index}`}
-                                                className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
+                                                // src={UPLOADS_URL + product.image}
+                                                src={ImageUrl(item.name + ".png")}
+                                                alt={item.name}
+                                                className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
                                             />
                                         </div>
-                                    ))}
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                        <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
+                                            <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </List.Item>
-                        )}
-                    />
+                                </List.Item>
+                            )}
+                        />
 
-                    <Divider />
-                    <div className="text-right space-y-1">
-                        <p>
-                            Sub-total: <strong>${subTotal.toFixed(2)}</strong>
-                        </p>
-                        <p>
-                            Tax (20%): <strong>${tax.toFixed(2)}</strong>
-                        </p>
-                        <p className="text-xl">
-                            Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
-                        </p>
-                        <Button
-                            type="primary"
-                            onClick={() => navigate("/checkout")}
-                            className="mt-2 w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                        >
-                            CHECKOUT
-                        </Button>
+                        <Divider />
+                        <div className="text-center space-y-1">
+                            <p>
+                                Sub-total: <strong>${subTotal.toFixed(2)}</strong>
+                            </p>
+                            <p>
+                                Tax (20%): <strong>${tax.toFixed(2)}</strong>
+                            </p>
+                            <p className="text-xl">
+                                Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
+                            </p>
+                            <button
+                                onClick={() => navigate("/checkout")}
+                                className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
+                            >
+                                CHECKOUT
+                            </button>
+                        </div>
                     </div>
+
                 </div>
+
             </Drawer>}
             {/* cart */}
 
