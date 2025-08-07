@@ -22,7 +22,7 @@ const categories = [
       { label: 'KNOW', desc: 'Track your body’s full potential with precision tech.' },
       { label: 'PREDICT', desc: 'Learn injury risks and recovery rates with performance data.' },
       { label: 'ENGAGE', desc: 'Join elite athletes using smart training tools.' },
-      { label: 'PREVENT', desc: 'Prevent burnout and optimize your fitness plan.' },
+      { label: 'PREVENT', desc: 'Prevent burnout and optimize your fitness plan.'  },
     ],
     tagline: 'Train smarter. Push limits...Go Ultra.',
   },
