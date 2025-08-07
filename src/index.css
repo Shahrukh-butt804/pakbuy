@@ -720,6 +720,11 @@ footer a {
   /* 144.444% */
 }
 
+.product-modal .ant-modal-close {
+  right: 50px;
+  top: 22px;
+}
+
 /* //// home page end  */
 
 /* //// checkout page start  */
