@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/reducers/userSlice';
 
 const categories = [
   {
@@ -70,7 +72,8 @@ const ChooseSection: React.FC = () => {
   const [selected, setSelected] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const isMember = false; // 🔁 Replace with real login state
+  const user = useSelector(selectUser);
+  console.log("🚀 ~ ChooseSection ~ user:", user)
 
   const openModal = (item: any) => {
     setSelected(item);
@@ -109,7 +112,7 @@ const ChooseSection: React.FC = () => {
           <div className="bg-[#0c0d16] p-8 rounded-md text-white">
             <div className="text-left">
                   {/* Conditional: show subtitle OR purchase button */}
-              {!isMember ? (
+              {!(user && user?._id) ? (
                 <p className="text-md font-semibold text-center mb-6 text-white/70 uppercase tracking-wide">
                   NON-MEMBER PREVIEW
                 </p>
