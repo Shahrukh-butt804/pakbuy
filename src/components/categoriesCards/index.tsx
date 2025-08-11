@@ -68,7 +68,11 @@ const categories = [
   // Add more categories as needed...
 ];
 
-const ChooseSection: React.FC = () => {
+type ChooseSectionProps = {
+  memberBtn?: boolean;
+};
+
+const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
   const [selected, setSelected] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -106,13 +110,14 @@ const ChooseSection: React.FC = () => {
         centered
         width={650}
         className="custom-ant-modal product-modal"
+       
         closeIcon={<span className="text-sm px-4 py-1 rounded-full bg-[#e3cbb3]">CLOSE</span>}
       >
         {selected && (
           <div className="bg-[#0c0d16] p-8 rounded-md text-white">
             <div className="text-left">
                   {/* Conditional: show subtitle OR purchase button */}
-              {!(user && user?._id) ? (
+              {!memberBtn ? (
                 <p className="text-md font-semibold text-center mb-6 text-white/70 uppercase tracking-wide">
                   NON-MEMBER PREVIEW
                 </p>

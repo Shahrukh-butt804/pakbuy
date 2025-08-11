@@ -1,5 +1,5 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Drawer, List, Row } from 'antd';
+import { Button, Col, Divider, Drawer, Form, Input, List, Row } from 'antd';
 import { CircleUser, Menu, ShoppingCart, Star, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegi
 import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
+import PaymentPage from "../../components/check-out";
 
 
 const navigationItems = [
@@ -72,13 +73,13 @@ const Header: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showRegPassword, setShowRegPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    
+
 
     const dispatch = useDispatch();
     const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
 
 
-    function closeModal(){
+    function closeModal() {
         dispatch(toggleRegisterModal())
     }
 
@@ -387,6 +388,96 @@ const Header: React.FC = () => {
     }
 
 
+
+
+
+
+
+    // const handleSubmit = async (token: any) => {
+    //     const values = form.getFieldsValue(); // 👈 get all form values
+
+    //     const products = cartItems.map((item: any) => ({
+    //         packageId: item._id,
+    //         name: item.name,
+    //         quantity: 1,
+    //     }));
+
+    //     const payload: any = {
+    //         billingAddress: {
+    //             firstName: values.firstName,
+    //             lastName: values.lastName,
+    //             address: values.address,
+    //             country: values.country,
+    //             state: values.state,
+    //             city: values.city,
+    //             zipCode: values.zipCode,
+    //             email: values.email,
+    //             phone: values.phone,
+    //         },
+    //         cardDetails: {
+    //             nameOnCard: values.nameOnCard,
+    //             cardNumber: values.cardNumber,
+    //             expirationDate: values.expirationDate,
+    //             cvc: values.cvc,
+    //         },
+    //         orderNote: values.orderNote,
+    //         products,
+    //         token,
+    //     };
+
+    //     if (shipDifferent) {
+    //         payload.shippingAddress = {
+    //             firstName: values.shippingFirstName,
+    //             lastName: values.shippingLastName,
+    //             address: values.shippingAddress,
+    //             country: values.shippingCountry,
+    //             state: values.shippingState,
+    //             city: values.shippingCity,
+    //             zipCode: values.shippingZipCode,
+    //             email: values.shippingEmail,
+    //             phone: values.shippingPhone,
+    //         };
+    //     }
+
+    //     try {
+    //         const response: any = await createOrder(payload);
+
+    //         if (response?.data?.success) {
+    //             Swal.fire({
+    //                 title: "Success",
+    //                 text: response.data.message,
+    //                 icon: "success",
+    //                 confirmButtonText: "Ok",
+    //             });
+    //             dispatch(clearCart());
+    //             form.resetFields();
+    //             return true
+    //         } else {
+    //             Swal.fire({
+    //                 title: "Error!",
+    //                 text:
+    //                     response.error?.data?.errors?.[0]?.msg ||
+    //                     response.error?.data?.message ||
+    //                     "Something went wrong!",
+    //                 icon: "error",
+    //                 confirmButtonText: "Ok",
+    //             });
+    //             return false
+    //         }
+    //     } catch (error: any) {
+    //         console.log("🚀 ~ handleSubmit ~ error:", error);
+    //         Swal.fire({
+    //             title: "Error!",
+    //             text: error?.error?.data?.message || "Something went wrong!",
+    //             icon: "error",
+    //             confirmButtonText: "Ok",
+    //         });
+    //         return false
+    //     }
+    // };
+
+
+
     return (
         <header className="w-full z-10 bg-[#374159]">
             <Row justify="center">
@@ -627,6 +718,15 @@ const Header: React.FC = () => {
                                     setIsForgotModalOpen(true);
                                 }}>Forgot Password ?</button>
                             </div>
+                            
+                            <h4 className="text-white">Additional Information</h4>
+                            <h6>Please pay the subscription amount <span className="font-semibold text-[#cb9f9a]">$119</span> to complete your signup journey</h6>
+
+                            {/* Stripe Implementaion */}
+                            <h4 className="text-black">Card Details ( Debit / Credit)</h4>
+                            <div className="payment119">
+                                <PaymentPage showSubmitBtn={false} />
+                            </div>
 
                             {/* Login Button */}
                             <button
@@ -671,69 +771,80 @@ const Header: React.FC = () => {
                         <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
 
                         {/* Form */}
-                        <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Full Name */}
-                            <div>
-                                <label className="block text-sm text-gray-700 mb-1">Full Name</label>
-                                <input
-                                    value={signupData.fullName}
-                                    name='fullName'
-                                    onChange={onChange}
-                                    type="text"
-                                    placeholder="Enter your user name"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                                />
+                        <form >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Full Name */}
+                                <div>
+                                    <label className="block text-sm text-gray-700 mb-1">Full Name</label>
+                                    <input
+                                        value={signupData.fullName}
+                                        name='fullName'
+                                        onChange={onChange}
+                                        type="text"
+                                        placeholder="Enter your user name"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                    />
+                                </div>
+
+                                {/* Email */}
+                                <div>
+                                    <label className="block text-sm text-gray-700 mb-1">Email</label>
+                                    <input
+                                        value={signupData.email}
+                                        name='email'
+                                        onChange={onChange}
+                                        type="email"
+                                        placeholder="Enter your user name"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                    />
+                                </div>
+
+                                {/* Password */}
+                                <div className="relative">
+                                    <label className="block text-sm text-gray-700 mb-1">Password</label>
+                                    <input
+                                        value={signupData.password}
+                                        name='password'
+                                        onChange={onChange}
+                                        type={showRegPassword ? "text" : "password"}
+                                        placeholder="Enter your Password"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                    />
+                                    <span
+                                        className="absolute right-3 top-9 text-gray-400 cursor-pointer"
+                                        onClick={() => setShowRegPassword(!showRegPassword)}
+                                    >
+                                        {showRegPassword ? "🙈" : "👁️"}
+                                    </span>
+                                </div>
+
+                                {/* Confirm Password */}
+                                <div className="relative">
+                                    <label className="block text-sm text-gray-700 mb-1">Confirm Password</label>
+                                    <input
+                                        value={signupData.confirmPassword}
+                                        name='confirmPassword'
+                                        onChange={onChange}
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        placeholder="Enter your Password"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                    />
+                                    <span
+                                        className="absolute right-3 top-9 text-gray-400 cursor-pointer"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    >
+                                        {showConfirmPassword ? "🙈" : "👁️"}
+                                    </span>
+                                </div>
                             </div>
 
-                            {/* Email */}
-                            <div>
-                                <label className="block text-sm text-gray-700 mb-1">Email</label>
-                                <input
-                                    value={signupData.email}
-                                    name='email'
-                                    onChange={onChange}
-                                    type="email"
-                                    placeholder="Enter your user name"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                                />
-                            </div>
+                            <h4 className="text-white">Additional Information</h4>
+                            <h6>Please pay the subscription amount <span className="font-semibold text-[#cb9f9a]">$119</span> to complete your signup journey</h6>
 
-                            {/* Password */}
-                            <div className="relative">
-                                <label className="block text-sm text-gray-700 mb-1">Password</label>
-                                <input
-                                    value={signupData.password}
-                                    name='password'
-                                    onChange={onChange}
-                                    type={showRegPassword ? "text" : "password"}
-                                    placeholder="Enter your Password"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
-                                />
-                                <span
-                                    className="absolute right-3 top-9 text-gray-400 cursor-pointer"
-                                    onClick={() => setShowRegPassword(!showRegPassword)}
-                                >
-                                    {showRegPassword ? "🙈" : "👁️"}
-                                </span>
-                            </div>
-
-                            {/* Confirm Password */}
-                            <div className="relative">
-                                <label className="block text-sm text-gray-700 mb-1">Confirm Password</label>
-                                <input
-                                    value={signupData.confirmPassword}
-                                    name='confirmPassword'
-                                    onChange={onChange}
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    placeholder="Enter your Password"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
-                                />
-                                <span
-                                    className="absolute right-3 top-9 text-gray-400 cursor-pointer"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                >
-                                    {showConfirmPassword ? "🙈" : "👁️"}
-                                </span>
+                            {/* Stripe Implementaion */}
+                            <h4 className="text-black">Card Details ( Debit / Credit)</h4>
+                            <div className="payment119">
+                                <PaymentPage showSubmitBtn={false} />
                             </div>
                         </form>
 

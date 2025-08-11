@@ -9,7 +9,9 @@ import { useGetStripeKeyQuery } from '../../redux/services/orderSlice';
 
 
 
-function CheckoutForm({ handleSubmitForm }: any) {
+function CheckoutForm({ handleSubmitForm , 
+    showSubmitBtn = true
+}: any) {
 
     const navigate = useNavigate();
     const stripe = useStripe();
@@ -59,27 +61,29 @@ function CheckoutForm({ handleSubmitForm }: any) {
                     style: {
                         base: {
                             fontSize: '16px',
-                            color: '#fff',
+                            color: '#cb9f9a',
                             '::placeholder': { color: '#a0aec0' },
                         },
                         invalid: { color: '#fa755a' },
                     },
                 }}
             />
-            <div className="text-center">
+            {showSubmitBtn &&<div className="text-center">
                 <Button onClick={(e: any) => handleSubmit(e)}
                     disabled={!stripe || loading} type="primary" htmlType="submit" className="mainbtn private-label-button">
                     {loading ? "Processing..." : "Submit"}
                 </Button>
-            </div>
+            </div>}
         </div>
     );
 }
 
 
-export default function PaymentPage({ handleSubmit }: any) {
+export default function PaymentPage({ handleSubmit, 
+    showSubmitBtn = true
+ }: any) {
     const { data: publishableKey, isLoading } = useGetStripeKeyQuery({});
-
+    
     // Load Stripe once
     let stripePromise = null
 
@@ -96,7 +100,7 @@ export default function PaymentPage({ handleSubmit }: any) {
     return (
         <div className="mx-auto p-6 ">
             <Elements stripe={stripePromise}>
-                <CheckoutForm handleSubmitForm={handleSubmit} />
+                <CheckoutForm handleSubmitForm={handleSubmit} showSubmitBtn={showSubmitBtn} />
             </Elements>
         </div>
     );

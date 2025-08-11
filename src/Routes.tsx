@@ -9,6 +9,8 @@ import OrderDetails from "./pages/orderlog/orderDetails";
 import Profile from "./pages/profile";
 import EditProfile from "./pages/profile/editProfile";
 import ChangePassword from "./pages/profile/changePassword";
+import TermsConditions from "./pages/termsConditions";
+import PrivacyPolicy from "./pages/privacyPolicy";
 
 
 import { store } from "./redux/store";
@@ -47,6 +49,8 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/aboutus" element={<Aboutus />} />
+            <Route path="/terms-conditions" element={<TermsConditions />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
             <Route element={<PrivateRoute />}>
               <Route path="/my-orders" element={<Orderlog />} />
