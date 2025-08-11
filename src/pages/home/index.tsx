@@ -30,6 +30,8 @@ const Home = () => {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
+     useEffect(() => { window.scrollTo(0, 0); }, []);
+
     return (
         <>
 
@@ -51,7 +53,7 @@ const Home = () => {
                     </h3>
                 </div>
                 <InfoCards2 />
-                <CategoriesCards />
+                <CategoriesCards memberBtn={false} />
                 <ChooseFeatures />
             </div>
 

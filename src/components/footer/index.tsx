@@ -59,8 +59,8 @@ const Footer: React.FC = () => {
                                         <div>
                                             <h2 className="text-sm font-bold mb-4">USEFUL LINKS</h2>
                                             <ul className="space-y-2 text-sm text-gray-300">
-                                                <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-                                                <li><a href="#" className="hover:text-white">Terms & Conditions</a></li>
+                                                <li><a href="/privacy-policy" className="hover:text-white">Privacy Policy</a></li>
+                                                <li><a href="/terms-conditions" className="hover:text-white">Terms & Conditions</a></li>
                                                 <li><a href="#" className="hover:text-white">Help</a></li>
                                             </ul>
                                         </div>

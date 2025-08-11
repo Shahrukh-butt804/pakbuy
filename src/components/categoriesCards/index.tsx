@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Modal } from 'antd';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/reducers/userSlice';
+import { useNavigate } from 'react-router';
 
 const categories = [
   {
@@ -66,16 +69,23 @@ const categories = [
   // Add more categories as needed...
 ];
 
-const ChooseSection: React.FC = () => {
+type ChooseSectionProps = {
+  memberBtn?: boolean;
+};
+
+const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
   const [selected, setSelected] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const isMember = false; // 🔁 Replace with real login state
+  const user = useSelector(selectUser);
+  console.log("🚀 ~ ChooseSection ~ user:", user)
 
   const openModal = (item: any) => {
     setSelected(item);
     setIsModalVisible(true);
   };
+
+  const navigate = useNavigate();
 
   return (
     <div className="flex items-center justify-center p-8">
@@ -103,13 +113,14 @@ const ChooseSection: React.FC = () => {
         centered
         width={650}
         className="custom-ant-modal product-modal"
+       
         closeIcon={<span className="text-sm px-4 py-1 rounded-full bg-[#e3cbb3]">CLOSE</span>}
       >
         {selected && (
           <div className="bg-[#0c0d16] p-8 rounded-md text-white">
             <div className="text-left">
                   {/* Conditional: show subtitle OR purchase button */}
-              {!isMember ? (
+              {!memberBtn ? (
                 <p className="text-md font-semibold text-center mb-6 text-white/70 uppercase tracking-wide">
                   NON-MEMBER PREVIEW
                 </p>
@@ -120,7 +131,7 @@ const ChooseSection: React.FC = () => {
                     style={{color: '#000'}}
                     onClick={() => {
                       console.log("Purchase clicked for:", selected.keyword);
-                      // 🔁 Add your purchase logic here
+                      navigate("/shop");
                     }}
                   >
                     Purchase Collection
@@ -129,7 +140,7 @@ const ChooseSection: React.FC = () => {
               )}
               <h2 className="text-sm font-semibold mb-4 text-white/60">
                 CHOOSE{" "}
-                <span className={`italic text-lg ml-1 font-medium ${selected.color}`}>
+                <span className={`italic italic-font text-lg ml-1 font-medium ${selected.color}`}>
                   {selected.keyword}
                 </span>
               </h2>
