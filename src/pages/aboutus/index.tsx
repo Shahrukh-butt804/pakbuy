@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
@@ -8,7 +8,7 @@ import CategoriesCards from "../../components/categoriesCards";
 
 const AboutUs: React.FC = () => {
 
-
+ useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
         <>
