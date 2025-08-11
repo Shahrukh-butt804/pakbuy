@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/reducers/userSlice';
+import { useNavigate } from 'react-router';
 
 const categories = [
   {
@@ -84,6 +85,8 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
     setIsModalVisible(true);
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="flex items-center justify-center p-8">
       <div className="flex justify-center items-center gap-5 flex-wrap">
@@ -128,7 +131,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                     style={{color: '#000'}}
                     onClick={() => {
                       console.log("Purchase clicked for:", selected.keyword);
-                      // 🔁 Add your purchase logic here
+                      navigate("/shop");
                     }}
                   >
                     Purchase Collection
@@ -137,7 +140,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
               )}
               <h2 className="text-sm font-semibold mb-4 text-white/60">
                 CHOOSE{" "}
-                <span className={`italic text-lg ml-1 font-medium ${selected.color}`}>
+                <span className={`italic italic-font text-lg ml-1 font-medium ${selected.color}`}>
                   {selected.keyword}
                 </span>
               </h2>

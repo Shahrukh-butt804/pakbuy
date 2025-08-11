@@ -857,6 +857,11 @@ footer a {
 .payment119 .ElementsApp .InputElement{
   color: #000 !important;
 }
+
+.italic-font{
+  font-family: 'Mistrully';
+  font-size: 28px;
+}
 /* //// terms and conditions page end  */
 
 
