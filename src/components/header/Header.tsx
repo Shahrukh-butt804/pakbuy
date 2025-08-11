@@ -1,17 +1,17 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Drawer, Form, Input, List, Row } from 'antd';
+import { Button, Col, Divider, Drawer, List, Row } from 'antd';
 import { CircleUser, Menu, ShoppingCart, Star, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import PaymentPage from "../../components/check-out";
 import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
+import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
-import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
-import PaymentPage from "../../components/check-out";
 
 
 const navigationItems = [
@@ -134,7 +134,7 @@ const Header: React.FC = () => {
 
     const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation()
     const [login, { isLoading }] = useLoginMutation()
-    const [register, { isLoading: registerLoading }] = useRegisterMutation()
+    const [register] = useRegisterMutation()
     const [forgetPassword, { isLoading: forgetPasswordLoading }] = useForgetPasswordMutation()
     const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation()
     const [resetPassword, { isLoading: resetPasswordLoading }] = useResetPasswordMutation()
@@ -244,7 +244,7 @@ const Header: React.FC = () => {
 
     };
 
-    async function handleRegister() {
+    async function handleRegister(token: any) {
 
         if (signupData.password !== signupData.confirmPassword) {
             Swal.fire({
@@ -262,6 +262,7 @@ const Header: React.FC = () => {
         formdata.append("password", signupData.password);
         formdata.append("confirmPassword", signupData.confirmPassword);
         formdata.append("role", "user");
+        formdata.append("token", token);
 
 
         try {
@@ -514,10 +515,6 @@ const Header: React.FC = () => {
                         </nav>
 
 
-
-
-
-
                         {user && user._id ?
                             <>
                                 <button
@@ -718,15 +715,6 @@ const Header: React.FC = () => {
                                     setIsForgotModalOpen(true);
                                 }}>Forgot Password ?</button>
                             </div>
-                            
-                            <h4 className="text-white">Additional Information</h4>
-                            <h6>Please pay the subscription amount <span className="font-semibold text-[#cb9f9a]">$119</span> to complete your signup journey</h6>
-
-                            {/* Stripe Implementaion */}
-                            <h4 className="text-black">Card Details ( Debit / Credit)</h4>
-                            <div className="payment119">
-                                <PaymentPage showSubmitBtn={false} />
-                            </div>
 
                             {/* Login Button */}
                             <button
@@ -838,33 +826,37 @@ const Header: React.FC = () => {
                                 </div>
                             </div>
 
+
+
+                            {/* Checkbox */}
+                            <div className="my-4 flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" className="accent-black" />
+                                <label>
+                                    I agree to the privacy policy and terms of condition.
+                                </label>
+                            </div>
+
                             <h4 className="text-white">Additional Information</h4>
                             <h6>Please pay the subscription amount <span className="font-semibold text-[#cb9f9a]">$119</span> to complete your signup journey</h6>
 
                             {/* Stripe Implementaion */}
                             <h4 className="text-black">Card Details ( Debit / Credit)</h4>
                             <div className="payment119">
-                                <PaymentPage showSubmitBtn={false} />
+                                <PaymentPage handleSubmit={handleRegister} showSubmitBtn={true} />
                             </div>
                         </form>
 
-                        {/* Checkbox */}
-                        <div className="mt-4 flex items-center gap-2 text-sm text-gray-700">
-                            <input type="checkbox" className="accent-black" />
-                            <label>
-                                I agree to the privacy policy and terms of condition.
-                            </label>
-                        </div>
+
 
                         {/* Register Button */}
-                        <div className="mt-6">
+                        {/* <div className="mt-6">
                             <button
                                 onClick={handleRegister}
                                 disabled={registerLoading}
                                 className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
                                 {registerLoading ? "REGISTERING..." : "REGISTER"}
                             </button>
-                        </div>
+                        </div> */}
 
                         {/* Footer */}
                         <p className="text-sm text-center text-gray-600 mt-4">

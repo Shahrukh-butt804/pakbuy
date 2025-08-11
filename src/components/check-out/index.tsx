@@ -1,24 +1,19 @@
-import { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import type { StripeCardElement } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { Button } from 'antd';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
 import { useGetStripeKeyQuery } from '../../redux/services/orderSlice';
 
 
 
-function CheckoutForm({ handleSubmitForm , 
-    showSubmitBtn = true
-}: any) {
+function CheckoutForm({ handleSubmitForm ,  showSubmitBtn = true }: any) {
 
     const navigate = useNavigate();
     const stripe = useStripe();
     const elements = useElements();
     const [loading, setLoading] = useState(false);
-
-    const userDetails = useSelector((state: any) => state.user.userDetails);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -37,18 +32,17 @@ function CheckoutForm({ handleSubmitForm ,
         setLoading(true);
 
         const { token, error } = await stripe.createToken(cardElement);
-
+        
         if (error) {
             console.error(error.message);
             setLoading(false);
+            
+            console.log("🚀 ~ handleSubmit ~ token:", token)
         } else if (token) {
             const res = await handleSubmitForm(token.id);
             if (res) {
-                if (userDetails) {
-                    navigate("/order-history");
-                } else {
-                    navigate("/");
-                }
+                navigate("/");
+               
             }
             setLoading(false);
         }
@@ -70,8 +64,8 @@ function CheckoutForm({ handleSubmitForm ,
             />
             {showSubmitBtn &&<div className="text-center">
                 <Button onClick={(e: any) => handleSubmit(e)}
-                    disabled={!stripe || loading} type="primary" htmlType="submit" className="mainbtn private-label-button">
-                    {loading ? "Processing..." : "Submit"}
+                    disabled={!stripe || loading}  htmlType="submit" className="mainbtn private-label-button site-btn w-full mt-5">
+                    {loading ? "Processing..." : "REGISTER"}
                 </Button>
             </div>}
         </div>
