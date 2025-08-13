@@ -1,5 +1,5 @@
 import { Col, Row, Button, Input, Space } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 // import { ImageUrl } from '../../utils/Functions';
 import { Link } from 'react-router';
 import fbIcon from "../../assets/fb.png";
@@ -7,10 +7,16 @@ import twIcon from "../../assets/tw.png";
 import inIcon from "../../assets/in.png";
 import ytIcon from "../../assets/yt.png";
 import instaIcon from "../../assets/insta.png";
+import { useAddToNewsLetterMutation } from '../../redux/services/newsLetterSlice';
+import Swal from 'sweetalert2';
 
 
 
 const Footer: React.FC = () => {
+
+    const [addToNewsLetter, { isLoading }] = useAddToNewsLetterMutation();
+    const [email, setEmail] = useState('');
+
     const currentYear = new Date().getFullYear();
 
     const footerLinks = [
@@ -20,6 +26,49 @@ const Footer: React.FC = () => {
         { label: "Contact Us", path: "/contactUs" },
         { label: "My Orders", path: "/my-orders" },
     ];
+
+
+
+    async function handleNewsLetter(e: any) {
+        e.preventDefault();
+        if (!email) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please enter your email',
+            })
+        }
+        try {
+            const response: any = await addToNewsLetter({ email });
+            if (response?.data?.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response?.data?.message,
+                })
+                setEmail('');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || response?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            console.log("🚀 ~ handleSubmit ~ error:", error)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+
+        }
+
+    }
+
+
+
+
 
     return (
         <Row justify={"center"}>
@@ -80,8 +129,8 @@ const Footer: React.FC = () => {
                                         </p>
                                         <Space direction="vertical" size="middle" className='mb-4 w-full'>
                                             <Space.Compact style={{ width: '100%' }}>
-                                                <Input defaultValue="Enter Your Email Here" />
-                                                <Button type="primary"><svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="20" height="20">
+                                                <Input onChange={(e: any) => setEmail(e.target.value)} value={email} type="email" placeholder="Enter your email" />
+                                                <Button onClick={handleNewsLetter} loading={isLoading} disabled={isLoading} type="primary"><svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="20" height="20">
                                                     <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
                                                 </svg></Button>
                                             </Space.Compact>
