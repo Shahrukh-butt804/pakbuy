@@ -2,6 +2,12 @@ import { Col, Row, Button, Input, Space } from 'antd';
 import React from 'react';
 // import { ImageUrl } from '../../utils/Functions';
 import { Link } from 'react-router';
+import fbIcon from "../../assets/fb.png";
+import twIcon from "../../assets/tw.png";
+import inIcon from "../../assets/in.png";
+import ytIcon from "../../assets/yt.png";
+import instaIcon from "../../assets/insta.png";
+
 
 
 const Footer: React.FC = () => {
@@ -98,27 +104,27 @@ const Footer: React.FC = () => {
                                 </p>
                                 <div className="flex space-x-4 copyright-icons">
                                     <a href="#"><img
-                                        src={"/src/assets/fb.png"}
+                                        src={fbIcon}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={"/src/assets/tw.png"}
+                                        src={twIcon}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={"/src/assets/in.png"}
+                                        src={inIcon}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={"/src/assets/yt.png"}
+                                        src={ytIcon}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={"/src/assets/insta.png"}
+                                        src={instaIcon}
                                         alt="well"
                                         className="w-7"
                                     /></a>
