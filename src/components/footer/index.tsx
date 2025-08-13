@@ -1,6 +1,6 @@
 import { Col, Row, Button, Input, Space } from 'antd';
 import React from 'react';
-import { ImageUrl } from '../../utils/Functions';
+// import { ImageUrl } from '../../utils/Functions';
 import { Link } from 'react-router';
 
 
