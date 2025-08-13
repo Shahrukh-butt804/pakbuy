@@ -98,27 +98,27 @@ const Footer: React.FC = () => {
                                 </p>
                                 <div className="flex space-x-4 copyright-icons">
                                     <a href="#"><img
-                                        src={ImageUrl("fb.png")}
+                                        src={"/src/assets/fb.png"}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={ImageUrl("tw.png")}
+                                        src={"/src/assets/tw.png"}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={ImageUrl("in.png")}
+                                        src={"/src/assets/in.png"}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={ImageUrl("yt.png")}
+                                        src={"/src/assets/yt.png"}
                                         alt="well"
                                         className="w-7"
                                     /></a>
                                     <a href="#"><img
-                                        src={ImageUrl("insta.png")}
+                                        src={"/src/assets/insta.png"}
                                         alt="well"
                                         className="w-7"
                                     /></a>
