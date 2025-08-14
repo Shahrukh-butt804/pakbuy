@@ -735,6 +735,10 @@ footer a {
   top: 22px;
 }
 
+.product-modal .ant-modal-content{
+  padding: 0;
+}
+
 /* //// home page end  */
 
 /* //// checkout page start  */
