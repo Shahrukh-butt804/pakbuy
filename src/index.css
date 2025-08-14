@@ -640,12 +640,49 @@ footer a {
   line-height: normal;
 }
 
+
+.ticker {
+  background-color: #D7C6B7;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ticker h6 {
+  font-family: 'SF Pro Display';
+  font-size: 30px;
+  font-style: normal;
+  margin: 0;
+  padding: 10px 0;
+}
+
+.ticker h6 span {
+  font-family: 'Mistrully';
+}
+
+.ticker-content {
+  display: flex;
+  white-space: nowrap;
+  animation: tickerMove 30s linear infinite;
+}
+
+@keyframes tickerMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .ethicsBoundary-bg {
   background-image: url(../public/images/ethicsBoundary-bg2.png);
   background-size: cover;
   background-position: top center;
   min-height: 100vh;
   padding: 50px 0 0 0;
+  background-attachment: fixed;
 }
 
 .ethics-bound-section h3 {
@@ -735,7 +772,7 @@ footer a {
   top: 22px;
 }
 
-.product-modal .ant-modal-content{
+.product-modal .ant-modal-content {
   padding: 0;
 }
 
@@ -858,14 +895,15 @@ footer a {
 }
 
 
-.payment119 .ElementsApp .InputElement{
+.payment119 .ElementsApp .InputElement {
   color: #000 !important;
 }
 
-.italic-font{
+.italic-font {
   font-family: 'Mistrully';
   font-size: 28px;
 }
+
 /* //// terms and conditions page end  */
 
 

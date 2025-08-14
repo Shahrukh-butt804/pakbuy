@@ -30,7 +30,7 @@ const Home = () => {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
-     useEffect(() => { window.scrollTo(0, 0); }, []);
+    useEffect(() => { window.scrollTo(0, 0); }, []);
 
     return (
         <>
@@ -89,6 +89,18 @@ const Home = () => {
                     </div>
                 </section>
             </div>
+            <div className="ticker">
+                <div className="ticker-content">
+                    <h6>
+                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> * &nbsp;
+                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> *
+                    </h6>
+                    <h6>
+                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> * &nbsp;
+                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> *
+                    </h6>
+                </div>
+            </div>
             <section className="ethicsBoundary-bg">
                 <div className="flex justify-center">
                     <div className="w-full">
@@ -100,7 +112,7 @@ const Home = () => {
                         className="inset-0 flex items-center justify-center text-6xl font-bold text-white mix-blend-exclusion"
                         data-aos="fade-up"
                         data-aos-duration="800"
-                         data-aos-delay="1000"
+                        data-aos-delay="1000"
                     >
                         Member only marketplace
                     </h5>
