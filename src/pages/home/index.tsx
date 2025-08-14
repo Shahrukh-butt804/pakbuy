@@ -55,9 +55,41 @@ const Home = () => {
                 <InfoCards2 />
                 <CategoriesCards memberBtn={false} />
                 <ChooseFeatures />
+                <div className="py-10">
+                    <section className="flex justify-center leave-bg-content">
+                        <div className="container w-full text-center">
+                            <h2
+                                data-aos="fade-up"
+                                data-aos-delay="1000"
+                                data-aos-duration="800"
+                                className="text-white text-xl md:text-2xl font-semibold mb-4"
+                            >
+                                A new marketplace for real health options{" "}
+                                <span className="block text-[#f6c356]">only available to our members</span>
+                            </h2>
+
+                            <button
+                                onClick={closeModal}
+                                className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                data-aos="zoom-in"
+                                data-aos-delay="800"
+                                data-aos-duration="800"
+                            >
+                                Become A member
+                            </button>
+                        </div>
+                    </section>
+
+
+                    <section className="flex justify-center leave-bg-content ">
+                        <div className="container w-full ">
+                            <MemberBenefits />
+                        </div>
+                    </section>
+                </div>
             </div>
 
-            <div className="leave-bg">
+            {/* <div className="leave-bg">
                 <section className="flex justify-center leave-bg-content">
                     <div className="container w-full text-center">
                         <h2
@@ -88,7 +120,7 @@ const Home = () => {
                         <MemberBenefits />
                     </div>
                 </section>
-            </div>
+            </div> */}
             <div className="ticker">
                 <div className="ticker-content">
                     <h6>

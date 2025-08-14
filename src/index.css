@@ -397,6 +397,7 @@ footer a {
   background-size: cover;
   background-position: top center;
   min-height: 100vh;
+  background-attachment: fixed;
 }
 
 .home-top-content {
