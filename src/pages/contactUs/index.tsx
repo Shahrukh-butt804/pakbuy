@@ -62,6 +62,15 @@ const Contact: React.FC = () => {
         <>
             <Header />
             <section className="bg-[#1b1e28] text-white py-16 px-4 md:px-24">
+                <button
+                    type="button"
+                    className="site-btn  bg-[#e4cfc2] text-black py-2 rounded-full font-semibold hover:opacity-90 transition"
+                    style={{ marginBottom: '20px' }}
+                    onClick={() => window.history.back()}
+                >
+                    cancel
+                </button>
+
                 <div className=" mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
 
                     {/* Left Side */}

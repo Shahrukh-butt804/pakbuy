@@ -22,7 +22,6 @@ const Home = () => {
     // const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
     function closeModal() {
         dispatch(toggleRegisterModal())
     }
@@ -124,12 +123,12 @@ const Home = () => {
             <div className="ticker">
                 <div className="ticker-content">
                     <h6>
-                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> * &nbsp;
-                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> *
+                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> * &nbsp;
+                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> *
                     </h6>
                     <h6>
-                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> * &nbsp;
-                        Choose your <span>Collection</span> * &nbsp; Choose your <span>Collection</span> *
+                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> * &nbsp;
+                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> *
                     </h6>
                 </div>
             </div>

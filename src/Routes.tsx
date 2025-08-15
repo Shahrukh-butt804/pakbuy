@@ -30,7 +30,7 @@ const PrivateRoute = () => {
   if (!isAuthenticated) {
     Swal.fire({
       icon: 'error',
-      title: 'Oops...',
+      title: 'Sorry, you need to become a member first. If you are a member, please login.',
       text: 'You need to login first!',
     })
   }

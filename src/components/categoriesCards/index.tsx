@@ -25,7 +25,7 @@ const categories = [
       { label: 'KNOW', desc: 'Track your body’s full potential with precision tech.' },
       { label: 'PREDICT', desc: 'Learn injury risks and recovery rates with performance data.' },
       { label: 'ENGAGE', desc: 'Join elite athletes using smart training tools.' },
-      { label: 'PREVENT', desc: 'Prevent burnout and optimize your fitness plan.'  },
+      { label: 'PREVENT', desc: 'Prevent burnout and optimize your fitness plan.' },
     ],
     tagline: 'Train smarter. Push limits...Go Ultra.',
   },
@@ -78,7 +78,6 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const user = useSelector(selectUser);
-  console.log("🚀 ~ ChooseSection ~ user:", user)
 
   const openModal = (item: any) => {
     setSelected(item);
@@ -113,29 +112,31 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
         centered
         width={650}
         className="custom-ant-modal product-modal"
-       
+
         closeIcon={<span className="text-sm px-4 py-1 rounded-full bg-[#e3cbb3]">CLOSE</span>}
       >
         {selected && (
           <div className="bg-[#0c0d16] p-8 rounded-md text-white">
             <div className="text-left">
-                  {/* Conditional: show subtitle OR purchase button */}
+              {/* Conditional: show subtitle OR purchase button */}
               {!memberBtn ? (
                 <p className="text-md font-semibold text-center mb-6 text-white/70 uppercase tracking-wide">
                   NON-MEMBER PREVIEW
                 </p>
               ) : (
                 <div className="flex justify-center mb-6">
-                  <button
-                    className="bg-[#e3cbb3] text-black px-6 py-2 rounded-full font-semibold hover:bg-[#d2b89f] transition"
-                    style={{color: '#000'}}
-                    onClick={() => {
-                      console.log("Purchase clicked for:", selected.keyword);
-                      navigate("/shop");
-                    }}
-                  >
-                    Purchase Collection
-                  </button>
+                  {user && user?._id && (
+                    <button
+                      className="bg-[#e3cbb3] text-black px-6 py-2 rounded-full font-semibold hover:bg-[#d2b89f] transition"
+                      style={{ color: '#000' }}
+                      onClick={() => {
+                        console.log("Purchase clicked for:", selected.keyword);
+                        navigate("/shop");
+                      }}
+                    >
+                      Purchase Collection
+                    </button>
+                  )}
                 </div>
               )}
               <h2 className="text-sm font-semibold mb-4 text-white/60">
@@ -145,7 +146,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                 </span>
               </h2>
 
-          
+
 
               {selected.points.map((point: any, idx: number) => (
                 <p key={idx} className="mb-2">
