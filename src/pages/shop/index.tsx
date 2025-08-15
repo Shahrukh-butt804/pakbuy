@@ -63,7 +63,7 @@ const ProductWithSidebar: React.FC = () => {
                                             onChange={() => setSelectedCollection(pkg)}
                                             className="form-checkbox accent-green-500"
                                         />
-                                        <span className="text-white pl-2">choose {pkg?.name}</span>
+                                        <span className="text-white pl-2">CHOOSE {pkg?.name}</span>
                                     </label>
                                 ))
 
@@ -133,14 +133,13 @@ const ProductWithSidebar: React.FC = () => {
                                 </button>
                             </div>
 
-                            <select
-                                // onChange={(e) => setSortBy(e.target.value)}
+                            {/* <select
                                 className="bg-[#2a3146] text-white px-4 py-2 rounded text-sm"
                             >
                                 <option value="">Sort by</option>
                                 <option value="Rating">Rating</option>
                                 <option value="Title">Title (A-Z)</option>
-                            </select>
+                            </select> */}
                         </div>
 
                         {/* Product Cards */}

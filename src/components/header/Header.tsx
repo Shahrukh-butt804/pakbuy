@@ -273,6 +273,7 @@ const Header: React.FC = () => {
                     title: 'Success',
                     text: response?.data?.message,
                 })
+                dispatch(toggleRegisterModal())
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -517,13 +518,28 @@ const Header: React.FC = () => {
 
                         {user && user._id ?
                             <>
-                                <button
+                                {/* <button
                                     onClick={handleCartClick}
                                     className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
                                     style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
                                 >
                                     <ShoppingCart className="h-5 w-5" />
-                                </button>
+                                </button> */}
+                                <div className="relative">
+                                    <button
+                                        onClick={handleCartClick}
+                                        className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 items-center justify-center"
+                                        style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
+                                    >
+                                        <ShoppingCart className="h-5 w-5" />
+                                    </button>
+
+                                    {myCart.length > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-[#D7C6B7] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                            {myCart.length}
+                                        </span>
+                                    )}
+                                </div>
                                 <button
                                     // onClick={handleCartClick}
                                     onClick={() => navigate('/profile')}
@@ -1106,7 +1122,12 @@ const Header: React.FC = () => {
                                 Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
                             </p>
                             <button
-                                onClick={() => navigate("/checkout")}
+                                // onClick={() => navigate("/checkout")}
+                                onClick={() => {
+                                    onClose();
+                                    navigate("/checkout");
+                                }}
+
                                 className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
                             >
                                 CHECKOUT

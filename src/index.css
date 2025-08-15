@@ -556,6 +556,10 @@ footer a {
   font-family: 'SF Pro Display';
 }
 
+.swal2-title {
+  font-family: 'SF Pro Display';
+}
+
 .choose-features-section h2 {
   color: #FFF;
   text-align: center;
@@ -672,6 +676,7 @@ footer a {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }

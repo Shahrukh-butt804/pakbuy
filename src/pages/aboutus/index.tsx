@@ -14,11 +14,19 @@ const AboutUs: React.FC = () => {
         <>
             <Header />
             <section className=" text-white py-16 px-4 md:px-20">
+                <button
+                    type="button"
+                    className="site-btn  bg-[#e4cfc2] text-black py-2 rounded-full font-semibold hover:opacity-90 transition"
+                    style={{ marginBottom: '20px' }}
+                    onClick={() => window.history.back()}
+                >
+                    cancel
+                </button>
                 <div className="max-w-8xl mx-auto grid md:grid-cols-2 gap-10">
                     {/* Left Column */}
                     <div>
                         <h2 className="text-3xl md:text-4xl font-semibold mb-6 web-font">About Us</h2>
-                        <h2 className="text-3xl md:text-4xl font-semibold mb-6 web-font">Empowering Health, One Choice <br /> At A Time</h2>
+                        <h2 className="text-3xl md:text-4xl font-semibold mb-6 web-font leading-12">Empowering Health, One Choice <br /> At A Time</h2>
                         <p className="text-sm md:text-base mb-4 web-font">
                             CHOOSE Well is a marketplace for proven health options.
                         </p>
