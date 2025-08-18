@@ -128,7 +128,7 @@ const Checkout: React.FC = () => {
                     {/* Total */}
                     <div className="flex justify-between mb-4">
                         <span className="text-sm">Total</span>
-                        <span className="text-sm font-medium">$622.00</span>
+                        <span className="text-sm font-medium">${subTotal + tax}</span>
                     </div>
 
                     {/* Gift Card Discount */}
