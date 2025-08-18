@@ -127,14 +127,16 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                 <div className="flex justify-center mb-6">
                   {user && user?._id && (
                     <button
-                      className="bg-[#e3cbb3] text-black px-6 py-2 rounded-full font-semibold hover:bg-[#d2b89f] transition"
-                      style={{ color: '#000' }}
+                      className="bg-[#02d05b] text-black px-6 py-2 rounded-full font-semibold hover:bg-[#02d05b] transition"
+                      style={{ borderRadius: '100px' }}
                       onClick={() => {
                         console.log("Purchase clicked for:", selected.keyword);
                         navigate("/shop");
                       }}
                     >
-                      Purchase Collection
+                      <span className='text-black'>
+                        Purchase Collection  $600
+                      </span>
                     </button>
                   )}
                 </div>

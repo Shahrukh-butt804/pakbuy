@@ -14,6 +14,8 @@ import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { selectUser } from "../../redux/reducers/userSlice";
+import { useSelector } from "react-redux";
 
 
 
@@ -21,6 +23,7 @@ import { useEffect } from "react";
 const Home = () => {
     // const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector(selectUser);
 
     function closeModal() {
         dispatch(toggleRegisterModal())
@@ -52,7 +55,9 @@ const Home = () => {
                     </h3>
                 </div>
                 <InfoCards2 />
-                <CategoriesCards memberBtn={false} />
+                <CategoriesCards
+                    memberBtn={user ? true : false}
+                />
                 <ChooseFeatures />
                 <div className="py-10">
                     <section className="flex justify-center leave-bg-content">
