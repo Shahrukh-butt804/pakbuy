@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/reducers/userSlice';
 import { useNavigate } from 'react-router';
+import { useGetAllProductsQuery } from '../../redux/services/productSlice';
 
 const categories = [
   {
@@ -74,12 +75,19 @@ type ChooseSectionProps = {
 };
 
 const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
+
   const [selected, setSelected] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<any>(null);
+  const { data: packages } = useGetAllProductsQuery({})
 
   const user = useSelector(selectUser);
 
   const openModal = (item: any) => {
+    const packageItem = packages?.find((p: any) => p.name.toLowerCase() === item.keyword.toLowerCase());
+    if (packageItem) {
+      setSelectedPackage(packageItem)
+    }
     setSelected(item);
     setIsModalVisible(true);
   };
@@ -130,12 +138,12 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                       className="bg-[#02d05b] text-black px-6 py-2 rounded-full font-semibold hover:bg-[#02d05b] transition"
                       style={{ borderRadius: '100px' }}
                       onClick={() => {
-                        console.log("Purchase clicked for:", selected.keyword);
-                        navigate("/shop");
+                        // console.log("Purchase clicked for:", selected.keyword);
+                        navigate(`/shop/${selectedPackage?._id}`);
                       }}
                     >
                       <span className='text-black'>
-                        Purchase Collection  $600
+                        Purchase Collection  ${selectedPackage?.price}
                       </span>
                     </button>
                   )}
