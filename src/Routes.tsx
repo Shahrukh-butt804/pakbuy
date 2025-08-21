@@ -59,6 +59,7 @@ function AppRoutes() {
               <Route path="/profile/edit" element={<EditProfile />} />
               <Route path="/profile/changePassword" element={<ChangePassword />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/shop/:id" element={<Shop />} />
               <Route path="/shop" element={<Shop />} />
             </Route>
 
