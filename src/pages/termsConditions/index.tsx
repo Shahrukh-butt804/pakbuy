@@ -18,14 +18,7 @@ const data2 = [
     "●	Memberships may be cancelled within 60 days of purchase for a full refund, provided no Collections have been purchased. If a Member purchases one or more Collections within the 60-day introductory period, the Membership fee is non-refundable.",
     "●	Collections contain products and services from third parties. Therefore Collections are non-refundable. However, dissatisfaction with any particular product or service may be directed to the respective service provider. Since we only select vendors with high levels of customer satisfaction, we expect appropriate responsiveness and ultimate satisfaction.",
 ];
-const data3 = [
-    "●	Drop-Off and Pick-Up Times: Specific drop-off and pick-up times will be provided at the time of booking. Late pick-up fees may apply.",
-    "●	Arrival Procedures: Upon arrival for drop-off or pick-up, please inform a staff member of your presence.",
-];
-const data4 = [
-    "●	Daycare and Grooming: Cancellations with less than [number] hours notice will be charged a cancellation fee of [amount].",
-    "●	Boarding: Cancellations with less than [number] days notice will be charged a cancellation fee of [percentage]% of the total booking cost.",
-];
+
 
 
 const AboutUs: React.FC = () => {
