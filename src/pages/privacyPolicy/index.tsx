@@ -1,26 +1,27 @@
 import { Col, List, Row } from "antd";
 import React, { useEffect } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 
 
 
 const data = [
-    "●	Personal Information: When you contact us, book services, or subscribe to our newsletter, you may provide us with personal information, such as your name, email address, phone number, pet's name and species, and billing information.",
-    "●	Non-Personal Information: We may also collect non-personal information about your use of our website and services, such as your browsing history, IP address, and device type. This information is collected through cookies and other tracking technologies.",
+    "●	Personal Information: When you contact us or purchase a Membership or one or more Collection(s), you may provide us with personal information, such as your name, email address, phone number, and/or billing information",
+    "●	Non-Personal Information: We may also collect essential non-personal information about your use of our website and services, such as how you are utilizing our site and services. This information is used only internally, and your identity will not be shared with others unless we are compelled by legal or regulatory order.",
 ];
 const data2 = [
-    "●	To provide and improve our services, including daycare, boarding, grooming, and training for your pet.",
+    "●	To provide and improve our services, including current and/or future Collections, optimizing solution providers participating in the Collections, and/or other ways to maximize our value to you, our Member.",
     "●	To send you information about our services, promotions, and events.",
+    "●	To inform us regarding the value of current Collections, and to help us prioritize future collections.",
     "●	To respond to your inquiries and requests.",
     "●	To personalize your experience on our website.",
     "●	To analyze website traffic and usage patterns.",
     "●	To comply with legal and regulatory requirements.",
 ];
 const data3 = [
-    "●	To service providers who help us operate our website and business, such as payment processors or veterinary clinics (if necessary for pet care).",
+    "●	To service providers who help us operate our website and business, such as payment processors.",
     "●	To comply with legal or regulatory requirements.",
     "●	In the event of a merger, acquisition, or sale of our assets.",
 ];
@@ -52,10 +53,10 @@ const AboutUs: React.FC = () => {
                             <Row style={{ width: "100%", justifyContent: "center" }}>
                                 <Col lg={24}>
                                     <p className="web-p">
-                                        Effective Date: [Date]
+                                     Effective Date: August 20, 2025
                                         <br />
                                         <br />
-                                        Choose-well ("Choose-well," "we," "us," or "our") respects the privacy of our customers and website visitors ("you" or "your"). This Privacy Policy describes the types of information we may collect from you when you visit our website or use our services and how we may use that information.
+                                        Choose ("Choose Well," "we," "us," or "our") respects the privacy of our Members and website visitors ("you" or "your"). This Privacy Policy describes the types of information we may collect from you when you visit our website or use our services and how we may use that information.
                                         <br />
                                         <br />
                                         <h5 className="booking-card-name">Information We Collect</h5>
@@ -83,11 +84,11 @@ const AboutUs: React.FC = () => {
                                         />
                                         <br />
                                         <h5 className="booking-card-name">Your Choices</h5>
-                                        You can opt out of receiving marketing communications from us by following the unsubscribe instructions in our emails. You can also control the use of cookies on your web browser.
+                                        You can opt out of receiving marketing communications from us by following the unsubscribe instructions in our emails.
                                         <br />
                                         <br />
                                         <h5 className="booking-card-name">Data Security</h5>
-                                        We take reasonable steps to protect the information you provide to us from unauthorized access, disclosure, alteration, or destruction. However, no website or internet transmission is completely secure.
+                                        We take your privacy very seriously.  Due to this high priority, we take leading industry-established steps to protect the information you provide to us from unauthorized access, disclosure, alteration, or destruction. However, despite the current state-of-the-art, no website or internet transmission is completely secure.
                                         <br />
                                         <br />
                                         <h5 className="booking-card-name">Children's Privacy</h5>
@@ -95,11 +96,11 @@ const AboutUs: React.FC = () => {
                                         <br />
                                         <br />
                                         <h5 className="booking-card-name">Updates to this Privacy Policy</h5>
-                                        We may update this Privacy Policy from time to time. We will post any changes on this page.
+                                        We may update this Privacy Policy from time to time. We will post any changes on this page
                                         <br />
                                         <br />
                                         <h5 className="booking-card-name">Contact Us</h5>
-                                        If you have any questions about this Privacy Policy, please contact us at [phone number] or [email address].
+                                        If you have any questions about this Privacy Policy, please contact us via email at: <Link to="mailto:mh@choose-well.today">mh@choose-well.today</Link>
                                         <br />
                                         <br />
                                     </p>
