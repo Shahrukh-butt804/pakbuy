@@ -1,6 +1,7 @@
 import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
@@ -13,7 +14,7 @@ const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
     const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string | any>();
-
+    const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
 
 
@@ -21,7 +22,14 @@ const ProductWithSidebar: React.FC = () => {
 
     useEffect(() => {
         if (packages && packages.length > 0) {
-            setSelectedCollection(packages[0]);
+            if (id) {
+                setSelectedCollection(packages.find((p: any) => p._id === id));
+            }
+            else {
+                setSelectedCollection(packages[0]);
+            }
+
+
         }
     }, [packages]);
 
@@ -35,7 +43,7 @@ const ProductWithSidebar: React.FC = () => {
         dispatch(addToCart(item));
     }
 
-     useEffect(() => { window.scrollTo(0, 0); }, []);
+    useEffect(() => { window.scrollTo(0, 0); }, []);
 
 
     return (
