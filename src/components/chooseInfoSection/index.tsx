@@ -12,7 +12,7 @@ export const ChooseInfoSection: React.FC = () => {
         >
           <h3 className="text-lg font-semibold mb-4">What you need to know</h3>
           <ul className="list-disc list-inside text-sm text-gray-200 space-y-2">
-            <li>We feature only companies with FDA-clearance, strong evidence, and clinical validation.</li>
+            <li>We feature only companies with FDA-clearance and/or other relevant approvals,  strong evidence, and clinical validation.</li>
             <li>CHOOSE does NOT replace your doctor or insurance.</li>
             <li>Member input and evolving evidence shape new CHOOSE Well Collections.</li>
             <li><a href="#" className="text-blue-400 underline">Learn more</a></li>
