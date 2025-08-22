@@ -37,7 +37,7 @@ export const EthicsBound: React.FC = () => {
             <p className="text-gray-400 text-sm leading-relaxed">
               Membership renewal is your choice. We believe we must prove value to earn your ongoing trust.
               <br />
-              renew because you want to
+              Renew because you want to
             </p>
           </div>
         </div>
