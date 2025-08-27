@@ -1,11 +1,12 @@
 // import React from 'react';
 import { useNavigate } from 'react-router';
-import { ImageUrl } from '../../utils/Functions';
+// import { ImageUrl } from '../../utils/Functions';
+import well from "../../assets/well.png";
 
 const InfoCards2 = () => {
     const navigate = useNavigate();
     return (
-       <div
+        <div
             className="bg-cover bg-center flex items-center justify-center px-6 py-6 info-cards2-container"
         >
             <div className="flex flex-col md:flex-row gap-6 max-w-6xl w-full">
@@ -13,7 +14,7 @@ const InfoCards2 = () => {
                 <div
                     className="bg-[#000000c4] bg-opacity-60 text-white rounded-xl p-6 md:w-1/2 info-cards2-black"
                     data-aos="fade-up-right"
-                       data-aos-delay="800"
+                    data-aos-delay="800"
                     data-aos-duration="1000"
                 >
                     <h2 className="text-xl font-semibold mb-4">A marketplace for proven health options</h2>
@@ -27,11 +28,16 @@ const InfoCards2 = () => {
                 <div
                     className="bg-[#ffffffaf] bg-opacity-70 text-gray-900 rounded-xl p-6 md:w-1/2 info-cards2-white"
                     data-aos="fade-up-left"
-                       data-aos-delay="800"
+                    data-aos-delay="800"
                     data-aos-duration="1000"
                 >
-                    <img
+                    {/* <img
                         src={ImageUrl("well.png")}
+                        alt="well"
+                        className="mb-4"
+                    /> */}
+                    <img
+                        src={well}
                         alt="well"
                         className="mb-4"
                     />
