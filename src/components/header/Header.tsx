@@ -10,7 +10,7 @@ import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice"
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
-import { ImageUrl } from '../../utils/Functions';
+import { CartImageUrl, ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
 
 
@@ -1095,7 +1095,7 @@ const Header: React.FC = () => {
                                             <img
                                                 crossOrigin="anonymous"
                                                 // src={UPLOADS_URL + product.image}
-                                                src={`/${ImageUrl(item.name + ".png")}`}
+                                                src={CartImageUrl(item.name + ".png")}
                                                 alt={item.name}
                                                 className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
                                             />
