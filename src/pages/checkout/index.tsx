@@ -132,7 +132,7 @@ const Checkout: React.FC = () => {
                     </div>
 
                     {/* Gift Card Discount */}
-                    <div className="flex justify-between items-center mb-1">
+                    {/* <div className="flex justify-between items-center mb-1">
                         <span className="text-sm">Gift Card Discount</span>
                         <button className="text-xs text-pink-400 hover:text-pink-300">Apply Code</button>
                     </div>
@@ -145,13 +145,18 @@ const Checkout: React.FC = () => {
                         <button className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Apply
                         </button>
-                    </div>
+                    </div> */}
+
+                    {/* Gift Card Discount */}
+
 
                     {/* Coupon Code */}
-                    <div className="flex justify-between items-center mb-1">
+                    {/* <div className="flex justify-between items-center mb-1">
                         <span className="text-sm">Coupon Code</span>
                         <button className="text-xs text-pink-400 hover:text-pink-300" >Apply Code</button>
                     </div>
+
+                    
                     <div className="flex items-center mb-6">
                         <input
                             type="text"
@@ -161,7 +166,9 @@ const Checkout: React.FC = () => {
                         <button className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Apply
                         </button>
-                    </div>
+                    </div> */}
+                    {/* Coupon Code */}
+
 
 
                     <div style={{ padding: 16 }}>
