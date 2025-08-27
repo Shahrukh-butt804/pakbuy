@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Modal } from 'antd';
 import { CheckCircleOutlined } from '@ant-design/icons';
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
@@ -9,13 +9,18 @@ import { useSelector } from 'react-redux';
 import { selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useUpdateProfileMutation } from '../../redux/services/profileSlice';
 import Swal from 'sweetalert2';
+import { FaPencilAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
+import { UPLOADS_URL } from '../../constants/api';
 
 const EditProfile: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { email, fullName: name } = useSelector(selectUser);
+    const { email, fullName: name, image: userImage } = useSelector(selectUser);
     const [fullName, setFullName] = useState(name);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null)
+    const inputRef = useRef<HTMLInputElement>(null);
 
 
     const [updateProfile] = useUpdateProfileMutation()
@@ -25,8 +30,22 @@ const EditProfile: React.FC = () => {
 
     const handleSave = async () => {
         try {
+            if (!fullName) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please enter your name',
+                })
+                return
+            }
 
-            const response: any = await updateProfile({ fullName })
+            const formData = new FormData();
+            formData.append("fullName", fullName);
+            if (imageFile) {
+                formData.append("image", imageFile);
+            }
+
+            const response: any = await updateProfile(formData)
             if (response?.data?.success) {
                 setIsModalOpen(true);
                 dispatch(setUser(response?.data?.user))
@@ -62,6 +81,37 @@ const EditProfile: React.FC = () => {
 
                 <div className="bg-white rounded-lg shadow p-6 max-w-md w-full border-1">
                     <div className="flex flex-col items-center">
+
+                        <div>
+                            <img src={
+                                imagePreview ||
+                                (userImage ? UPLOADS_URL + userImage : null) ||
+                                "https://static.vecteezy.com/system/resources/previews/036/280/651/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
+                            } className='w-24 h-24 rounded-full' crossOrigin='anonymous' alt="image" />
+
+                            <input
+                                ref={inputRef}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    if (e.target.files && e.target.files[0]) {
+                                        const file = e.target.files[0];
+                                        setImagePreview(URL.createObjectURL(file)); // for <img>
+                                        setImageFile(file); // actual file for upload
+                                    }
+                                }}
+                            />
+
+                            <FaPencilAlt
+                                onClick={() => inputRef.current?.click()}
+                                className="cursor-pointer mt-2"
+                                color="black"
+                            />
+
+                        </div>
+
+
                         {/* Input Fields */}
                         <div className="w-full text-left space-y-4 mb-6 text-black">
                             <div>
