@@ -1095,7 +1095,7 @@ const Header: React.FC = () => {
                                             <img
                                                 crossOrigin="anonymous"
                                                 // src={UPLOADS_URL + product.image}
-                                                src={ImageUrl(item.name + ".png")}
+                                                src={`/${ImageUrl(item.name + ".png")}`}
                                                 alt={item.name}
                                                 className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
                                             />
