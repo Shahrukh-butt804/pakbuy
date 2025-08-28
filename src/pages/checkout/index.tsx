@@ -123,13 +123,13 @@ const Checkout: React.FC = () => {
 
                 <aside className="w-full md:w-1/3 bg-[#1e2432] text-white p-5 rounded-xl shadow-md">
                     {/* Title */}
-                    <h3 className="text-lg font-semibold mb-4">Summary</h3>
+                    {/* <h3 className="text-lg font-semibold mb-4">Summary</h3> */}
 
                     {/* Total */}
-                    <div className="flex justify-between mb-4">
+                    {/* <div className="flex justify-between mb-4">
                         <span className="text-sm">Total</span>
                         <span className="text-sm font-medium">${subTotal + tax}</span>
-                    </div>
+                    </div> */}
 
                     {/* Gift Card Discount */}
                     {/* <div className="flex justify-between items-center mb-1">
