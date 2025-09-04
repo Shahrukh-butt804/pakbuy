@@ -11,6 +11,7 @@ import { orderSlice } from "./services/orderSlice";
 import { profileSlice } from "./services/profileSlice";
 import { contactSlice } from "./services/contactSlice";
 import { newsLetterSlice } from "./services/newsLetterSlice";
+import { couponSlice } from "./services/couponSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     [profileSlice.reducerPath]: profileSlice.reducer,
     [contactSlice.reducerPath]: contactSlice.reducer,
     [newsLetterSlice.reducerPath]: newsLetterSlice.reducer,
+    [couponSlice.reducerPath]: couponSlice.reducer,
     user: userReducer,
     cart: cartReducer,
     modal: modalReducer,
@@ -29,7 +31,7 @@ export const store = configureStore({
 
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware, eventSlice.middleware).concat(productSlice.middleware).concat(orderSlice.middleware).concat(profileSlice.middleware).concat(contactSlice.middleware).concat(newsLetterSlice.middleware), // Add RTK Query middleware
+    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware, eventSlice.middleware).concat(productSlice.middleware).concat(orderSlice.middleware).concat(profileSlice.middleware).concat(contactSlice.middleware).concat(newsLetterSlice.middleware).concat(couponSlice.middleware), // Add RTK Query middleware
 });
 
 setupListeners(store.dispatch);
