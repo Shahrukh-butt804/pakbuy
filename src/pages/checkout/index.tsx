@@ -23,10 +23,12 @@ const Checkout: React.FC = () => {
     const [createOrder] = useCreateOrderMutation()
     const [validateCoupon, { isLoading }] = useValidateCouponMutation()
     const [isCouponApplied, setIsCouponApplied] = useState(false)
+    const [couponId, setCouponId] = useState('')
 
     const myCart = useSelector(selectCartItems)
     const [subTotal, setSubTotal] = useState(myCart?.reduce((total: number, item: any) => total + item.price, 0))
-    let tax = subTotal * 0.2;
+    const tax = subTotal * 0.2
+    const [discountedPrice, setDiscountedPrice] = useState(0)
 
 
 
@@ -45,8 +47,6 @@ const Checkout: React.FC = () => {
             })
         }
 
-
-
         try {
             const res: any = await validateCoupon({ code: couponCode })
             if (res?.data?.success) {
@@ -60,12 +60,19 @@ const Checkout: React.FC = () => {
                     cancelButtonText: "No, cancel"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        if (type === "PERCENTAGE") {
-                            setSubTotal(subTotal - (subTotal * value) / 100)
+                        if (type === "percentage") {
+                            const tax = subTotal * 0.2;
+                            const grandTotal = subTotal + tax;
+                            const discounted = grandTotal - (grandTotal * value) / 100;
+                            setDiscountedPrice(discounted);
                         } else {
-                            setSubTotal(subTotal - value)
+                            const tax = subTotal * 0.2;
+                            const grandTotal = subTotal + tax;
+                            const discounted = grandTotal - value;
+                            setDiscountedPrice(discounted);
                         }
                         setIsCouponApplied(true)
+                        setCouponId(res.data.coupon._id)
                     }
                 });
             } else {
@@ -118,6 +125,7 @@ const Checkout: React.FC = () => {
             token,
         };
 
+
         if (shipDifferent) {
             payload.shippingAddress = {
                 firstName: values.shippingFirstName,
@@ -131,6 +139,12 @@ const Checkout: React.FC = () => {
                 phone: values.shippingPhone,
             };
         }
+
+        if (couponId && isCouponApplied) {
+            payload.couponId = couponId
+        }
+
+
 
         try {
             const response: any = await createOrder(payload);
@@ -247,22 +261,30 @@ const Checkout: React.FC = () => {
                     }
 
 
+                    {discountedPrice && isCouponApplied ? <>
 
-                    <div style={{ padding: 16 }}>
-                        <h4>Summary</h4>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                            <span>Sub-total:</span>
-                            <span>${subTotal.toFixed(2)}</span>
+                        <div style={{ padding: 16 }}>
+                            <h4>Summary</h4>
+                            <div>
+                                <h4>Discounted Price <span style={{ float: "right" }}>${(discountedPrice).toFixed(2)}</span></h4>
+                            </div>
                         </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                            <span>Tax:</span>
-                            <span>${tax.toFixed(2)}</span>
+                    </> : <>
+                        <div style={{ padding: 16 }}>
+                            <h4>Summary</h4>
+                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                                <span>Sub-total:</span>
+                                <span>${subTotal.toFixed(2)}</span>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+                                <span>Tax:</span>
+                                <span>${tax.toFixed(2)}</span>
+                            </div>
+                            <div>
+                                <h4>Amount <span style={{ float: "right" }}>${(subTotal + tax).toFixed(2)}</span></h4>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Amount <span style={{ float: "right" }}>${(subTotal + tax).toFixed(2)}</span></h4>
-                        </div>
-                    </div>
-
+                    </>}
                     <List
                         itemLayout="horizontal"
                         dataSource={myCart}
