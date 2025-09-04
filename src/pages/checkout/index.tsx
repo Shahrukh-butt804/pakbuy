@@ -9,6 +9,7 @@ import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
 import { clearCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { useCreateOrderMutation } from "../../redux/services/orderSlice";
+import { useValidateCouponMutation } from "../../redux/services/couponSlice";
 
 const { Option } = Select;
 
@@ -17,17 +18,73 @@ const Checkout: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [shipDifferent, setShipDifferent] = useState(false);
+    const [couponCode, setCouponCode] = useState('')
     const [form] = Form.useForm();
     const [createOrder] = useCreateOrderMutation()
+    const [validateCoupon, { isLoading }] = useValidateCouponMutation()
+    const [isCouponApplied, setIsCouponApplied] = useState(false)
 
     const myCart = useSelector(selectCartItems)
-    const subTotal = myCart?.reduce((total: number, item: any) => total + item.price, 0);
-    const tax = subTotal * 0.2;
+    const [subTotal, setSubTotal] = useState(myCart?.reduce((total: number, item: any) => total + item.price, 0))
+    let tax = subTotal * 0.2;
 
 
 
     const dispatch = useDispatch()
     const cartItems = useSelector((state: any) => state.cart.items);
+
+
+
+    const handleValidateCoupon = async () => {
+
+        if (isCouponApplied) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Coupon already applied',
+            })
+        }
+
+
+
+        try {
+            const res: any = await validateCoupon({ code: couponCode })
+            if (res?.data?.success) {
+                const { type, value } = res.data.coupon
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you really want to apply this coupon?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, apply it",
+                    cancelButtonText: "No, cancel"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (type === "PERCENTAGE") {
+                            setSubTotal(subTotal - (subTotal * value) / 100)
+                        } else {
+                            setSubTotal(subTotal - value)
+                        }
+                        setIsCouponApplied(true)
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: res.message || res?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+            console.log("🚀 ~ handleValidateCoupon ~ error:", error)
+        }
+    }
+
 
     const handleSubmit = async (token: any) => {
         const values = form.getFieldsValue(); // 👈 get all form values
@@ -151,23 +208,43 @@ const Checkout: React.FC = () => {
 
 
                     {/* Coupon Code */}
-                    {/* <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm">Coupon Code</span>
-                        <button className="text-xs text-pink-400 hover:text-pink-300" >Apply Code</button>
-                    </div>
 
-                    
-                    <div className="flex items-center mb-6">
-                        <input
-                            type="text"
-                            placeholder="Coupon Code"
-                            className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
-                        />
-                        <button className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
-                            Apply
+
+
+                    {!isCouponApplied ?
+                        <>
+                            <div className="flex justify-between items-center mb-1">
+                                <span className="text-sm">Coupon Code</span>
+                                <button className="text-xs text-pink-400 hover:text-pink-300" >Apply Code</button>
+                            </div>
+
+                            <div className="flex items-center mb-6">
+                                <input
+                                    type="text"
+                                    placeholder="Coupon Code"
+                                    value={couponCode}
+                                    onChange={(e) => setCouponCode(e.target.value)}
+                                    className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
+                                />
+                                <button
+                                    onClick={handleValidateCoupon}
+                                    className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                                    {isLoading ? "wait..." : "Apply"}
+                                </button>
+                            </div>
+                        </>
+                        :
+
+                        <button
+                            onClick={() => {
+                                setCouponCode("")
+                                setIsCouponApplied(false)
+                                setSubTotal(myCart?.reduce((total: number, item: any) => total + item.price, 0))
+                            }}
+                            className="bg-[#D7C6B7] hover:bg-[#D7C6B7] w-full px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                            Clear Coupon
                         </button>
-                    </div> */}
-                    {/* Coupon Code */}
+                    }
 
 
 
