@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import PaymentPage from "../../components/check-out";
+import { UPLOADS_URL } from "../../constants/api";
 import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
-import { CartImageUrl, ImageUrl } from '../../utils/Functions';
+import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
 
 
@@ -1094,8 +1095,7 @@ const Header: React.FC = () => {
                                         <div className="flex flex-col items-center">
                                             <img
                                                 crossOrigin="anonymous"
-                                                // src={UPLOADS_URL + product.image}
-                                                src={CartImageUrl(item.name + ".png")}
+                                                src={UPLOADS_URL + item.image}
                                                 alt={item.name}
                                                 className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
                                             />

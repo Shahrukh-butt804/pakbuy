@@ -7,7 +7,7 @@ import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
 import { addToCart } from "../../redux/reducers/cartSlice";
-import { useGetAllProductsQuery } from "../../redux/services/productSlice";
+import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
 
 
 const ProductWithSidebar: React.FC = () => {
@@ -18,20 +18,20 @@ const ProductWithSidebar: React.FC = () => {
     const dispatch = useDispatch();
 
 
-    const { data: packages } = useGetAllProductsQuery({})
+    const { data: collection } = useGetAllCollectionQuery({})
 
     useEffect(() => {
-        if (packages && packages.length > 0) {
+        if (collection && collection.length > 0) {
             if (id) {
-                setSelectedCollection(packages.find((p: any) => p._id === id));
+                setSelectedCollection(collection.find((p: any) => p._id === id));
             }
             else {
-                setSelectedCollection(packages[0]);
+                setSelectedCollection(collection[0]);
             }
 
 
         }
-    }, [packages]);
+    }, [collection]);
 
     const toggleLike = (id: number) => {
         setLikedItems((prev) =>
@@ -58,20 +58,20 @@ const ProductWithSidebar: React.FC = () => {
                             <h3 className="text-sm font-semibold text-gray-300 mb-2">
                                 COLLECTION
                             </h3>
-                            {packages && packages.length > 0 ?
+                            {collection && collection.length > 0 ?
 
-                                packages?.map((pkg: any) => (
+                                collection?.map((item: any) => (
                                     <label
-                                        key={pkg?._id}
+                                        key={item?._id}
                                         className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2"
                                     >
                                         <input
                                             type="checkbox"
-                                            checked={selectedCollection === pkg}
-                                            onChange={() => setSelectedCollection(pkg)}
+                                            checked={selectedCollection === item}
+                                            onChange={() => setSelectedCollection(item)}
                                             className="form-checkbox accent-green-500"
                                         />
-                                        <span className="text-white pl-2">CHOOSE {pkg?.name}</span>
+                                        <span className="text-white pl-2">CHOOSE {item?.name}</span>
                                     </label>
                                 ))
 
@@ -91,7 +91,7 @@ const ProductWithSidebar: React.FC = () => {
                             <>
                                 <div>
                                     <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
-                                    <p className="text-lg font-bold text-white">${selectedCollection?.price}</p>
+                                    <p className="text-lg font-bold text-white">${selectedCollection?.CollectionPrice}</p>
                                 </div>
 
                                 <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
