@@ -304,8 +304,8 @@ const Checkout: React.FC = () => {
                                         </div>
                                     ))}
                                     <div className="flex flex-col">
-                                        <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                        <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        <span className="font-semibold text-gray-400 mt-1">{item.name}</span>
+                                        <span className="text-xs text-gray-300">${item.CollectionPrice?.toFixed(2)}</span>
                                     </div>
                                 </div>
 
