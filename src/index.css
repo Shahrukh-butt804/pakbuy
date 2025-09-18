@@ -1159,3 +1159,11 @@ footer a {
   background: #1D2331;
   mix-blend-mode: hard-light;
 }
+
+
+.my-custom-btn:disabled {
+  background-color: #f0cdca !important; /* your desired bg */
+  color: #fff !important; /* text color */
+  opacity: 1 !important;  /* prevent fading */
+  cursor: not-allowed; /* optional */
+}
