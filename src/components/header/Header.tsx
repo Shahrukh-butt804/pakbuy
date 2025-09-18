@@ -89,7 +89,7 @@ const Header: React.FC = () => {
     const user = useSelector(selectUser);
     const myCart = useSelector(selectCartItems)
 
-    const subTotal = myCart?.reduce((total: number, item: any) => total + item.price, 0);
+    const subTotal = myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0);
     const tax = subTotal * 0.2;
 
 
@@ -1102,7 +1102,7 @@ const Header: React.FC = () => {
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                            <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                            <span className="text-xs text-gray-500">${item.CollectionPrice?.toFixed(2)}</span>
                                         </div>
                                     </div>
 
@@ -1111,28 +1111,32 @@ const Header: React.FC = () => {
                         />
 
                         <Divider />
-                        <div className="text-center space-y-1">
-                            <p>
-                                Sub-total: <strong>${subTotal.toFixed(2)}</strong>
-                            </p>
-                            <p>
-                                Tax (20%): <strong>${tax.toFixed(2)}</strong>
-                            </p>
-                            <p className="text-xl">
-                                Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
-                            </p>
-                            <button
-                                // onClick={() => navigate("/checkout")}
-                                onClick={() => {
-                                    onClose();
-                                    navigate("/checkout");
-                                }}
+                        {myCart.length > 0 && <>
+                            <div className="text-center space-y-1">
+                                <p>
+                                    Sub-total: <strong>${subTotal.toFixed(2)}</strong>
+                                </p>
+                                <p>
+                                    Tax (20%): <strong>${tax.toFixed(2)}</strong>
+                                </p>
+                                <p className="text-xl">
+                                    Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
+                                </p>
+                                <button
+                                    // onClick={() => navigate("/checkout")}
+                                    onClick={() => {
+                                        onClose();
+                                        navigate("/checkout");
+                                    }}
 
-                                className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
-                            >
-                                CHECKOUT
-                            </button>
-                        </div>
+                                    className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
+                                >
+                                    CHECKOUT
+                                </button>
+                            </div></>}
+
+
+
                     </div>
 
                 </div>
