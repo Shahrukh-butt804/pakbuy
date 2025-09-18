@@ -33,10 +33,10 @@ const AboutUs: React.FC = () => {
             render: (date: string) => new Date(date).toLocaleDateString(),
         },
         {
-            title: "Title",
+            title: "Collection Name",
             dataIndex: "products",
             key: "title",
-            render: (products: any[]) => products?.map((p) => p.packageId?.name).join(", "),
+            render: (products: any[]) => products?.map((p) => p.collectionId?.name).join(", "),
         },
         {
             title: "Quantity",

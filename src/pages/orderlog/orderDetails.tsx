@@ -69,15 +69,15 @@ const OrderDetails: React.FC = () => {
             <Card title="SUMMARY" className="rounded-lg shadow-md">
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
-                <span>$ {subTotal}.00</span>
+                <span>$ {subTotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>Tax 20%</span>
-                <span>$ {taxAmount}.00</span>
+                <span>$ {taxAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between font-bold text-lg mb-4">
                 <span>Total Grand</span>
-                <span>$ {totalAmount}.00</span>
+                <span>$ {totalAmount.toFixed(2)}</span>
               </div>
             </Card>
           </div>
