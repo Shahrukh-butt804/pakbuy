@@ -1,5 +1,5 @@
 import { Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { selectUser } from '../../redux/reducers/userSlice';
@@ -7,12 +7,36 @@ import { useGetAllCollectionQuery } from '../../redux/services/collectionSlice';
 
 const categories = [
   'text-pink-300',
-  'text-yellow-300',
-  'text-green-400',
+  'text-rose-300',
+  'text-fuchsia-300',
+  'text-purple-300',
+  'text-violet-300',
+  'text-indigo-300',
   'text-blue-300',
+  'text-sky-300',
   'text-cyan-300',
+  'text-teal-300',
+  'text-emerald-300',
+  'text-green-300',
+  'text-lime-300',
+  'text-yellow-300',
+  'text-amber-300',
+  'text-orange-300',
+  'text-red-300',
+  'text-pink-400',
+  'text-rose-400',
+  'text-fuchsia-400',
+  'text-purple-400',
+  'text-violet-400',
+  'text-indigo-400',
+  'text-blue-400',
+  'text-sky-400',
+  'text-cyan-400',
+  'text-teal-400',
+  'text-emerald-400',
+  'text-green-400',
+  'text-lime-400'
 ];
-
 
 type ChooseSectionProps = {
   memberBtn?: boolean;
@@ -28,6 +52,15 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
   const { data: collections } = useGetAllCollectionQuery({})
 
   const user = useSelector(selectUser);
+
+
+  const colorsForCollections = useMemo(() => {
+    if (!collections) return [];
+    return collections.map(() => {
+      const randomIndex = Math.floor(Math.random() * categories.length);
+      return { index: randomIndex, color: categories[randomIndex] };
+    });
+  }, [collections]);
 
   const openModal = (item: any, index: number) => {
     const packageItem = collections?.find((p: any) => p.name.toLowerCase() === item.name.toLowerCase());
@@ -49,14 +82,14 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
           <div
             key={index}
             className="golden_border border-white/10 bg-[#000000c4] rounded-sm p-4 py-10 text-center hover:shadow-md transition relative categories-main-cards w-[280px] cursor-pointer"
-            onClick={() => openModal(item, index)}
+            onClick={() => openModal(item, colorsForCollections[index].index)}
             data-aos="zoom-in"
             data-aos-delay={index * 300}
             data-aos-duration="800"
           >
             <p className="text-sm text-white/70 mb-2 categories-title">{item?.title || 'Choose Collection'}</p>
             <p className="text-white text-sm categories-choose">CHOOSE</p>
-            <p className={`text-2xl font-semibold italic categories-name ${categories[index]}`}>{item?.name || 'Collection'}</p>
+            <p className={`text-2xl font-semibold italic categories-name ${colorsForCollections[index].color}`}>{item?.name || 'Collection'}</p>
           </div>
         ))}
       </div>
@@ -99,7 +132,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
               )}
               <h2 className="text-sm font-semibold mb-4 text-white/60">
                 CHOOSE{" "}
-                <span className={`italic italic-font text-lg ml-1 font-medium ${selected?.color}`}>
+                <span className={`italic italic-font text-lg ml-1 font-medium ${categories[index]}`}>
                   {selected?.name}
                 </span>
               </h2>
