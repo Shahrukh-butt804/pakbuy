@@ -194,6 +194,7 @@ const Header: React.FC = () => {
                     text: response?.data?.message,
                 })
                 dispatch(logout())
+                navigate('/')
             } else {
                 Swal.fire({
                     icon: 'error',
