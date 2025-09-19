@@ -36,6 +36,7 @@ const PrivateRoute = () => {
   const dispatch = useDispatch();
 
   const token = Cookies.get("accessToken");
+  console.log("🚀 ~ PrivateRoute ~ token:", token)
 
   if (!token) {
     Swal.fire({
@@ -52,6 +53,7 @@ const PrivateRoute = () => {
   try {
 
     decoded = jwtDecode<JwtPayload>(token);
+    console.log("🚀 ~ PrivateRoute ~ decoded:", decoded)
 
   } catch (_error) {
 
@@ -69,10 +71,9 @@ const PrivateRoute = () => {
 
   }
   const currentTime = Date.now() / 1000;
-
+  console.log("🚀 ~ isExpired", decoded.exp < currentTime)
 
   if (decoded.exp < currentTime) {
-
     Swal.fire({
       icon: 'error',
       title: 'Sorry, you need to become a member first. If you are a member, please login.',
