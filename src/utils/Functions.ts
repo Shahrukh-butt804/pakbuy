@@ -23,7 +23,7 @@ export const CartImageUrl = (image: string) => {
 
     var basename = "/"
     if (hostname.includes("react.customdev.solutions")) {
-        basename = "./"
+        basename = "/choosewell/"
     }
     basename;
 
