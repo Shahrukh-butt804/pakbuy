@@ -26,7 +26,7 @@ const Checkout: React.FC = () => {
     const [couponId, setCouponId] = useState('')
 
     const myCart = useSelector(selectCartItems)
-    const [subTotal, setSubTotal] = useState(myCart?.reduce((total: number, item: any) => total + item.price, 0))
+    const [subTotal, setSubTotal] = useState(myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0))
     const tax = subTotal * 0.2
     const [discountedPrice, setDiscountedPrice] = useState(0)
 
@@ -97,8 +97,7 @@ const Checkout: React.FC = () => {
         const values = form.getFieldsValue(); // 👈 get all form values
 
         const products = cartItems.map((item: any) => ({
-            packageId: item._id,
-            name: item.name,
+            collectionId: item._id,
             quantity: 1,
         }));
 
@@ -305,8 +304,8 @@ const Checkout: React.FC = () => {
                                         </div>
                                     ))}
                                     <div className="flex flex-col">
-                                        <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                        <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        <span className="font-semibold text-gray-400 mt-1">{item.name}</span>
+                                        <span className="text-xs text-gray-300">${item.CollectionPrice?.toFixed(2)}</span>
                                     </div>
                                 </div>
 

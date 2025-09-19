@@ -64,7 +64,7 @@ function CheckoutForm({ handleSubmitForm ,  showSubmitBtn = true }: any) {
             />
             {showSubmitBtn &&<div className="text-center">
                 <Button onClick={(e: any) => handleSubmit(e)}
-                    disabled={!stripe || loading}  htmlType="submit" className="mainbtn private-label-button site-btn w-full mt-5">
+                    disabled={!stripe || loading}  htmlType="submit" className="mainbtn my-custom-btn private-label-button site-btn w-full mt-5">
                     {loading ? "Processing..." : "SUBMIT"}
                 </Button>
             </div>}
