@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../../constants/api';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { makeBaseQueryWith401Handler } from '../../utils/Functions';
 
 export const authSlice = createApi({
     reducerPath: 'authSlice',
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + "/auth", credentials: 'include' }),
+    baseQuery: makeBaseQueryWith401Handler("/auth"),
     tagTypes: ['Auth'],
     endpoints: (builder) => ({
         login: builder.mutation({
