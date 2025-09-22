@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "../../constants/api";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { makeBaseQueryWith401Handler } from "../../utils/Functions";
 
 export const collectionSlice = createApi({
     reducerPath: "collectionSlice",
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + "/collections", credentials: 'include' }),
+    baseQuery: makeBaseQueryWith401Handler("/collections"),
     endpoints: (builder) => ({
         getAllCollection: builder.query({
             query: () => "/get-all-collection",

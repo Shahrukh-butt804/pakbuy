@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "../../constants/api";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { makeBaseQueryWith401Handler } from "../../utils/Functions";
 
 export const profileSlice = createApi({
     reducerPath: "profileSlice",
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + "/profile", credentials: 'include' }),
+    baseQuery: makeBaseQueryWith401Handler("/profile"),
     endpoints: (builder) => ({
         getMyProfile: builder.query({
             query: () => "/my-profile",

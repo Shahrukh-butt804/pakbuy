@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "../../constants/api";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { makeBaseQueryWith401Handler } from "../../utils/Functions";
 
 export const couponSlice = createApi({
     reducerPath: "couponSlice",
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + "/coupons", credentials: 'include' }),
+    baseQuery: makeBaseQueryWith401Handler("/coupons"),
     endpoints: (builder) => ({
         validateCoupon: builder.mutation({
             query: (body) => ({
