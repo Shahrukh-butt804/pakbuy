@@ -17,7 +17,6 @@ const ProductWithSidebar: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
 
-
     const { data: collection } = useGetAllCollectionQuery({})
 
     useEffect(() => {
@@ -190,15 +189,27 @@ const ProductWithSidebar: React.FC = () => {
                                             <h3 className="text-lg font-semibold mb-1">
                                                 {product.name}
                                             </h3>
-                                            <div className="flex items-center text-sm text-yellow-400 mb-1">
-                                                {Array.from({ length: 5 }).map((_, i) => (
-                                                    <Star
-                                                        key={i}
-                                                        className={`w-4 h-4 ${i < product.rating ? 'fill-yellow-400' : 'fill-gray-300'}`}
-                                                    />
-                                                ))}
+                                         <div className="flex items-center text-sm text-yellow-400 mb-1">
+
+                                                {Array.from({ length: 5 }).map((_, i) => {
+                                                    const full = i + 1 <= Math.floor(product.rating);
+                                                    const half = !full && i < product.rating;
+
+                                                    return (
+                                                        <div key={i} className="relative w-4 h-4">
+                                                            <Star className="w-4 h-4 fill-gray-300 absolute" />
+                                                            {full && <Star className="w-4 h-4 fill-yellow-400 absolute" />}
+                                                            {half && (
+                                                                <Star
+                                                                    className="w-4 h-4 fill-yellow-400 absolute"
+                                                                    style={{ clipPath: "inset(0 50% 0 0)" }}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
                                                 <span className="ml-2 text-gray-300">
-                                                    2643
+                                                    {product.review}
                                                 </span>
                                             </div>
                                             <p className="text-gray-400 text-sm">
