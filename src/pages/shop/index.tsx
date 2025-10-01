@@ -189,7 +189,7 @@ const ProductWithSidebar: React.FC = () => {
                                             <h3 className="text-lg font-semibold mb-1">
                                                 {product.name}
                                             </h3>
-                                            <div className="flex items-center text-sm text-yellow-400 mb-1">
+                                         <div className="flex items-center text-sm text-yellow-400 mb-1">
 
                                                 {Array.from({ length: 5 }).map((_, i) => {
                                                     const full = i + 1 <= Math.floor(product.rating);
