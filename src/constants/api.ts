@@ -11,7 +11,7 @@ if (hostname.includes("react.customdev.solutions"))
     URL = servers.customDev;
 else if (hostname.includes("choosewell"))
     URL = servers.live;
-else URL = servers.local;
+else URL = servers.customDev;
 
 export const SOCKET_URL = `${URL}`;
 export const UPLOADS_URL = URL + "/";
