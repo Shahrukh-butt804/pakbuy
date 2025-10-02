@@ -553,8 +553,7 @@ const Header: React.FC = () => {
                                 <button
                                     disabled={logoutLoading}
                                     className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                                >
-                                    <span className="" onClick={() => {
+                                    onClick={() => {
                                         Swal.fire({
                                             title: 'Are you sure you want to logout?',
                                             text: "You won't be able to revert this!",
@@ -568,7 +567,9 @@ const Header: React.FC = () => {
                                                 handleLogout();
                                             }
                                         })
-                                    }}>logout</span>
+                                    }}
+                                >
+                                    <span className="" >logout</span>
 
                                 </button></> :
 
@@ -576,13 +577,15 @@ const Header: React.FC = () => {
 
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                    onClick={() => closeModal()}
                                 >
-                                    <span className="" onClick={() => closeModal()}>Member Sign up</span>
+                                    <span className="" >Member Sign up</span>
                                 </button>
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
+                                    onClick={() => setIsModalOpen(true)}
                                 >
-                                    <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
+                                    <span className="" >Login</span>
                                 </button>
                             </div>
                         }
