@@ -197,7 +197,7 @@ const ProductWithSidebar: React.FC = () => {
 
                                                     return (
                                                         <div key={i} className="relative w-4 h-4">
-                                                            <Star className="w-4 h-4 fill-gray-300 absolute" />
+                                                            <Star className="w-4 h-4 fill-gray-300 absolute" stroke="none" />
                                                             {full && <Star className="w-4 h-4 fill-yellow-400 absolute" />}
                                                             {half && (
                                                                 <Star
