@@ -9,6 +9,7 @@ import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
 import { clearCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { useCreateOrderMutation } from "../../redux/services/orderSlice";
+import { useValidateCouponMutation } from "../../redux/services/couponSlice";
 
 const { Option } = Select;
 
@@ -17,24 +18,86 @@ const Checkout: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [shipDifferent, setShipDifferent] = useState(false);
+    const [couponCode, setCouponCode] = useState('')
     const [form] = Form.useForm();
     const [createOrder] = useCreateOrderMutation()
+    const [validateCoupon, { isLoading }] = useValidateCouponMutation()
+    const [isCouponApplied, setIsCouponApplied] = useState(false)
+    const [couponId, setCouponId] = useState('')
 
     const myCart = useSelector(selectCartItems)
-    const subTotal = myCart?.reduce((total: number, item: any) => total + item.price, 0);
-    const tax = subTotal * 0.2;
+    const [subTotal, setSubTotal] = useState(myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0))
+    const tax = subTotal * 0.2
+    const [discountedPrice, setDiscountedPrice] = useState(0)
 
 
 
     const dispatch = useDispatch()
     const cartItems = useSelector((state: any) => state.cart.items);
 
+
+
+    const handleValidateCoupon = async () => {
+
+        if (isCouponApplied) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Coupon already applied',
+            })
+        }
+
+        try {
+            const res: any = await validateCoupon({ code: couponCode })
+            if (res?.data?.success) {
+                const { type, value } = res.data.coupon
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you really want to apply this coupon?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, apply it",
+                    cancelButtonText: "No, cancel"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (type === "percentage") {
+                            const tax = subTotal * 0.2;
+                            const grandTotal = subTotal + tax;
+                            const discounted = grandTotal - (grandTotal * value) / 100;
+                            setDiscountedPrice(discounted);
+                        } else {
+                            const tax = subTotal * 0.2;
+                            const grandTotal = subTotal + tax;
+                            const discounted = grandTotal - value;
+                            setDiscountedPrice(discounted);
+                        }
+                        setIsCouponApplied(true)
+                        setCouponId(res.data.coupon._id)
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: res.message || res?.error?.data?.message,
+                })
+            }
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || error?.data?.message || 'Something went wrong',
+            })
+            console.log("🚀 ~ handleValidateCoupon ~ error:", error)
+        }
+    }
+
+
     const handleSubmit = async (token: any) => {
         const values = form.getFieldsValue(); // 👈 get all form values
 
         const products = cartItems.map((item: any) => ({
-            packageId: item._id,
-            name: item.name,
+            collectionId: item._id,
             quantity: 1,
         }));
 
@@ -61,6 +124,7 @@ const Checkout: React.FC = () => {
             token,
         };
 
+
         if (shipDifferent) {
             payload.shippingAddress = {
                 firstName: values.shippingFirstName,
@@ -74,6 +138,12 @@ const Checkout: React.FC = () => {
                 phone: values.shippingPhone,
             };
         }
+
+        if (couponId && isCouponApplied) {
+            payload.couponId = couponId
+        }
+
+
 
         try {
             const response: any = await createOrder(payload);
@@ -123,16 +193,16 @@ const Checkout: React.FC = () => {
 
                 <aside className="w-full md:w-1/3 bg-[#1e2432] text-white p-5 rounded-xl shadow-md">
                     {/* Title */}
-                    <h3 className="text-lg font-semibold mb-4">Summary</h3>
+                    {/* <h3 className="text-lg font-semibold mb-4">Summary</h3> */}
 
                     {/* Total */}
-                    <div className="flex justify-between mb-4">
+                    {/* <div className="flex justify-between mb-4">
                         <span className="text-sm">Total</span>
                         <span className="text-sm font-medium">${subTotal + tax}</span>
-                    </div>
+                    </div> */}
 
                     {/* Gift Card Discount */}
-                    <div className="flex justify-between items-center mb-1">
+                    {/* <div className="flex justify-between items-center mb-1">
                         <span className="text-sm">Gift Card Discount</span>
                         <button className="text-xs text-pink-400 hover:text-pink-300">Apply Code</button>
                     </div>
@@ -145,40 +215,75 @@ const Checkout: React.FC = () => {
                         <button className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Apply
                         </button>
-                    </div>
+                    </div> */}
+
+                    {/* Gift Card Discount */}
+
 
                     {/* Coupon Code */}
-                    <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm">Coupon Code</span>
-                        <button className="text-xs text-pink-400 hover:text-pink-300" >Apply Code</button>
-                    </div>
-                    <div className="flex items-center mb-6">
-                        <input
-                            type="text"
-                            placeholder="Coupon Code"
-                            className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
-                        />
-                        <button className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
-                            Apply
+
+
+
+                    {!isCouponApplied ?
+                        <>
+                            <div className="flex justify-between items-center mb-1">
+                                <span className="text-sm">Coupon Code</span>
+                                <button className="text-xs text-pink-400 hover:text-pink-300" >Apply Code</button>
+                            </div>
+
+                            <div className="flex items-center mb-6">
+                                <input
+                                    type="text"
+                                    placeholder="Coupon Code"
+                                    value={couponCode}
+                                    onChange={(e) => setCouponCode(e.target.value)}
+                                    className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
+                                />
+                                <button
+                                    onClick={handleValidateCoupon}
+                                    className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                                    {isLoading ? "wait..." : "Apply"}
+                                </button>
+                            </div>
+                        </>
+                        :
+
+                        <button
+                            onClick={() => {
+                                setCouponCode("")
+                                setIsCouponApplied(false)
+                                setSubTotal(myCart?.reduce((total: number, item: any) => total + item.price, 0))
+                            }}
+                            className="bg-[#D7C6B7] hover:bg-[#D7C6B7] w-full px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                            Clear Coupon
                         </button>
-                    </div>
+                    }
 
 
-                    <div style={{ padding: 16 }}>
-                        <h4>Summary</h4>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                            <span>Sub-total:</span>
-                            <span>${subTotal.toFixed(2)}</span>
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                            <span>Tax:</span>
-                            <span>${tax.toFixed(2)}</span>
-                        </div>
-                        <div>
-                            <h4>Amount <span style={{ float: "right" }}>${(subTotal + tax).toFixed(2)}</span></h4>
-                        </div>
-                    </div>
+                    {discountedPrice && isCouponApplied ? <>
 
+                        <div style={{ padding: 16 }}>
+                            <h4>Summary</h4>
+                            <div>
+                                <h4>Discounted Price <span style={{ float: "right" }}>${(discountedPrice).toFixed(2)}</span></h4>
+                            </div>
+                        </div>
+                    </> : <>
+                        <div style={{ padding: 16 }}>
+                            <h4>Summary</h4>
+                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                                <span>Sub-total:</span>
+                                <span>${subTotal.toFixed(2)}</span>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+                                <span>Tax:</span>
+                                <span>${tax.toFixed(2)}</span>
+                            </div>
+                            <div>
+                                <h4>Amount <span style={{ float: "right" }}>${(subTotal + tax).toFixed(2)}</span></h4>
+                            </div>
+                        </div>
+                    </>}
                     <List
                         itemLayout="horizontal"
                         dataSource={myCart}
@@ -199,8 +304,8 @@ const Checkout: React.FC = () => {
                                         </div>
                                     ))}
                                     <div className="flex flex-col">
-                                        <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                        <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                        <span className="font-semibold text-gray-400 mt-1">{item.name}</span>
+                                        <span className="text-xs text-gray-300">${item.CollectionPrice?.toFixed(2)}</span>
                                     </div>
                                 </div>
 

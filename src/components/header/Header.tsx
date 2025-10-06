@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import PaymentPage from "../../components/check-out";
+import { UPLOADS_URL } from "../../constants/api";
 import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice";
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
@@ -88,7 +89,7 @@ const Header: React.FC = () => {
     const user = useSelector(selectUser);
     const myCart = useSelector(selectCartItems)
 
-    const subTotal = myCart?.reduce((total: number, item: any) => total + item.price, 0);
+    const subTotal = myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0);
     const tax = subTotal * 0.2;
 
 
@@ -193,6 +194,7 @@ const Header: React.FC = () => {
                     text: response?.data?.message,
                 })
                 dispatch(logout())
+                navigate('/')
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -551,8 +553,7 @@ const Header: React.FC = () => {
                                 <button
                                     disabled={logoutLoading}
                                     className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
-                                >
-                                    <span className="" onClick={() => {
+                                    onClick={() => {
                                         Swal.fire({
                                             title: 'Are you sure you want to logout?',
                                             text: "You won't be able to revert this!",
@@ -566,7 +567,9 @@ const Header: React.FC = () => {
                                                 handleLogout();
                                             }
                                         })
-                                    }}>logout</span>
+                                    }}
+                                >
+                                    <span className="" >logout</span>
 
                                 </button></> :
 
@@ -574,13 +577,15 @@ const Header: React.FC = () => {
 
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                    onClick={() => closeModal()}
                                 >
-                                    <span className="" onClick={() => closeModal()}>Member Sign up</span>
+                                    <span className="" >Member Sign up</span>
                                 </button>
                                 <button
                                     className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
+                                    onClick={() => setIsModalOpen(true)}
                                 >
-                                    <span className="" onClick={() => setIsModalOpen(true)}>Login</span>
+                                    <span className="" >Login</span>
                                 </button>
                             </div>
                         }
@@ -1094,15 +1099,14 @@ const Header: React.FC = () => {
                                         <div className="flex flex-col items-center">
                                             <img
                                                 crossOrigin="anonymous"
-                                                // src={UPLOADS_URL + product.image}
-                                                src={ImageUrl(item.name + ".png")}
+                                                src={UPLOADS_URL + item.image}
                                                 alt={item.name}
                                                 className="w-20 h-15  border-2 border-white object-cover -ml-2 first:ml-0"
                                             />
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
-                                            <span className="text-xs text-gray-500">${item.price?.toFixed(2)}</span>
+                                            <span className="text-xs text-gray-500">${item.CollectionPrice?.toFixed(2)}</span>
                                         </div>
                                     </div>
 
@@ -1111,28 +1115,32 @@ const Header: React.FC = () => {
                         />
 
                         <Divider />
-                        <div className="text-center space-y-1">
-                            <p>
-                                Sub-total: <strong>${subTotal.toFixed(2)}</strong>
-                            </p>
-                            <p>
-                                Tax (20%): <strong>${tax.toFixed(2)}</strong>
-                            </p>
-                            <p className="text-xl">
-                                Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
-                            </p>
-                            <button
-                                // onClick={() => navigate("/checkout")}
-                                onClick={() => {
-                                    onClose();
-                                    navigate("/checkout");
-                                }}
+                        {myCart.length > 0 && <>
+                            <div className="text-center space-y-1">
+                                <p>
+                                    Sub-total: <strong>${subTotal.toFixed(2)}</strong>
+                                </p>
+                                <p>
+                                    Tax (20%): <strong>${tax.toFixed(2)}</strong>
+                                </p>
+                                <p className="text-xl">
+                                    Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
+                                </p>
+                                <button
+                                    // onClick={() => navigate("/checkout")}
+                                    onClick={() => {
+                                        onClose();
+                                        navigate("/checkout");
+                                    }}
 
-                                className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
-                            >
-                                CHECKOUT
-                            </button>
-                        </div>
+                                    className="mt-2 w-full site-btn bg-transparent text-black border border-gray-600 font-medium rounded-full hover:bg-transparent hover:text-black hover:border-gray-600 focus:bg-transparent active:bg-transparent"
+                                >
+                                    CHECKOUT
+                                </button>
+                            </div></>}
+
+
+
                     </div>
 
                 </div>

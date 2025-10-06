@@ -1,41 +1,91 @@
 import { Provider } from "react-redux";
-import Home from "./pages/home";
-import ContactUs from "./pages/contactUs";
-import Checkout from "./pages/checkout";
-import Shop from "./pages/shop";
 import Aboutus from "./pages/aboutus";
+import Checkout from "./pages/checkout";
+import ContactUs from "./pages/contactUs";
+import Home from "./pages/home";
 import Orderlog from "./pages/orderlog";
 import OrderDetails from "./pages/orderlog/orderDetails";
-import Profile from "./pages/profile";
-import EditProfile from "./pages/profile/editProfile";
-import ChangePassword from "./pages/profile/changePassword";
-import TermsConditions from "./pages/termsConditions";
 import PrivacyPolicy from "./pages/privacyPolicy";
+import Profile from "./pages/profile";
+import ChangePassword from "./pages/profile/changePassword";
+import EditProfile from "./pages/profile/editProfile";
+import Shop from "./pages/shop";
+import TermsConditions from "./pages/termsConditions";
 
 
-import { store } from "./redux/store";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
-import { useSelector } from "react-redux";
-import { selectUser } from "./redux/reducers/userSlice";
 import Swal from "sweetalert2";
+import { logout } from "./redux/reducers/userSlice";
+import { store } from "./redux/store";
 
 
+interface JwtPayload {
+  exp: number;
+  email?: string;
+  isAdmin?: boolean;
+  [key: string]: any;
+}
 
+// const user = useSelector(selectUser);
 
+// const isAuthenticated = user && user._id;
 const PrivateRoute = () => {
-  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
-  const isAuthenticated = user && user._id;
+  const token = Cookies.get("accessToken");
 
-  if (!isAuthenticated) {
+  if (!token) {
     Swal.fire({
       icon: 'error',
       title: 'Sorry, you need to become a member first. If you are a member, please login.',
       text: 'You need to login first!',
     })
+    dispatch(logout())
+    return <Navigate to="/" replace />;
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+  let decoded: JwtPayload;
+
+  try {
+
+    decoded = jwtDecode<JwtPayload>(token);
+
+  } catch (_error) {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Sorry, you need to become a member first. If you are a member, please login.',
+      text: 'You need to login first!',
+    })
+    dispatch(logout())
+
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+
+    return <Navigate to="/" replace />;
+
+  }
+  const currentTime = Date.now() / 1000;
+
+  if (decoded.exp < currentTime) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Sorry, you need to become a member first. If you are a member, please login.',
+      text: 'You need to login first!',
+    })
+
+    dispatch(logout())
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+
+    return <Navigate to="/" replace />;
+
+  }
+
+  return <Outlet />;
 };
 
 

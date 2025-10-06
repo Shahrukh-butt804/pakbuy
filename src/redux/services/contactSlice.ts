@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../../constants/api';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { makeBaseQueryWith401Handler } from '../../utils/Functions';
 
 export const contactSlice = createApi({
     reducerPath: 'contactSlice',
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + "/contact-us", credentials: 'include' }),
+    baseQuery: makeBaseQueryWith401Handler("/contact-us"),
     tagTypes: ['product'],
     endpoints: (builder) => ({
 

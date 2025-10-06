@@ -1,19 +1,37 @@
-export const getBasename = () => {
-    const { hostname } = window.location;
-    var basename = ""
-    if (hostname.includes("react.customdev.solutions")) {
-        // basename = "/choosewell"
-        basename = "/"
-    }
-    return basename;
-};
-
-// export const ImageUrl = (image: string) => {
-//     let { PUBLIC_URL } = process.env;
-//     return `${PUBLIC_URL}/images/${image}`;
-// };
+import { FetchArgs, fetchBaseQuery, FetchBaseQueryError, BaseQueryFn } from "@reduxjs/toolkit/query/react";
+import Swal from "sweetalert2";
+import { BASE_URL } from "../constants/api";
 
 export const ImageUrl = (image: string) => {
-    return `images/${image}`;
+    const { hostname } = window.location;
+
+    var basename = "/"
+    if (hostname.includes("react.customdev.solutions")) {
+        basename = "/choosewell/"
+    }
+    basename;
+
+    return `${basename}images/${image}`;
 };
 
+
+export const makeBaseQueryWith401Handler = (urlSuffix: string) => {
+    const rawBaseQuery = fetchBaseQuery({
+        baseUrl: BASE_URL + urlSuffix,
+        credentials: 'include',
+    });
+
+    const baseQueryWith401Handler: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+        args,
+        api,
+        extraOptions
+    ) => {
+        const result : any = await rawBaseQuery(args, api, extraOptions);
+        if (result.error?.status === 401 && result.error?.data?.message === "User is blocked") {
+            Swal.fire("Error", result.error.data.message, "error");
+        }
+        return result;
+    };
+
+    return baseQueryWith401Handler;
+};

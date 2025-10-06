@@ -5,6 +5,7 @@ import Header from "../../components/header/Header";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/reducers/userSlice';
+import { UPLOADS_URL } from '../../constants/api';
 
 const Profile: React.FC = () => {
     const navigate = useNavigate();
@@ -24,15 +25,13 @@ const Profile: React.FC = () => {
                     <div className="flex flex-col items-center">
                         {/* Profile Image */}
 
-                        {/* <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-3">
-                            <img
-                                src="https://via.placeholder.com/100x100?text=Image"
-                                alt="Profile"
-                                className="w-16 h-16 object-cover"
-                            />
+                        <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-3">
+                            <img src={
+                                user.image ? UPLOADS_URL + user.image :
+                                    "https://static.vecteezy.com/system/resources/previews/036/280/651/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
+                            } className='w-24 h-24 rounded-full' crossOrigin='anonymous' alt="image" />
                         </div>
 
-                        <p className="text-[#d46b08] text-sm mb-6">User ID: 001</p> */}
 
                         {/* User Info */}
                         <div className="grid grid-cols-2 gap-4 w-full text-left mb-6 text-black">

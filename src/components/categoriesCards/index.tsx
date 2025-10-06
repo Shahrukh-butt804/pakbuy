@@ -1,73 +1,41 @@
-import React, { useState } from 'react';
 import { Modal } from 'antd';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../redux/reducers/userSlice';
 import { useNavigate } from 'react-router';
-import { useGetAllProductsQuery } from '../../redux/services/productSlice';
+import { selectUser } from '../../redux/reducers/userSlice';
+import { useGetAllCollectionQuery } from '../../redux/services/collectionSlice';
 
 const categories = [
-  {
-    title: 'Brain Health',
-    keyword: 'mind',
-    color: 'text-pink-300',
-    points: [
-      { label: 'KNOW', desc: 'Boost mental clarity at home with easy, insightful tech.' },
-      { label: 'PREDICT', desc: 'Discover your Alzheimer’s and dementia risk with a simple genetic test.' },
-      { label: 'ENGAGE', desc: 'Join thousands using a proven brain tool—easy, effective, anywhere.' },
-      { label: 'PREVENT', desc: 'Eat smarter, think sharper—best food for your brain.' },
-    ],
-    tagline: 'Clear fog. Gain Insight...Peace of Mind.',
-  },
-  {
-    title: 'Elite Fitness',
-    keyword: 'ultra',
-    color: 'text-yellow-300',
-    points: [
-      { label: 'KNOW', desc: 'Track your body’s full potential with precision tech.' },
-      { label: 'PREDICT', desc: 'Learn injury risks and recovery rates with performance data.' },
-      { label: 'ENGAGE', desc: 'Join elite athletes using smart training tools.' },
-      { label: 'PREVENT', desc: 'Prevent burnout and optimize your fitness plan.' },
-    ],
-    tagline: 'Train smarter. Push limits...Go Ultra.',
-  },
-  {
-    title: 'Metabolism',
-    keyword: 'shift',
-    color: 'text-green-400',
-    subtitle: 'NON-MEMBER PREVIEW',
-    points: [
-      { label: 'KNOW', desc: 'In just 20 minutes, learn how your body really works.' },
-      { label: 'PREDICT', desc: 'Spot future metabolic risks early and take control.' },
-      { label: 'ENGAGE', desc: 'Understand your metabolism—and start shifting it.' },
-      { label: 'PREVENT', desc: 'Real food, real life—fuel your body well -- naturally.' },
-    ],
-    tagline: 'Understand. Satisfy...Feel Good.',
-  },
-  {
-    title: 'Heart Health',
-    keyword: 'beat',
-    color: 'text-blue-300',
-    points: [
-      { label: 'KNOW', desc: 'Find out where your heart health stands-knowledge is power.' },
-      { label: 'PREDICT', desc: '1 in 5 over 45 have hidden heart disease. Are you at risk?' },
-      { label: 'ENGAGE', desc: 'Get daily insights that drive real change.' },
-      { label: 'PREVENT', desc: 'Protect your heart with food-first strategies that work.' },
-    ],
-    tagline: 'See. Know...Live with confidence.',
-  },
-  {
-    title: 'Sleep Well',
-    keyword: 'snooze',
-    color: 'text-cyan-300',
-    points: [
-      { label: 'KNOW', desc: 'Finally understand why you’re not sleeping-and improve it.' },
-      { label: 'PREDICT', desc: 'Wind down with proven tech that sets the stage for rest.' },
-      { label: 'ENGAGE', desc: 'Simple tools, real sleep-wake up feeling human again.' },
-      { label: 'PREVENT', desc: 'Eat for better sleep and better days ahead.' },
-    ],
-    tagline: 'Rest. Recover... Robust Living.',
-  },
-  // Add more categories as needed...
+  'text-pink-300',
+  'text-rose-300',
+  'text-fuchsia-300',
+  'text-purple-300',
+  'text-violet-300',
+  'text-indigo-300',
+  'text-blue-300',
+  'text-sky-300',
+  'text-cyan-300',
+  'text-teal-300',
+  'text-emerald-300',
+  'text-green-300',
+  'text-lime-300',
+  'text-yellow-300',
+  'text-amber-300',
+  'text-orange-300',
+  'text-red-300',
+  'text-pink-400',
+  'text-rose-400',
+  'text-fuchsia-400',
+  'text-purple-400',
+  'text-violet-400',
+  'text-indigo-400',
+  'text-blue-400',
+  'text-sky-400',
+  'text-cyan-400',
+  'text-teal-400',
+  'text-emerald-400',
+  'text-green-400',
+  'text-lime-400'
 ];
 
 type ChooseSectionProps = {
@@ -79,14 +47,27 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
   const [selected, setSelected] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
-  const { data: packages } = useGetAllProductsQuery({})
+  const [index, setIndex] = useState(0)
+
+  const { data: collections } = useGetAllCollectionQuery({})
 
   const user = useSelector(selectUser);
 
-  const openModal = (item: any) => {
-    const packageItem = packages?.find((p: any) => p.name.toLowerCase() === item.keyword.toLowerCase());
+
+  const colorsForCollections = useMemo(() => {
+    if (!collections) return [];
+    return collections.map(() => {
+      const randomIndex = Math.floor(Math.random() * categories.length);
+      return { index: randomIndex, color: categories[randomIndex] };
+    });
+  }, [collections]);
+
+  const openModal = (item: any, index: number) => {
+    const packageItem = collections?.find((p: any) => p.name.toLowerCase() === item.name.toLowerCase());
+
     if (packageItem) {
       setSelectedPackage(packageItem)
+      setIndex(index)
     }
     setSelected(item);
     setIsModalVisible(true);
@@ -97,18 +78,18 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
   return (
     <div className="flex items-center justify-center p-8">
       <div className="flex justify-center items-center gap-5 flex-wrap">
-        {categories.map((item, index) => (
+        {collections?.map((item: any, index: number) => (
           <div
             key={index}
             className="golden_border border-white/10 bg-[#000000c4] rounded-sm p-4 py-10 text-center hover:shadow-md transition relative categories-main-cards w-[280px] cursor-pointer"
-            onClick={() => openModal(item)}
+            onClick={() => openModal(item, colorsForCollections[index].index)}
             data-aos="zoom-in"
             data-aos-delay={index * 300}
             data-aos-duration="800"
           >
-            <p className="text-sm text-white/70 mb-2 categories-title">{item.title}</p>
+            <p className="text-sm text-white/70 mb-2 categories-title">{item?.title || 'Choose Collection'}</p>
             <p className="text-white text-sm categories-choose">CHOOSE</p>
-            <p className={`text-2xl font-semibold italic categories-name ${item.color}`}>{item.keyword}</p>
+            <p className={`text-2xl font-semibold italic categories-name ${colorsForCollections[index].color}`}>{item?.name || 'Collection'}</p>
           </div>
         ))}
       </div>
@@ -143,7 +124,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                       }}
                     >
                       <span className='text-black'>
-                        Purchase Collection  ${selectedPackage?.price}
+                        Purchase Collection  ${selectedPackage?.CollectionPrice}
                       </span>
                     </button>
                   )}
@@ -151,22 +132,22 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
               )}
               <h2 className="text-sm font-semibold mb-4 text-white/60">
                 CHOOSE{" "}
-                <span className={`italic italic-font text-lg ml-1 font-medium ${selected.color}`}>
-                  {selected.keyword}
+                <span className={`italic italic-font text-lg ml-1 font-medium ${categories[index]}`}>
+                  {selected?.name}
                 </span>
               </h2>
 
 
 
-              {selected.points.map((point: any, idx: number) => (
+              {selected.description.map((data: any, idx: number) => (
                 <p key={idx} className="mb-2">
-                  <span className={`font-bold mr-2 ${selected.color}`}>{point.label}</span>
-                  {point.desc}
+                  <span className={`font-bold mr-2 ${categories[index]}`}>{data.heading}</span>
+                  {data.text}
                 </p>
               ))}
 
-              <p className={`mt-6 text-center text-lg font-medium ${selected.color}`}>
-                {selected.tagline}
+              <p className={`mt-6 text-center text-lg font-medium ${categories[index]}`}>
+                {selected.slogan}
               </p>
             </div>
           </div>
