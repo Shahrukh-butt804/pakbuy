@@ -11,6 +11,7 @@ import { addToCart } from "../../redux/reducers/cartSlice";
 import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
 
 
+
 const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
     // const [likedItems, setLikedItems] = useState<number[]>([]);
