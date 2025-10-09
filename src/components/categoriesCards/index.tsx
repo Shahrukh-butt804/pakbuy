@@ -140,7 +140,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
 
 
               {selected.description.map((data: any, idx: number) => (
-                <p key={idx} className="mb-2">
+                <p key={idx} className="mb-2 abc">
                   <span className={`font-bold mr-2 ${categories[index]}`}>{data.heading}</span>
                   {data.text}
                 </p>

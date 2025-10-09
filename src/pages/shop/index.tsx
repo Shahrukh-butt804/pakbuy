@@ -1,4 +1,5 @@
-import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
+// import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
+import {  Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -174,7 +175,7 @@ const ProductWithSidebar: React.FC = () => {
                                             />
                                         </div>
                                         <div className={`${!isGridView ? "flex-1" : ""}`}>
-                                            <div className="flex justify-center md:justify-start space-x-3 my-3">
+                                            {/* <div className="flex justify-center md:justify-start space-x-3 my-3">
                                                 <Heart
                                                     onClick={() => toggleLike(product.id)}
                                                     className={`w-4 h-4 cursor-pointer ${isLiked
@@ -185,7 +186,7 @@ const ProductWithSidebar: React.FC = () => {
                                                 <Eye className="w-4 h-4 text-[#ff6680]" />
                                                 <Lock className="w-4 h-4 text-[#ff6680]" />
                                                 <ShoppingCart className="w-4 h-4 text-[#ff6680]" />
-                                            </div>
+                                            </div> */}
                                             <h3 className="text-lg font-semibold mb-1">
                                                 {product.name}
                                             </h3>

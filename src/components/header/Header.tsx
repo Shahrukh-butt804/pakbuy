@@ -776,7 +776,7 @@ const Header: React.FC = () => {
 
                         {/* Heading */}
                         <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome !</h3>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Register Now</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Become a CHOOSE Member Now</h2>
                         <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
 
                         {/* Form */}
@@ -853,7 +853,7 @@ const Header: React.FC = () => {
                             <div className="my-4 flex items-center gap-2 text-sm text-gray-700">
                                 <input type="checkbox" className="accent-black" />
                                 <label>
-                                    I agree to the privacy policy and terms of condition.
+                                    I agree to the privacy policy and terms and conditions.
                                 </label>
                             </div>
 
