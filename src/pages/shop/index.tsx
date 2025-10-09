@@ -33,11 +33,13 @@ const ProductWithSidebar: React.FC = () => {
         }
     }, [collection]);
 
+
     // const toggleLike = (id: number) => {
     //     setLikedItems((prev) =>
     //         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     //     );
     // };
+    // as
 
     function handleAddToCart(item: any) {
         dispatch(addToCart(item));
