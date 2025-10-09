@@ -13,7 +13,7 @@ import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
 
 const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
-    const [likedItems, setLikedItems] = useState<number[]>([]);
+    // const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string | any>();
     const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
@@ -33,11 +33,11 @@ const ProductWithSidebar: React.FC = () => {
         }
     }, [collection]);
 
-    const toggleLike = (id: number) => {
-        setLikedItems((prev) =>
-            prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-        );
-    };
+    // const toggleLike = (id: number) => {
+    //     setLikedItems((prev) =>
+    //         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    //     );
+    // };
 
     function handleAddToCart(item: any) {
         dispatch(addToCart(item));
@@ -158,7 +158,7 @@ const ProductWithSidebar: React.FC = () => {
                                 }`}
                         >
                             {selectedCollection?.products?.map((product: any) => {
-                                const isLiked = likedItems.includes(product.id);
+                                // const isLiked = likedItems.includes(product.id);
                                 return (
                                     <div
                                         key={product.id}
