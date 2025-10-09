@@ -614,7 +614,7 @@ footer a {
 }
 
 .leave-bg-content h2 span {
-  color: #F0CDCA;
+  color: #D7C6B7;
   font-family: 'SF Pro Display';
   font-size: 68px;
   font-style: normal;
@@ -645,6 +645,11 @@ footer a {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.abc span{
+  min-width: 70px;
+  display: inline-block;
 }
 
 
@@ -700,12 +705,13 @@ footer a {
   font-style: normal;
   font-weight: 590;
   line-height: normal;
+  margin-bottom: 40px;
 }
 
 .ethics-bound-section p {
   color: #FFF;
   font-family: 'SF Pro Display';
-  font-size: 15px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

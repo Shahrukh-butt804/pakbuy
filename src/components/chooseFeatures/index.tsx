@@ -7,23 +7,23 @@ type Feature = {
 
 const FEATURES: Feature[] = [
   {
-    title: "KNOW",
+    title: "REVEAL",
     description:
-      "Receive an informed health snapshot to guide your next steps.",
+      "Gain informed insights iinto your health to guide your next steps.",
   },
   {
-    title: "PREDICT",
+    title: "IGNITE",
     description:
-      "Find potential health risks so you can make positive changes.",
+      "Priortize an improve health in areas most important to you.",
   },
+  // {
+  //   title: "ENGAGE",
+  //   description: "Improve the health areas that you feel are most needed.",
+  // },
   {
-    title: "ENGAGE",
-    description: "Improve the health areas that you feel are most needed.",
-  },
-  {
-    title: "PREVENT",
+    title: "SUSTAIN",
     description:
-      "Address health concerns before they become a problem.",
+      "Enjoy the ongoing benefits of a healthier lifestyle.",
   },
 ];
 
@@ -37,7 +37,7 @@ export const ChooseFeatures: React.FC = () => {
           data-aos-delay="800"
           data-aos-duration="800"
         >
-          The 4 features of each CHOOSE Collection include:
+          The 3 features of each CHOOSE Collection include:
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 py-4">

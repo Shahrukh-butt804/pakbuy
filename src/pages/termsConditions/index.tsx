@@ -55,7 +55,7 @@ const AboutUs: React.FC = () => {
                         >
                             <h3 className="text-lg font-semibold mb-4">What you need to know</h3>
                             <ul className="list-disc list-inside text-sm text-gray-200 space-y-2">
-                                <li>We feature only companies with FDA-clearance, strong evidence, and clinical validation.</li>
+                                {/* <li>We feature only companies with FDA-clearance, strong evidence, and clinical validation.</li> */}
                                 <li>CHOOSE does NOT replace your doctor or insurance.</li>
                                 <li>Member input and evolving evidence shape new CHOOSE Well Collections.</li>
                                 <li><a href="#" className="text-blue-400 underline">Learn more</a></li>
@@ -68,7 +68,7 @@ const AboutUs: React.FC = () => {
                         >
                             <h3 className="text-lg font-semibold mb-4">CHOOSE standards:</h3>
                             <ul className="list-disc list-inside text-sm text-gray-200 space-y-2">
-                                <li>FDA clearance (where applicable)</li>
+                                <li>FDA clearance (where applicable). and other relevant approvals</li>
                                 <li>Clinical and peer-reviewed evidence</li>
                                 <li>Outstanding consumer reviews and customer support</li>
                                 <li>Common sense pricing, with no mark-up</li>
