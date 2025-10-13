@@ -19,8 +19,8 @@ export const EthicsBound: React.FC = () => {
               No Ads <br />  No Tracking <br /> No Conflicts of Interest
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              • Brands can’t pay to appear on CHOOSE. <br />
-              • We never process or sell your data. <br />
+              Brands can’t pay to appear on CHOOSE. <br />
+              We never process or sell your data. <br />
               {/* • We don’t sell medications or supplements. */}
             </p>
           </div>
@@ -37,7 +37,7 @@ export const EthicsBound: React.FC = () => {
             <p className="text-gray-400 text-sm leading-relaxed">
               Membership renewal is your choice. We believe we must prove value to earn your ongoing trust.
               <br />
-              Renew because you want to !
+              Renew because you want to!
             </p>
           </div>
         </div>
@@ -55,7 +55,7 @@ export const EthicsBound: React.FC = () => {
             <h3 className="text-lg font-semibold mb-3">Strictly Independent</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
               CHOOSE makes NO money from Members’ purchases. <br />
-              We accept NO funds from outside companies such as Pharma, Health systems or Insurers<br />
+              We accept NO funds from outside "companies such as pharma, health systems or insurers."<br />
               We don’t sell medications or supplements.
               {/* • Pharma <br />
               • Health systems <br />
