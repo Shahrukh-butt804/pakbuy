@@ -18,7 +18,7 @@ export const ChooseInfoSection: React.FC = () => {
             {/* <li>We feature only companies with FDA-clearance and/or other relevant approvals,  strong evidence, and clinical validation.</li> */}
             <li>CHOOSE does NOT replace your doctor or insurance.</li>
             <li>Member input and evolving evidence shape new CHOOSE Well Collections.</li>
-            <li><a className="text-blue-400 underline" onClick={() => navigate("/tips")}>Learn more</a></li>
+            <li><a className="text-blue-400 underline cursor-pointer" onClick={() => navigate("/tips")}>Learn more</a></li>
           </ul>
         </div>
 
