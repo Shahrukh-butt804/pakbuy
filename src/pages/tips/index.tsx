@@ -4,7 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
-import { useGetAllResourcesQuery } from "../../redux/services/resourceSlice";
+// import { useGetAllResourcesQuery } from "../../redux/services/resourceSlice";
 
 
 
@@ -13,8 +13,8 @@ const AboutUs: React.FC = () => {
 
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
-    const { data: resources } = useGetAllResourcesQuery({});
-    const termsConditions = resources?.find((item: any) => item.name === "Terms And Conditions")?.content;
+    // const { data: resources } = useGetAllResourcesQuery({});
+    // const termsConditions = resources?.find((item: any) => item.name === "Terms And Conditions")?.content;
 
 
     return (
