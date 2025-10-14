@@ -118,7 +118,7 @@ const Footer: React.FC = () => {
                                             <ul className="space-y-2 text-sm text-gray-300">
                                                 <li><a className="hover:text-white" onClick={() => navigate("/privacypolicy")}>Privacy Policy</a></li>
                                                 <li><a className="hover:text-white" onClick={() => navigate("/termsconditions")}>Terms & Conditions</a></li>
-                                                <li><a href="#" className="hover:text-white">Tips</a></li>
+                                                <li><a className="hover:text-white" onClick={() => navigate("/tips")}>Tips</a></li>
                                                 {/* <li><a href="#" className="hover:text-white">Resource</a></li> */}
                                             </ul>
                                         </div>
