@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from 'react-router';
 
 export const ChooseInfoSection: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="text-white px-6 py-12">
       <div className="max-w-6xl mx-auto flex flex-col gap-6 md:flex-row md:justify-between">
@@ -15,7 +18,7 @@ export const ChooseInfoSection: React.FC = () => {
             {/* <li>We feature only companies with FDA-clearance and/or other relevant approvals,  strong evidence, and clinical validation.</li> */}
             <li>CHOOSE does NOT replace your doctor or insurance.</li>
             <li>Member input and evolving evidence shape new CHOOSE Well Collections.</li>
-            <li><a href="#" className="text-blue-400 underline">Learn more</a></li>
+            <li><a className="text-blue-400 underline" onClick={() => navigate("/tips")}>Learn more</a></li>
           </ul>
         </div>
 

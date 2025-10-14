@@ -58,7 +58,7 @@ const AboutUs: React.FC = () => {
                                 {/* <li>We feature only companies with FDA-clearance, strong evidence, and clinical validation.</li> */}
                                 <li>CHOOSE does NOT replace your doctor or insurance.</li>
                                 <li>Member input and evolving evidence shape new CHOOSE Well Collections.</li>
-                                <li><a href="#" className="text-blue-400 underline">Learn more</a></li>
+                                <li><a  className="text-blue-400 underline" onClick={() => navigate("/tips")}>Learn more</a></li>
                             </ul>
                         </div>
 
