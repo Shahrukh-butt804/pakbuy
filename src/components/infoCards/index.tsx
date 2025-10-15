@@ -4,11 +4,26 @@ const InfoCards = () => {
   return (
     <div className="flex items-center justify-center p-6 info-cards-container">
       <div className="flex flex-col md:flex-row gap-6 max-w-6xl w-full">
+
+        {/* Right Card */}
+        <div
+          className="bg-[#000000c4] text-white rounded-xl p-8 flex-1"
+          data-aos="fade-left"
+          data-aos-delay="800"
+          data-aos-duration="1000"
+        >
+          <p>
+            Millions begin their health journey with hope, only to{' '}
+            <span className="font-semibold text-lg blue-text" style={{fontSize:"20px"}}>feel lost and frustrated</span> in a sea of influencers, sponsored content,
+            ads, and endless conflicting reviews.
+          </p>
+        </div>
+
         {/* Left Card */}
         <div
           className="bg-[#000000c4] text-white rounded-xl p-8 flex-1 "
           data-aos="fade-right"
-             data-aos-delay="800"
+          data-aos-delay="800"
           data-aos-duration="1000"
         >
           <p>
@@ -18,19 +33,7 @@ const InfoCards = () => {
           </p>
         </div>
 
-        {/* Right Card */}
-        <div
-          className="bg-[#000000c4] text-white rounded-xl p-8 flex-1"
-          data-aos="fade-left"
-             data-aos-delay="800"
-          data-aos-duration="1000"
-        >
-          <p>
-            Millions begin their health journey with hope, only to{' '}
-            <span className="font-semibold text-lg blue-text">feel lost and frustrated</span> in a sea of influencers, sponsored content,
-            ads, and endless conflicting reviews.
-          </p>
-        </div>
+
       </div>
     </div>
   );

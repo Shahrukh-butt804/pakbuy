@@ -55,7 +55,7 @@ export const EthicsBound: React.FC = () => {
             <h3 className="text-lg font-semibold mb-3">Strictly Independent</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
               CHOOSE makes NO money from Members’ purchases. <br />
-              We accept NO funds from outside "companies such as pharma, health systems or insurers."<br />
+              We accept NO funds from outside companies.<br />
               We don’t sell medications or supplements.
               {/* • Pharma <br />
               • Health systems <br />
