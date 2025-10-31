@@ -1,6 +1,5 @@
-import { CloseOutlined } from "@ant-design/icons";
 import { Button, Col, Divider, Drawer, List, Row } from 'antd';
-import { CircleUser, Menu, ShoppingCart, Star, X } from 'lucide-react';
+import { CircleUser, Menu, ShoppingCart, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +10,6 @@ import { removeFromCart, selectCartItems } from "../../redux/reducers/cartSlice"
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
-import { ImageUrl } from '../../utils/Functions';
 import NavItem from './NavItem';
 
 
@@ -40,30 +38,30 @@ const navigationItems = [
 
 
 
-interface Product {
-    id: number;
-    title: string;
-    price: number;
-    image: string;
-    rating: number;
-}
+// interface Product {
+//     id: number;
+//     title: string;
+//     price: number;
+//     image: string;
+//     rating: number;
+// }
 
-const addOns: Product[] = [
-    {
-        id: 1,
-        title: "Muse S Athena",
-        price: 200,
-        image: "product1.png",
-        rating: 5,
-    },
-    {
-        id: 2,
-        title: "Brain HQ",
-        price: 150,
-        image: "product1.png",
-        rating: 4,
-    },
-];
+// const addOns: Product[] = [
+//     {
+//         id: 1,
+//         title: "Muse S Athena",
+//         price: 200,
+//         image: "product1.png",
+//         rating: 5,
+//     },
+//     {
+//         id: 2,
+//         title: "Brain HQ",
+//         price: 150,
+//         image: "product1.png",
+//         rating: 4,
+//     },
+// ];
 
 
 
@@ -1022,17 +1020,17 @@ const Header: React.FC = () => {
 
             {/* cart */}
             {showCart && <Drawer
-                title="Bonus Add-On Options"
+                title="My Cart"
                 placement="right"
                 onClose={onClose}
                 open={showCart}
-                width={600}
-                extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
+                width={350}
+            // extra={<Button icon={<CloseOutlined />} onClick={onClose} />}
             >
 
                 <div className="flex gap-10">
 
-                    <div className={``}>
+                    {/* <div className={``}>
                         {addOns.map((item) => (
                             <div
                                 key={item.id}
@@ -1063,10 +1061,10 @@ const Header: React.FC = () => {
                                 </div>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
-                    <div className="w-1/2">
-                        <h3 className="text-xl font-bold mb-2">My Cart</h3>
+                    <div className="w-full">
+                        {/* <h3 className="text-xl font-bold mb-2">My Cart</h3> */}
                         <List
                             itemLayout="horizontal"
                             dataSource={myCart}
@@ -1116,7 +1114,7 @@ const Header: React.FC = () => {
 
                         <Divider />
                         {myCart.length > 0 && <>
-                            <div className="text-center space-y-1">
+                            <div className="text-center space-y-1 ">
                                 <p>
                                     Sub-total: <strong>${subTotal.toFixed(2)}</strong>
                                 </p>

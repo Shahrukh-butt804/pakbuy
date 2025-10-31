@@ -1,5 +1,5 @@
 // import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
-import {  Star } from "lucide-react";
+import { Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -153,6 +153,11 @@ const ProductWithSidebar: React.FC = () => {
                             </select> */}
                         </div>
 
+
+                        <div className="w-full p-4 bg-[#1f2638] rounded-xl my-4  md:text-xl">
+                            {selectedCollection?.about || ""}
+                        </div>
+
                         {/* Product Cards */}
                         <div
                             className={`${isGridView
@@ -193,7 +198,7 @@ const ProductWithSidebar: React.FC = () => {
                                             <h3 className="text-lg font-semibold mb-1">
                                                 {product.name}
                                             </h3>
-                                         <div className="flex items-center text-sm text-yellow-400 mb-1">
+                                            <div className="flex items-center text-sm text-yellow-400 mb-1">
 
                                                 {Array.from({ length: 5 }).map((_, i) => {
                                                     const full = i + 1 <= Math.floor(product.rating);
