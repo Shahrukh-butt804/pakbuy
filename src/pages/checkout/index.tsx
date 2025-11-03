@@ -1,5 +1,5 @@
 import { Checkbox, Col, Form, Input, List, Row, Select } from "antd";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import PaymentPage from "../../components/check-out";
@@ -26,8 +26,8 @@ const Checkout: React.FC = () => {
     const [couponId, setCouponId] = useState('')
 
     const myCart = useSelector(selectCartItems)
-    const [subTotal, setSubTotal] = useState(myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0))
-    const tax = subTotal * 0.2
+    const subTotal = useMemo(() => myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0), [myCart]);
+    // const tax = subTotal * 0.2
     const [discountedPrice, setDiscountedPrice] = useState(0)
 
 
@@ -61,14 +61,16 @@ const Checkout: React.FC = () => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if (type === "percentage") {
-                            const tax = subTotal * 0.2;
-                            const grandTotal = subTotal + tax;
-                            const discounted = grandTotal - (grandTotal * value) / 100;
+                            // const tax = subTotal * 0.2;
+                            // const grandTotal = subTotal + tax;
+                            // const discounted = grandTotal - (grandTotal * value) / 100;
+                            const discounted = subTotal - (subTotal * value) / 100
                             setDiscountedPrice(discounted);
                         } else {
-                            const tax = subTotal * 0.2;
-                            const grandTotal = subTotal + tax;
-                            const discounted = grandTotal - value;
+                            // const tax = subTotal * 0.2;
+                            // const grandTotal = subTotal + tax;
+                            // const discounted = grandTotal - value;
+                            const discounted = subTotal - value;
                             setDiscountedPrice(discounted);
                         }
                         setIsCouponApplied(true)
@@ -252,7 +254,7 @@ const Checkout: React.FC = () => {
                             onClick={() => {
                                 setCouponCode("")
                                 setIsCouponApplied(false)
-                                setSubTotal(myCart?.reduce((total: number, item: any) => total + item.price, 0))
+                                // setSubTotal(myCart?.reduce((total: number, item: any) => total + item.price, 0))
                             }}
                             className="bg-[#D7C6B7] hover:bg-[#D7C6B7] w-full px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Clear Coupon
@@ -276,12 +278,13 @@ const Checkout: React.FC = () => {
                                 <span>${subTotal.toFixed(2)}</span>
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-                                <span>Tax:</span>
-                                <span>${tax.toFixed(2)}</span>
+                                <span className="text-xs text-gray-400">Tax And Other Charges Will Be Applied</span>
+                                <span></span>
+                                {/* <span>${tax.toFixed(2)}</span> */}
                             </div>
-                            <div>
-                                <h4>Amount <span style={{ float: "right" }}>${(subTotal + tax).toFixed(2)}</span></h4>
-                            </div>
+                            {/* <div>
+                                <h4>Amount <span style={{ float: "right" }}>${(subTotal).toFixed(2)}</span></h4>
+                            </div> */}
                         </div>
                     </>}
                     <List
@@ -349,23 +352,28 @@ const Checkout: React.FC = () => {
                                 <Col xs={24} md={8}>
                                     <Form.Item label="Country *" name="country" rules={[{ required: true, message: "Country is required" }]}>
                                         <Select className="web-input" placeholder="Select Country">
-                                            <Option value="United States">United States</Option>
-                                            <Option value="Canada">Canada</Option>
+                                            <Option value="US">United States</Option>
                                         </Select>
                                     </Form.Item>
                                 </Col>
+
                                 <Col xs={24} md={8}>
                                     <Form.Item label="Region/State *" name="state" rules={[{ required: true, message: "Region/State is required" }]}>
                                         <Select className="web-input" placeholder="Select Region/State">
+                                            {/* US States */}
                                             <Option value="New York">New York</Option>
+                                            <Option value="California">California</Option>
                                             <Option value="Florida">Florida</Option>
                                         </Select>
                                     </Form.Item>
                                 </Col>
+
                                 <Col xs={24} md={8}>
                                     <Form.Item label="City *" name="city" rules={[{ required: true, message: "City is required" }]}>
                                         <Select className="web-input" placeholder="Select City">
+                                            {/* US Cities */}
                                             <Option value="New York City">New York City</Option>
+                                            <Option value="Los Angeles">Los Angeles</Option>
                                             <Option value="Miami">Miami</Option>
                                         </Select>
                                     </Form.Item>

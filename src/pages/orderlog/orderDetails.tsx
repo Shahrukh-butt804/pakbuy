@@ -19,9 +19,9 @@ const OrderDetails: React.FC = () => {
   const billingAddress = data?.billingAddress || {};
   const shippingAddress = data?.shippingAddress || {};
 
-  const taxRate = 0.2; // 20% tax
-  const subTotal = Math.round(totalAmount / (1 + taxRate));
-  const taxAmount = totalAmount - subTotal;
+  // const taxRate = 0.2; // 20% tax
+  // const subTotal = Math.round(totalAmount / (1 + taxRate));
+  // const taxAmount = totalAmount - subTotal;
 
 
 
@@ -69,12 +69,12 @@ const OrderDetails: React.FC = () => {
             <Card title="SUMMARY" className="rounded-lg shadow-md">
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
-                <span>$ {subTotal.toFixed(2)}</span>
+                <span>$ {totalAmount.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between mb-2">
+              {/* <div className="flex justify-between mb-2">
                 <span>Tax 20%</span>
                 <span>$ {taxAmount.toFixed(2)}</span>
-              </div>
+              </div> */}
               <div className="flex justify-between font-bold text-lg mb-4">
                 <span>Total Grand</span>
                 <span>$ {totalAmount.toFixed(2)}</span>

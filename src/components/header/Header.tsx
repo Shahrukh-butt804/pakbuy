@@ -88,7 +88,7 @@ const Header: React.FC = () => {
     const myCart = useSelector(selectCartItems)
 
     const subTotal = myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0);
-    const tax = subTotal * 0.2;
+    // const tax = subTotal * 0.2;
 
 
 
@@ -1118,12 +1118,12 @@ const Header: React.FC = () => {
                                 <p>
                                     Sub-total: <strong>${subTotal.toFixed(2)}</strong>
                                 </p>
-                                <p>
+                                {/* <p>
                                     Tax (20%): <strong>${tax.toFixed(2)}</strong>
-                                </p>
-                                <p className="text-xl">
+                                </p> */}
+                                {/* <p className="text-xl">
                                     Total: <strong>${(subTotal + tax).toFixed(2)}</strong>
-                                </p>
+                                </p> */}
                                 <button
                                     // onClick={() => navigate("/checkout")}
                                     onClick={() => {
