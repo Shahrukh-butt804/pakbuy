@@ -11,7 +11,7 @@ import { useGetOrderByUserQuery } from "../../redux/services/orderSlice";
 const AboutUs: React.FC = () => {
     const navigate = useNavigate();
 
-    const { data: orderData, isLoading } = useGetOrderByUserQuery({});
+    const { data: orderData, isLoading } = useGetOrderByUserQuery({}, { refetchOnMountOrArgChange: true });
 
 
     const columns = [
@@ -46,10 +46,28 @@ const AboutUs: React.FC = () => {
                 products?.reduce((sum, p) => sum + (p.quantity || 1), 0),
         },
         {
+            title: "sub Total",
+            dataIndex: "subTotal",
+            key: "amount",
+            render: (amount: number) => <p className="whitespace-nowrap">$ {amount.toFixed(2)}</p>,
+        },
+        {
+            title: "Tax",
+            dataIndex: "taxAmount",
+            key: "amount",
+            render: (amount: number) => <p className="whitespace-nowrap">$ {amount.toFixed(2)}</p>,
+        },
+        {
+            title: "discount Amount",
+            dataIndex: "discountAmount",
+            key: "amount",
+            render: (amount: number) => <p className="whitespace-nowrap">$ {amount.toFixed(2)}</p>,
+        },
+        {
             title: "Amount Paid",
             dataIndex: "totalAmount",
             key: "amount",
-            render: (amount: number) => `$ ${amount.toFixed(2)}`,
+            render: (amount: number) => <p className="whitespace-nowrap">$ {amount.toFixed(2)}</p>,
         },
         {
             title: "Order Status",

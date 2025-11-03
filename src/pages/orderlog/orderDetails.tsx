@@ -15,13 +15,16 @@ const OrderDetails: React.FC = () => {
   const user = data?.user;
   const _id = data?._id;
   const status = data?.status;
+  const subTotal = data?.subTotal || 0;
+  const taxAmount = data?.taxAmount || 0;
+  const discountAmount = data?.discountAmount || 0;
   const totalAmount = data?.totalAmount || 0;
   const billingAddress = data?.billingAddress || {};
   const shippingAddress = data?.shippingAddress || {};
 
-  const taxRate = 0.2; // 20% tax
-  const subTotal = Math.round(totalAmount / (1 + taxRate));
-  const taxAmount = totalAmount - subTotal;
+  // const taxRate = 0.2; // 20% tax
+  // const subTotal = Math.round(totalAmount / (1 + taxRate));
+  // const taxAmount = totalAmount - subTotal;
 
 
 
@@ -72,9 +75,14 @@ const OrderDetails: React.FC = () => {
                 <span>$ {subTotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
-                <span>Tax 20%</span>
-                <span>$ {taxAmount.toFixed(2)}</span>
+                <span>Tax</span>
+                <span><span className="text-green-300">+</span> $ {taxAmount.toFixed(2)}</span>
               </div>
+              <div className="flex justify-between mb-2">
+                <span>Discount</span>
+                <span><span className="text-red-300">-</span> $ {discountAmount.toFixed(2)}</span>
+              </div>
+
               <div className="flex justify-between font-bold text-lg mb-4">
                 <span>Total Grand</span>
                 <span>$ {totalAmount.toFixed(2)}</span>
