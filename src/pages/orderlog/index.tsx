@@ -11,7 +11,7 @@ import { useGetOrderByUserQuery } from "../../redux/services/orderSlice";
 const AboutUs: React.FC = () => {
     const navigate = useNavigate();
 
-    const { data: orderData, isLoading } = useGetOrderByUserQuery({});
+    const { data: orderData, isLoading } = useGetOrderByUserQuery({}, { refetchOnMountOrArgChange: true });
 
 
     const columns = [
