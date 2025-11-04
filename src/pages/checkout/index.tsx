@@ -8,8 +8,9 @@ import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
 import { clearCart, selectCartItems } from "../../redux/reducers/cartSlice";
-import { useCreateOrderMutation } from "../../redux/services/orderSlice";
 import { useValidateCouponMutation } from "../../redux/services/couponSlice";
+import { useGetAllStatesQuery, useGetCitiesByStateMutation } from "../../redux/services/locationSlice";
+import { useCreateOrderMutation } from "../../redux/services/orderSlice";
 
 const { Option } = Select;
 
@@ -30,10 +31,15 @@ const Checkout: React.FC = () => {
     // const tax = subTotal * 0.2
     const [discountedPrice, setDiscountedPrice] = useState(0)
 
+    const [cities, setCities] = useState([]);
 
 
     const dispatch = useDispatch()
     const cartItems = useSelector((state: any) => state.cart.items);
+
+
+    const { data: allStates, isLoading: isLoadingStates } = useGetAllStatesQuery({});
+    const [getCitiesByState, { isLoading: isLoadingCities }] = useGetCitiesByStateMutation();
 
 
 
@@ -93,7 +99,6 @@ const Checkout: React.FC = () => {
             console.log("🚀 ~ handleValidateCoupon ~ error:", error)
         }
     }
-
 
     const handleSubmit = async (token: any) => {
         const values = form.getFieldsValue(); // 👈 get all form values
@@ -182,6 +187,11 @@ const Checkout: React.FC = () => {
             });
             return false
         }
+    };
+
+    const handleStateChange = async (value: any) => {
+        const res = await getCitiesByState(value).unwrap();
+        setCities(res.data);
     };
 
 
@@ -328,7 +338,7 @@ const Checkout: React.FC = () => {
                         <h4>Billing Information</h4>
 
 
-                        <Form form={form} layout="vertical"
+                        <Form form={form} layout="vertical" initialValues={{ country: "US" }}
                         >
                             <Row gutter={16}>
                                 <Col xs={24} md={12}>
@@ -348,40 +358,55 @@ const Checkout: React.FC = () => {
                             <Form.Item label="Address *" name="address" rules={[{ required: true, message: "Address is required" }]}>
                                 <Input className="web-input" placeholder="Address" />
                             </Form.Item>
+
                             <Row gutter={16}>
                                 <Col xs={24} md={8}>
+
                                     <Form.Item label="Country *" name="country" rules={[{ required: true, message: "Country is required" }]}>
                                         <Select className="web-input" placeholder="Select Country">
                                             <Option value="US">United States</Option>
                                         </Select>
                                     </Form.Item>
+
                                 </Col>
 
                                 <Col xs={24} md={8}>
-                                    <Form.Item label="Region/State *" name="state" rules={[{ required: true, message: "Region/State is required" }]}>
-                                        <Select className="web-input" placeholder="Select Region/State">
-                                            {/* US States */}
-                                            <Option value="New York">New York</Option>
-                                            <Option value="California">California</Option>
-                                            <Option value="Florida">Florida</Option>
+                                    <Form.Item label="State *" name="state" rules={[{ required: true }]}>
+                                        <Select disabled={!allStates || allStates.length === 0 || isLoadingStates} className="web-input" placeholder="Select State" onChange={handleStateChange}>
+                                            {allStates?.map((s: any) => (
+                                                <Option key={s.name} value={s.name}>{s.name}</Option>
+                                            ))}
                                         </Select>
                                     </Form.Item>
                                 </Col>
 
                                 <Col xs={24} md={8}>
-                                    <Form.Item label="City *" name="city" rules={[{ required: true, message: "City is required" }]}>
-                                        <Select className="web-input" placeholder="Select City">
-                                            {/* US Cities */}
-                                            <Option value="New York City">New York City</Option>
-                                            <Option value="Los Angeles">Los Angeles</Option>
-                                            <Option value="Miami">Miami</Option>
+                                    <Form.Item label="City *" name="city" rules={[{ required: true }]}>
+                                        <Select disabled={!cities || cities.length === 0 || isLoadingCities} className="web-input" placeholder="Select City">
+                                            {cities.map(c => (
+                                                <Option key={c} value={c}>{c}</Option>
+                                            ))}
                                         </Select>
                                     </Form.Item>
                                 </Col>
                             </Row>
+
+
+                            {/* <Form.Item label="Zip Code *" name="zipCode" rules={[{ required: true }]}>
+                                <Select className="web-input" placeholder="Select Zip Code">
+                                    {zipCodes.map(zip => (
+                                        <Option key={zip} value={zip}>{zip}</Option>
+                                    ))}
+                                </Select>
+                            </Form.Item> */}
+
+
                             <Form.Item label="Zip Code *" name="zipCode" rules={[{ required: true, message: "Zip Code is required" }]}>
                                 <Input className="web-input" placeholder="Zip Code" />
                             </Form.Item>
+
+
+
                             <Row gutter={16}>
                                 <Col xs={24} md={12}>
                                     <Form.Item label="Email *" name="email" rules={[{ required: true, message: "Email is required" }]}>
@@ -465,13 +490,13 @@ const Checkout: React.FC = () => {
                                 <PaymentPage handleSubmit={handleSubmit} />
                             </div>
 
-                        </Form>
+                        </Form >
 
 
 
-                    </div>
-                </Col>
-            </div>
+                    </div >
+                </Col >
+            </div >
 
 
             <section className="ethicsBoundary-bg">
@@ -481,56 +506,58 @@ const Checkout: React.FC = () => {
 
 
             {/* Order Success Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm z-50 transition-opacity duration-300">
-                    <div
-                        className={`bg-white rounded-2xl p-8 max-w-md w-full text-center relative transform transition-all duration-300 ease-out ${isModalOpen ? "opacity-100 scale-100" : "opacity-0 scale-95"
-                            }`}
-                    >
-                        {/* Close button */}
-                        <button
-                            onClick={() => setIsModalOpen(false)}
-                            className="absolute top-3 right-3 text-black text-lg"
+            {
+                isModalOpen && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm z-50 transition-opacity duration-300">
+                        <div
+                            className={`bg-white rounded-2xl p-8 max-w-md w-full text-center relative transform transition-all duration-300 ease-out ${isModalOpen ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                                }`}
                         >
-                            ✕
-                        </button>
+                            {/* Close button */}
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="absolute top-3 right-3 text-black text-lg"
+                            >
+                                ✕
+                            </button>
 
-                        {/* Success Icon */}
-                        <div className="flex justify-center mb-4">
-                            <div className="bg-green-500 p-4 rounded-full">
-                                <svg
-                                    className="w-8 h-8 text-white"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="3"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
+                            {/* Success Icon */}
+                            <div className="flex justify-center mb-4">
+                                <div className="bg-green-500 p-4 rounded-full">
+                                    <svg
+                                        className="w-8 h-8 text-white"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="3"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
                             </div>
+
+                            {/* Title */}
+                            <h2 className="text-xl font-bold mb-2 text-black">
+                                Order Placed Successfully!
+                            </h2>
+
+                            {/* Message */}
+                            <p className="text-gray-600 text-sm mb-6">
+                                Congratulations on CHOOSING WELL! You will soon experience one of
+                                the many powerful benefits of your CHOOSE Well membership.
+                            </p>
+
+                            {/* Continue Button */}
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="site-btn text-black font-semibold py-2 px-6 rounded-full"
+                            >
+                                CONTINUE SHOPPING
+                            </button>
                         </div>
-
-                        {/* Title */}
-                        <h2 className="text-xl font-bold mb-2 text-black">
-                            Order Placed Successfully!
-                        </h2>
-
-                        {/* Message */}
-                        <p className="text-gray-600 text-sm mb-6">
-                            Congratulations on CHOOSING WELL! You will soon experience one of
-                            the many powerful benefits of your CHOOSE Well membership.
-                        </p>
-
-                        {/* Continue Button */}
-                        <button
-                            onClick={() => setIsModalOpen(false)}
-                            className="site-btn text-black font-semibold py-2 px-6 rounded-full"
-                        >
-                            CONTINUE SHOPPING
-                        </button>
                     </div>
-                </div>
-            )}
+                )
+            }
         </>
     );
 };
