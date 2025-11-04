@@ -113,7 +113,7 @@ function AppRoutes() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/shop/:id" element={<Shop />} />
               <Route path="/shop" element={<Shop />} />
-              
+
             </Route>
 
             {/* <Route element={<PrivateRoute />}>
