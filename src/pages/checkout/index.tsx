@@ -1,4 +1,4 @@
-import { Checkbox, Col, Form, Input, List, Row, Select } from "antd";
+import { Col, Form, Input, List, Row, Select } from "antd";
 import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -18,7 +18,7 @@ const { Option } = Select;
 const Checkout: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [shipDifferent, setShipDifferent] = useState(false);
+    // const [shipDifferent, setShipDifferent] = useState(false);
     const [couponCode, setCouponCode] = useState('')
     const [form] = Form.useForm();
     const [createOrder] = useCreateOrderMutation()
@@ -132,19 +132,19 @@ const Checkout: React.FC = () => {
         };
 
 
-        if (shipDifferent) {
-            payload.shippingAddress = {
-                firstName: values.shippingFirstName,
-                lastName: values.shippingLastName,
-                address: values.shippingAddress,
-                country: values.shippingCountry,
-                state: values.shippingState,
-                city: values.shippingCity,
-                zipCode: values.shippingZipCode,
-                email: values.shippingEmail,
-                phone: values.shippingPhone,
-            };
-        }
+        // if (shipDifferent) {
+        //     payload.shippingAddress = {
+        //         firstName: values.shippingFirstName,
+        //         lastName: values.shippingLastName,
+        //         address: values.shippingAddress,
+        //         country: values.shippingCountry,
+        //         state: values.shippingState,
+        //         city: values.shippingCity,
+        //         zipCode: values.shippingZipCode,
+        //         email: values.shippingEmail,
+        //         phone: values.shippingPhone,
+        //     };
+        // }
 
         if (couponId && isCouponApplied) {
             payload.couponId = couponId
@@ -419,12 +419,12 @@ const Checkout: React.FC = () => {
                                     </Form.Item>
                                 </Col>
                             </Row>
-
+                            {/* 
                             <Checkbox checked={shipDifferent} onChange={(e) => setShipDifferent(e.target.checked)} style={{ margin: "16px 0" }}>
                                 Ship to different address
-                            </Checkbox>
+                            </Checkbox> */}
 
-                            {shipDifferent && (
+                            {/* {shipDifferent && (
                                 <div style={{ border: "1px solid #EEE", padding: 16, borderRadius: 8, marginBottom: 24 }}>
 
 
@@ -476,7 +476,7 @@ const Checkout: React.FC = () => {
                                         </Col>
                                     </Row>
                                 </div>
-                            )}
+                            )} */}
 
 
                             <h4 className="text-white">Additional Information</h4>
