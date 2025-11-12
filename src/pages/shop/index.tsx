@@ -155,7 +155,8 @@ const ProductWithSidebar: React.FC = () => {
 
 
                         <div className="w-full p-4 bg-[#1f2638] rounded-xl my-4  md:text-xl">
-                            {selectedCollection?.about || ""}
+                            {/* {selectedCollection?.about || ""} */}
+                            <div dangerouslySetInnerHTML={{ __html: selectedCollection?.about || '' }} />
                         </div>
 
                         {/* Product Cards */}
