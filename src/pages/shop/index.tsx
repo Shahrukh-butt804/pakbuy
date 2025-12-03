@@ -101,19 +101,19 @@ const ProductWithSidebar: React.FC = () => {
                                     </div>
 
                                     {/* Savings Section */}
-                                    {saving > 0 && (
-                                        <div className="flex items-center justify-between gap-4">
-                                            <h4 className="text-lg font-semibold text-green-400">You Saved</h4>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-green-400 text-xl font-extrabold">
-                                                    ${saving}
-                                                </span>
-                                                <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                                    SAVE
-                                                </span>
-                                            </div>
+
+                                    <div className="flex items-center justify-between gap-4">
+                                        <h4 className="text-lg font-semibold text-green-400">You Saved</h4>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-green-400 text-xl font-extrabold">
+                                                ${saving}
+                                            </span>
+                                            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                                SAVE
+                                            </span>
                                         </div>
-                                    )}
+                                    </div>
+
 
                                     {/* total Price */}
                                     <div className="flex items-center justify-between gap-4">
