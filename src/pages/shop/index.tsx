@@ -25,10 +25,15 @@ const ProductWithSidebar: React.FC = () => {
     useEffect(() => {
         if (collection && collection.length > 0) {
             if (id) {
-                setSelectedCollection(collection.find((p: any) => p._id === id));
+                const foundCollection = collection.find((p: any) => p._id === id)
+                let savings = foundCollection?.products?.reduce((acc: number, product: any) => acc + (product.retailPrice - product.price), 0)
+                setSelectedCollection(foundCollection);
+                setSaving(savings || 0);
             }
             else {
                 setSelectedCollection(collection[0]);
+                let savings = collection[0]?.products?.reduce((acc: number, product: any) => acc + (product.retailPrice - product.price), 0)
+                setSaving(savings || 0);
             }
 
 
