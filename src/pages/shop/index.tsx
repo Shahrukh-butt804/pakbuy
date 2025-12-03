@@ -16,6 +16,7 @@ const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
     // const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string | any>();
+    const [saving, setSaving] = useState<number>(0);
     const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
 
@@ -34,20 +35,17 @@ const ProductWithSidebar: React.FC = () => {
         }
     }, [collection]);
 
-
-    // const toggleLike = (id: number) => {
-    //     setLikedItems((prev) =>
-    //         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    //     );
-    // };
-    // as
-
     function handleAddToCart(item: any) {
         dispatch(addToCart(item));
     }
 
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
+    function handleChange(item: any) {
+        setSelectedCollection(item);
+        let savings = item?.products?.reduce((acc: number, product: any) => acc + (product.retailPrice - product.price), 0)
+        setSaving(savings || 0);
+    }
 
     return (
         <>
@@ -71,7 +69,7 @@ const ProductWithSidebar: React.FC = () => {
                                         <input
                                             type="checkbox"
                                             checked={selectedCollection === item}
-                                            onChange={() => setSelectedCollection(item)}
+                                            onChange={() => handleChange(item)}
                                             className="form-checkbox accent-green-500"
                                         />
                                         <span className="text-white pl-2">CHOOSE {item?.name}</span>
@@ -92,9 +90,39 @@ const ProductWithSidebar: React.FC = () => {
 
                         {selectedCollection && (
                             <>
-                                <div>
-                                    <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
-                                    <p className="text-lg font-bold text-white">${selectedCollection?.CollectionPrice}</p>
+                                <div className="space-y-4 bg-white/5 p-4 rounded-xl border border-white/10 shadow-md w-full">
+
+                                    {/* Price Section */}
+                                    <div className="flex items-center justify-between gap-4">
+                                        <span className="text-lg font-semibold text-gray-300">Price</span>
+                                        <span className="text-2xl font-extrabold text-white">
+                                            ${selectedCollection?.CollectionPrice + saving}
+                                        </span>
+                                    </div>
+
+                                    {/* Savings Section */}
+
+                                    <div className="flex items-center justify-between gap-4">
+                                        <h4 className="text-lg font-semibold text-green-400">You Saved</h4>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-green-400 text-xl font-extrabold">
+                                                ${saving}
+                                            </span>
+                                            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                                SAVE
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    {/* total Price */}
+                                    <div className="flex items-center justify-between gap-4">
+                                        <span className="text-lg font-semibold text-gray-300">Total</span>
+                                        <span className="text-2xl font-extrabold text-white">
+                                            ${selectedCollection?.CollectionPrice}
+                                        </span>
+                                    </div>
+
                                 </div>
 
                                 <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
@@ -196,9 +224,18 @@ const ProductWithSidebar: React.FC = () => {
                                                 <Lock className="w-4 h-4 text-[#ff6680]" />
                                                 <ShoppingCart className="w-4 h-4 text-[#ff6680]" />
                                             </div> */}
-                                            <h3 className="text-lg font-semibold mb-1">
-                                                {product.name}
-                                            </h3>
+                                            <div className="flex justify-between items-center mt-1">
+                                                <h3 className="text-lg font-semibold">
+                                                    {product.name}
+                                                </h3>
+
+                                                <div className="flex items-center gap-2">
+                                                    {/* Discounted / Sale Price */}
+                                                    <span className="text-green-600 font-bold text-lg">
+                                                        $ {product?.price}
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <div className="flex items-center text-sm text-yellow-400 mb-1">
 
                                                 {Array.from({ length: 5 }).map((_, i) => {
