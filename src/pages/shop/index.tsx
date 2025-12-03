@@ -96,14 +96,14 @@ const ProductWithSidebar: React.FC = () => {
                                     <div className="flex items-center justify-between gap-4">
                                         <span className="text-lg font-semibold text-gray-300">Price</span>
                                         <span className="text-2xl font-extrabold text-white">
-                                            ${selectedCollection?.CollectionPrice}
+                                            ${selectedCollection?.CollectionPrice + saving}
                                         </span>
                                     </div>
 
                                     {/* Savings Section */}
                                     {saving > 0 && (
                                         <div className="flex items-center justify-between gap-4">
-                                            <h4 className="text-lg font-semibold text-green-400">Savings</h4>
+                                            <h4 className="text-lg font-semibold text-green-400">You Saved</h4>
                                             <div className="flex items-center gap-2">
                                                 <span className="text-green-400 text-xl font-extrabold">
                                                     ${saving}
@@ -114,6 +114,14 @@ const ProductWithSidebar: React.FC = () => {
                                             </div>
                                         </div>
                                     )}
+
+                                    {/* total Price */}
+                                    <div className="flex items-center justify-between gap-4">
+                                        <span className="text-lg font-semibold text-gray-300">Total</span>
+                                        <span className="text-2xl font-extrabold text-white">
+                                            ${selectedCollection?.CollectionPrice}
+                                        </span>
+                                    </div>
 
                                 </div>
 
@@ -225,11 +233,6 @@ const ProductWithSidebar: React.FC = () => {
                                                     {/* Discounted / Sale Price */}
                                                     <span className="text-green-600 font-bold text-lg">
                                                         $ {product?.price}
-                                                    </span>
-
-                                                    {/* Original Price (struck through) */}
-                                                    <span className="text-gray-500 line-through text-sm">
-                                                        $ {product?.retailPrice || "0"}
                                                     </span>
                                                 </div>
                                             </div>
