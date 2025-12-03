@@ -113,9 +113,6 @@ const ProductWithSidebar: React.FC = () => {
                                             <span className="text-green-400 text-xl font-extrabold">
                                                 ${saving}
                                             </span>
-                                            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                                SAVE
-                                            </span>
                                         </div>
                                     </div>
 
