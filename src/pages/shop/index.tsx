@@ -226,14 +226,14 @@ const ProductWithSidebar: React.FC = () => {
                                                 <Lock className="w-4 h-4 text-[#ff6680]" />
                                                 <ShoppingCart className="w-4 h-4 text-[#ff6680]" />
                                             </div> */}
-                                            <div className="flex justify-between items-center mt-1">
-                                                <h3 className="text-lg font-semibold">
+                                            <div className="flex justify-between items-center mt-2">
+                                                <h3 className="lg:text-lg font-semibold">
                                                     {product.name}
                                                 </h3>
 
                                                 <div className="flex items-center gap-2">
                                                     {/* Discounted / Sale Price */}
-                                                    <span className="text-green-600 font-bold text-lg">
+                                                    <span className="text-green-600 font-bold text-md lg:text-lg whitespace-nowrap">
                                                         $ {product?.price}
                                                     </span>
                                                 </div>
