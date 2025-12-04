@@ -35,3 +35,22 @@ export const makeBaseQueryWith401Handler = (urlSuffix: string) => {
 
     return baseQueryWith401Handler;
 };
+
+
+export const amountFormatter = (amount: any) => {
+  return amount.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+};
+
+export const numberFormatter = (amount: number) => {
+  return amount.toLocaleString("en-US", {
+    // style: "currency",
+    // currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+};
