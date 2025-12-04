@@ -250,7 +250,7 @@ const ProductWithSidebar: React.FC = () => {
                                                 </span>
                                             </div>
                                             <p className="text-gray-400 text-sm">
-                                                {product.description}
+                                                <div dangerouslySetInnerHTML={{ __html: product.description }} />
                                             </p>
 
                                         </div>
