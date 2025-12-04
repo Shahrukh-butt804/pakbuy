@@ -764,16 +764,46 @@ const Header: React.FC = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
                     <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out text-black">
 
-                        {/* Close Button */}
-                        <button
-                            onClick={() => closeModal()}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
-                        >
-                            ✕
-                        </button>
+                        <div className='flex justify-between items-center mb-3'>
+                            {/* Close Button */}
+                            <button
+                                onClick={() => closeModal()}
+                                className="absolute  right-4 text-gray-600 hover:text-black text-xl"
+                            >
+                                ✕
+                            </button>
 
-                        {/* Heading */}
-                        <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome !</h3>
+                            {/* Stripe Secure Badge */}
+                            <div className="flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1.5 rounded-full shadow-lg hover:shadow-xl transition-shadow duration-200 ">
+                                {/* Lock Icon */}
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 mr-2 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    {/* Shield */}
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M12 2l8 4v6c0 5-4 9-8 10-4-1-8-5-8-10V6l8-4z"
+                                    />
+                                    {/* Checkmark */}
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M9 12l2 2 4-4"
+                                    />
+                                </svg>
+
+                                <span className="text-sm font-semibold">Secure Checkout powered by Stripe</span>
+                            </div>
+
+                        </div>
+
+                        <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome!</h3>
                         <h2 className="text-2xl font-bold text-gray-900 mb-1">Become a CHOOSE Member Now</h2>
                         <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
 

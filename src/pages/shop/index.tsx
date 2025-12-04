@@ -99,8 +99,8 @@ const ProductWithSidebar: React.FC = () => {
 
                                     {/* Price Section */}
                                     <div className="flex items-center justify-between gap-4">
-                                        <span className="text-lg font-semibold text-gray-300">Price</span>
-                                        <span className="text-2xl font-extrabold text-white">
+                                        <span className="text-lg font-semibold text-gray-300">Retail Price</span>
+                                        <span className="text-xl font-extrabold text-white line-through">
                                             ${selectedCollection?.CollectionPrice + saving}
                                         </span>
                                     </div>
@@ -108,7 +108,7 @@ const ProductWithSidebar: React.FC = () => {
                                     {/* Savings Section */}
 
                                     <div className="flex items-center justify-between gap-4">
-                                        <h4 className="text-lg font-semibold text-green-400">You Saved</h4>
+                                        <h4 className="text-lg font-semibold text-green-400">Member Savings</h4>
                                         <div className="flex items-center gap-2">
                                             <span className="text-green-400 text-xl font-extrabold">
                                                 ${saving}
@@ -119,7 +119,7 @@ const ProductWithSidebar: React.FC = () => {
 
                                     {/* total Price */}
                                     <div className="flex items-center justify-between gap-4">
-                                        <span className="text-lg font-semibold text-gray-300">Total</span>
+                                        <span className="text-lg font-semibold text-gray-300">Member Price</span>
                                         <span className="text-2xl font-extrabold text-white">
                                             ${selectedCollection?.CollectionPrice}
                                         </span>
@@ -139,7 +139,7 @@ const ProductWithSidebar: React.FC = () => {
                     {/* Product Section */}
                     <div className="lg:col-span-3">
                         {/* Top: Grid/List Toggle & Sort (Moved Inside) */}
-                        <div className="flex justify-between items-center mb-6 ">
+                        <div className="flex flex-col-reverse md:flex-row justify-start items-center mb-6 md:gap-2">
                             <div className="flex space-x-2 gap-3">
                                 <button
                                     onClick={() => setIsGridView(true)}
@@ -172,15 +172,13 @@ const ProductWithSidebar: React.FC = () => {
                                         <rect x="3" y="16" width="18" height="2" />
                                     </svg>
                                 </button>
+
+
                             </div>
 
-                            {/* <select
-                                className="bg-[#2a3146] text-white px-4 py-2 rounded text-sm"
-                            >
-                                <option value="">Sort by</option>
-                                <option value="Rating">Rating</option>
-                                <option value="Title">Title (A-Z)</option>
-                            </select> */}
+                            <h2 className="text-2xl md:text-3xl font-semibold mt-4 pt-2">
+                                Choose {selectedCollection?.name}
+                            </h2>
                         </div>
 
 
@@ -190,12 +188,7 @@ const ProductWithSidebar: React.FC = () => {
                         </div>
 
                         {/* Product Cards */}
-                        <div
-                            className={`${isGridView
-                                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                                : "flex flex-col gap-4"
-                                }`}
-                        >
+                        <div className={`${isGridView ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" : "flex flex-col gap-4"}`} >
                             {selectedCollection?.products?.map((product: any) => {
                                 // const isLiked = likedItems.includes(product.id);
                                 return (
@@ -231,12 +224,7 @@ const ProductWithSidebar: React.FC = () => {
                                                     {product.name}
                                                 </h3>
 
-                                                <div className="flex items-center gap-2">
-                                                    {/* Discounted / Sale Price */}
-                                                    <span className="text-green-600 font-bold text-md lg:text-lg whitespace-nowrap">
-                                                        $ {product?.price}
-                                                    </span>
-                                                </div>
+
                                             </div>
                                             <div className="flex items-center text-sm text-yellow-400 mb-1">
 
@@ -262,7 +250,7 @@ const ProductWithSidebar: React.FC = () => {
                                                 </span>
                                             </div>
                                             <p className="text-gray-400 text-sm">
-                                                {product.description}
+                                                <div dangerouslySetInnerHTML={{ __html: product.description }} />
                                             </p>
 
                                         </div>
