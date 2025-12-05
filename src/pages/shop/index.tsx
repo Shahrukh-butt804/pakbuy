@@ -1,5 +1,5 @@
 // import { Eye, Heart, Lock, ShoppingCart, Star } from "lucide-react";
-import {  Star } from "lucide-react";
+import { Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
@@ -9,13 +9,13 @@ import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
 import { addToCart } from "../../redux/reducers/cartSlice";
 import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
-
-
+import { amountFormatter } from "../../utils/Functions";
 
 const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
     // const [likedItems, setLikedItems] = useState<number[]>([]);
     const [selectedCollection, setSelectedCollection] = useState<string | any>();
+    const [saving, setSaving] = useState<number>(0);
     const { id } = useParams<{ id: string }>();
     const dispatch = useDispatch();
 
@@ -24,23 +24,20 @@ const ProductWithSidebar: React.FC = () => {
     useEffect(() => {
         if (collection && collection.length > 0) {
             if (id) {
-                setSelectedCollection(collection.find((p: any) => p._id === id));
+                const foundCollection = collection.find((p: any) => p._id === id)
+                let savings = foundCollection?.products?.reduce((acc: number, product: any) => acc + (product.retailPrice - product.price), 0)
+                setSelectedCollection(foundCollection);
+                setSaving(savings || 0);
             }
             else {
                 setSelectedCollection(collection[0]);
+                let savings = collection[0]?.products?.reduce((acc: number, product: any) => acc + (product.retailPrice - product.price), 0)
+                setSaving(savings || 0);
             }
 
 
         }
     }, [collection]);
-
-
-    // const toggleLike = (id: number) => {
-    //     setLikedItems((prev) =>
-    //         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    //     );
-    // };
-    // as
 
     function handleAddToCart(item: any) {
         dispatch(addToCart(item));
@@ -48,6 +45,11 @@ const ProductWithSidebar: React.FC = () => {
 
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
+    function handleChange(item: any) {
+        setSelectedCollection(item);
+        let savings = item?.products?.reduce((acc: number, product: any) => acc + (product.retailPrice - product.price), 0)
+        setSaving(savings || 0);
+    }
 
     return (
         <>
@@ -71,7 +73,7 @@ const ProductWithSidebar: React.FC = () => {
                                         <input
                                             type="checkbox"
                                             checked={selectedCollection === item}
-                                            onChange={() => setSelectedCollection(item)}
+                                            onChange={() => handleChange(item)}
                                             className="form-checkbox accent-green-500"
                                         />
                                         <span className="text-white pl-2">CHOOSE {item?.name}</span>
@@ -92,9 +94,36 @@ const ProductWithSidebar: React.FC = () => {
 
                         {selectedCollection && (
                             <>
-                                <div>
-                                    <h4 className="text-sm font-semibold text-gray-300 mb-1">PRICE:</h4>
-                                    <p className="text-lg font-bold text-white">${selectedCollection?.CollectionPrice}</p>
+                                <div className="space-y-4 bg-white/5 p-4 rounded-xl border border-white/10 shadow-md w-full">
+
+                                    {/* Price Section */}
+                                    <div className="flex items-center justify-between gap-4">
+                                        <span className="text-lg font-semibold text-gray-300">Retail Price</span>
+                                        <span className="text-xl font-extrabold text-white line-through">
+                                            {amountFormatter(selectedCollection?.CollectionPrice + saving)}.00
+                                        </span>
+                                    </div>
+
+                                    {/* Savings Section */}
+
+                                    <div className="flex items-center justify-between gap-4">
+                                        <h4 className="text-lg font-semibold text-green-400">Member Savings</h4>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-green-400 text-xl font-extrabold">
+                                                {amountFormatter(saving)}.00
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+                                    {/* total Price */}
+                                    <div className="flex items-center justify-between gap-4">
+                                        <span className="!text-2xl font-bold text-gray-300">Member Price</span>
+                                        <span className="text-2xl font-extrabold text-white">
+                                            {amountFormatter(selectedCollection?.CollectionPrice)}.00
+                                        </span>
+                                    </div>
+
                                 </div>
 
                                 <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
@@ -109,7 +138,7 @@ const ProductWithSidebar: React.FC = () => {
                     {/* Product Section */}
                     <div className="lg:col-span-3">
                         {/* Top: Grid/List Toggle & Sort (Moved Inside) */}
-                        <div className="flex justify-between items-center mb-6 ">
+                        <div className="flex flex-col-reverse md:flex-row justify-start items-center mb-6 md:gap-2">
                             <div className="flex space-x-2 gap-3">
                                 <button
                                     onClick={() => setIsGridView(true)}
@@ -142,24 +171,23 @@ const ProductWithSidebar: React.FC = () => {
                                         <rect x="3" y="16" width="18" height="2" />
                                     </svg>
                                 </button>
+
+
                             </div>
 
-                            {/* <select
-                                className="bg-[#2a3146] text-white px-4 py-2 rounded text-sm"
-                            >
-                                <option value="">Sort by</option>
-                                <option value="Rating">Rating</option>
-                                <option value="Title">Title (A-Z)</option>
-                            </select> */}
+                            <h2 className="text-2xl md:text-3xl font-semibold mt-4 pt-2">
+                                Choose {selectedCollection?.name}
+                            </h2>
+                        </div>
+
+
+                        <div className="w-full p-4 bg-[#1f2638] rounded-xl my-4  md:text-xl">
+                            {/* {selectedCollection?.about || ""} */}
+                            <div dangerouslySetInnerHTML={{ __html: selectedCollection?.about || '' }} />
                         </div>
 
                         {/* Product Cards */}
-                        <div
-                            className={`${isGridView
-                                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                                : "flex flex-col gap-4"
-                                }`}
-                        >
+                        <div className={`${isGridView ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" : "flex flex-col gap-4"}`} >
                             {selectedCollection?.products?.map((product: any) => {
                                 // const isLiked = likedItems.includes(product.id);
                                 return (
@@ -190,10 +218,14 @@ const ProductWithSidebar: React.FC = () => {
                                                 <Lock className="w-4 h-4 text-[#ff6680]" />
                                                 <ShoppingCart className="w-4 h-4 text-[#ff6680]" />
                                             </div> */}
-                                            <h3 className="text-lg font-semibold mb-1">
-                                                {product.name}
-                                            </h3>
-                                         <div className="flex items-center text-sm text-yellow-400 mb-1">
+                                            <div className="flex justify-between items-center mt-2">
+                                                <h3 className="lg:text-lg font-semibold">
+                                                    {product.name}
+                                                </h3>
+
+
+                                            </div>
+                                            <div className="flex items-center text-sm text-yellow-400 mb-1">
 
                                                 {Array.from({ length: 5 }).map((_, i) => {
                                                     const full = i + 1 <= Math.floor(product.rating);
@@ -217,7 +249,7 @@ const ProductWithSidebar: React.FC = () => {
                                                 </span>
                                             </div>
                                             <p className="text-gray-400 text-sm">
-                                                {product.description}
+                                                <div dangerouslySetInnerHTML={{ __html: product.description }} />
                                             </p>
 
                                         </div>

@@ -15,13 +15,16 @@ const OrderDetails: React.FC = () => {
   const user = data?.user;
   const _id = data?._id;
   const status = data?.status;
+  const subTotal = data?.subTotal || 0;
+  const taxAmount = data?.taxAmount || 0;
+  const discountAmount = data?.discountAmount || 0;
   const totalAmount = data?.totalAmount || 0;
   const billingAddress = data?.billingAddress || {};
   const shippingAddress = data?.shippingAddress || {};
 
-  const taxRate = 0.2; // 20% tax
-  const subTotal = Math.round(totalAmount / (1 + taxRate));
-  const taxAmount = totalAmount - subTotal;
+  // const taxRate = 0.2; // 20% tax
+  // const subTotal = Math.round(totalAmount / (1 + taxRate));
+  // const taxAmount = totalAmount - subTotal;
 
 
 
@@ -38,30 +41,30 @@ const OrderDetails: React.FC = () => {
         <div className="bg-[#83838340] shadow rounded-xl p-6 relative">
           <div className="flex justify-between mb-4">
             <div>
-              <p className="text-white"><strong>Name:</strong> {user?.fullName || "N/A"}</p>
-              <p className="text-white"><strong>Email:</strong> {user?.email || "N/A"}</p>
-              <p className="text-white"><strong>Date:</strong> {createdAt ? new Date(createdAt).toLocaleString() : "N/A"}</p>
+              <p className="text-white"><strong>Name :</strong> {user?.fullName || "N/A"}</p>
+              <p className="text-white"><strong>Email :</strong> {user?.email || "N/A"}</p>
+              <p className="text-white"><strong>Date :</strong> {createdAt ? new Date(createdAt).toLocaleString() : "N/A"}</p>
             </div>
             <div>
-              <p className="text-white"><strong>Order ID:</strong> {_id}</p>
-              <p className="text-white"><strong>Status:</strong>  {status}</p>
+              <p className="text-white"><strong>Order ID :</strong> {_id}</p>
+              <p className="text-white"><strong>Status :</strong>  {status}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 mb-8">
             <div>
               <h3 className="text-[#d46b08] font-semibold mb-2">Billing Address</h3>
-              <p className="text-white"><strong>City:</strong> {billingAddress.city || "N/A"}</p>
-              <p className="text-white"><strong>Country:</strong> {billingAddress.country || "N/A"}</p>
-              <p className="text-white"><strong>State:</strong> {billingAddress.state || "N/A"}</p>
-              <p className="text-white"><strong>Zipcode:</strong> {billingAddress.zipCode || "N/A"}</p>
+              <p className="text-white"><strong>Country :</strong> {billingAddress.country || "N/A"}</p>
+              <p className="text-white"><strong>State :</strong> {billingAddress.state || "N/A"}</p>
+              <p className="text-white"><strong>City :</strong> {billingAddress.city || "N/A"}</p>
+              <p className="text-white"><strong>Zip Code :</strong> {billingAddress.zipCode || "N/A"}</p>
             </div>
             <div>
               <h3 className="text-[#d46b08] font-semibold mb-2">Shipping Address</h3>
-              <p className="text-white"><strong>City:</strong> {shippingAddress.city || "N/A"}</p>
-              <p className="text-white"><strong>Country:</strong> {shippingAddress.country || "N/A"}</p>
-              <p className="text-white"><strong>State:</strong> {shippingAddress.state || "N/A"}</p>
-              <p className="text-white"><strong>Zipcode:</strong> {shippingAddress.zipCode || "N/A"}</p>
+              <p className="text-white"><strong>Country :</strong> {shippingAddress.country || "N/A"}</p>
+              <p className="text-white"><strong>State :</strong> {shippingAddress.state || "N/A"}</p>
+              <p className="text-white"><strong>City :</strong> {shippingAddress.city || "N/A"}</p>
+              <p className="text-white"><strong>Zip Code :</strong> {shippingAddress.zipCode || "N/A"}</p>
             </div>
           </div>
 
@@ -72,9 +75,14 @@ const OrderDetails: React.FC = () => {
                 <span>$ {subTotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
-                <span>Tax 20%</span>
-                <span>$ {taxAmount.toFixed(2)}</span>
+                <span>Tax</span>
+                <span><span className="text-green-300">+</span> $ {taxAmount.toFixed(2)}</span>
               </div>
+              <div className="flex justify-between mb-2">
+                <span>Discount</span>
+                <span><span className="text-red-300">-</span> $ {discountAmount.toFixed(2)}</span>
+              </div>
+
               <div className="flex justify-between font-bold text-lg mb-4">
                 <span>Total Grand</span>
                 <span>$ {totalAmount.toFixed(2)}</span>
