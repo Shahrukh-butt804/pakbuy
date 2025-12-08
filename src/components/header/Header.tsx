@@ -12,7 +12,6 @@ import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import NavItem from './NavItem';
 
-
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
     { id: 'about', label: 'Coming Soon', path: '/shop' },
@@ -35,8 +34,6 @@ const navigationItems = [
         path: '/shop',
     },
 ];
-
-
 
 // interface Product {
 //     id: number;
@@ -63,8 +60,6 @@ const navigationItems = [
 //     },
 // ];
 
-
-
 const Header: React.FC = () => {
     const [activeItem, setActiveItem] = useState('home');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,16 +67,11 @@ const Header: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showRegPassword, setShowRegPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-
     const dispatch = useDispatch();
     const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
-
-
     function closeModal() {
         dispatch(toggleRegisterModal())
     }
-
 
     const navigate = useNavigate();
     const user = useSelector(selectUser);
@@ -89,9 +79,6 @@ const Header: React.FC = () => {
 
     const subTotal = myCart?.reduce((total: number, item: any) => total + item.CollectionPrice, 0);
     // const tax = subTotal * 0.2;
-
-
-
     const handleNavClick = (id: string, path: string) => {
         setActiveItem(id);
         setMobileMenuOpen(false);
@@ -100,21 +87,15 @@ const Header: React.FC = () => {
 
     const [loginEmail, setLoginEmail] = useState('');
     const [password, setPassword] = useState('');
-
-
-
     const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
     const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
     const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [showResetPassword, setShowResetPassword] = useState(false);
     const [showResetConfirmPassword, setShowResetConfirmPassword] = useState(false);
-
-
     const [signupData, setSignupDate] = useState({
         fullName: '',
         email: '',
@@ -129,16 +110,12 @@ const Header: React.FC = () => {
         })
     }
 
-
-
     const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation()
     const [login, { isLoading }] = useLoginMutation()
     const [register] = useRegisterMutation()
     const [forgetPassword, { isLoading: forgetPasswordLoading }] = useForgetPasswordMutation()
     const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation()
     const [resetPassword, { isLoading: resetPasswordLoading }] = useResetPasswordMutation()
-
-
     const handleCartClick = () => {
         const alreadyExists = localStorage.getItem('myBooleanFlag');
         if (!alreadyExists || alreadyExists === 'false') {
@@ -150,8 +127,6 @@ const Header: React.FC = () => {
             console.log('Already exists in localStorage');
         }
     };
-
-
 
     const [showCart, setShowCart] = useState(false);
     useEffect(() => {
@@ -169,7 +144,6 @@ const Header: React.FC = () => {
         window.addEventListener('localStorageUpdated', checkStorage);
         return () => window.removeEventListener('localStorageUpdated', checkStorage);
     }, []);
-
 
     const onClose = () => {
         // setOpen(false)
@@ -238,10 +212,6 @@ const Header: React.FC = () => {
 
         }
 
-
-
-
-
     };
 
     async function handleRegister(token: any) {
@@ -263,7 +233,6 @@ const Header: React.FC = () => {
         formdata.append("confirmPassword", signupData.confirmPassword);
         formdata.append("role", "user");
         formdata.append("token", token);
-
 
         try {
             const response: any = await register(formdata)
@@ -292,7 +261,6 @@ const Header: React.FC = () => {
     }
 
     async function handleForgotPassword() {
-
         try {
             const response: any = await forgetPassword({ email })
             if (response?.data?.success) {
@@ -361,7 +329,6 @@ const Header: React.FC = () => {
             return
         }
 
-
         try {
             const response: any = await resetPassword({ email, otp: Number(otp), password: newPassword })
             if (response?.data?.success) {
@@ -388,12 +355,6 @@ const Header: React.FC = () => {
         }
 
     }
-
-
-
-
-
-
 
     // const handleSubmit = async (token: any) => {
     //     const values = form.getFieldsValue(); // 👈 get all form values
@@ -479,14 +440,12 @@ const Header: React.FC = () => {
     // };
 
 
-
     return (
         <header className="w-full z-10 bg-[#374159]">
             <Row justify="center">
                 <Col lg={22} md={24} xs={24}>
                     <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex  justify-end items-center gap-3">
                         {/* <Logo /> */}
-
                         <button className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center" style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }} onClick={handleCartClick}>
                             <ShoppingCart className="h-5 w-5" />
                         </button>
@@ -502,9 +461,8 @@ const Header: React.FC = () => {
                             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
 
-
                         {/* Desktop Navigation */}
-                        <nav className="hidden lg:flex items-baseline space-x-1 ">
+                        {/* <nav className="hidden lg:flex items-baseline space-x-1 ">
                             {navigationItems.map((item) => (
                                 <NavItem
                                     key={item.id}
@@ -513,7 +471,41 @@ const Header: React.FC = () => {
                                     onClick={() => handleNavClick(item.id, item.path)}
                                 />
                             ))}
-                        </nav>
+                        </nav> */}
+                        <div className="hidden lg:flex items-center gap-6 w-full">
+
+                            {/* Home Icon */}
+                            <span className="text-white hover:text-gray-300 transition cursor-pointer" onClick={() => handleNavClick('home', '/')}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="28"
+                                    height="28"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <path d="M3 9l9-7 9 7" />
+                                    <path d="M9 22V12h6v10" />
+                                </svg>
+                            </span>
+
+                            {/* Center Message */}
+                            <div className="flex items-center justify-center text-center mx-auto">
+                                {user && user._id ? (
+                                    <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
+                                        Thank you for being a valued CHOOSE Well member.
+                                    </div>
+                                ) : (
+                                    <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
+                                        Become a CHOOSE Well member for <span className='text-green-400'>$119 annually.</span>  That’s less than $10 per month.
+                                    </div>
+                                )}
+                            </div>
+
+                        </div>
 
 
                         {user && user._id ?
@@ -568,7 +560,6 @@ const Header: React.FC = () => {
                                     }}
                                 >
                                     <span className="" >logout</span>
-
                                 </button></> :
 
                             <div className="hidden lg:flex items-center space-x-4 gap-2">
@@ -659,14 +650,7 @@ const Header: React.FC = () => {
                                             <span className="">Login</span>
                                         </button>
                                     </>}
-
-
-
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </Col>

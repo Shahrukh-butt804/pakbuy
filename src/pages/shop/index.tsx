@@ -9,8 +9,7 @@ import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
 import { addToCart } from "../../redux/reducers/cartSlice";
 import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
-
-
+import { amountFormatter } from "../../utils/Functions";
 
 const ProductWithSidebar: React.FC = () => {
     const [isGridView, setIsGridView] = useState(true);
@@ -101,7 +100,7 @@ const ProductWithSidebar: React.FC = () => {
                                     <div className="flex items-center justify-between gap-4">
                                         <span className="text-lg font-semibold text-gray-300">Retail Price</span>
                                         <span className="text-xl font-extrabold text-white line-through">
-                                            ${selectedCollection?.CollectionPrice + saving}
+                                            {amountFormatter(selectedCollection?.CollectionPrice + saving)}.00
                                         </span>
                                     </div>
 
@@ -111,7 +110,7 @@ const ProductWithSidebar: React.FC = () => {
                                         <h4 className="text-lg font-semibold text-green-400">Member Savings</h4>
                                         <div className="flex items-center gap-2">
                                             <span className="text-green-400 text-xl font-extrabold">
-                                                ${saving}
+                                                {amountFormatter(saving)}.00
                                             </span>
                                         </div>
                                     </div>
@@ -119,9 +118,9 @@ const ProductWithSidebar: React.FC = () => {
 
                                     {/* total Price */}
                                     <div className="flex items-center justify-between gap-4">
-                                        <span className="text-lg font-semibold text-gray-300">Member Price</span>
+                                        <span className="!text-2xl font-bold text-gray-300">Member Price</span>
                                         <span className="text-2xl font-extrabold text-white">
-                                            ${selectedCollection?.CollectionPrice}
+                                            {amountFormatter(selectedCollection?.CollectionPrice)}.00
                                         </span>
                                     </div>
 
