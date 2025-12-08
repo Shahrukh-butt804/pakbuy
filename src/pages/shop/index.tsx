@@ -177,7 +177,7 @@ const ProductWithSidebar: React.FC = () => {
                             </div>
 
                             <h2 className="text-2xl md:text-3xl font-semibold mt-4 pt-2">
-                                Choose {selectedCollection?.name}
+                                CHOOSE {selectedCollection?.name}
                             </h2>
                         </div>
 
