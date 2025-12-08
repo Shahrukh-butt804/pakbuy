@@ -100,7 +100,7 @@ const ProductWithSidebar: React.FC = () => {
                                     <div className="flex items-center justify-between gap-4">
                                         <span className="text-lg font-semibold text-gray-300">Retail Price</span>
                                         <span className="text-xl font-extrabold text-white line-through">
-                                            {amountFormatter(selectedCollection?.CollectionPrice + saving)}.00
+                                            {amountFormatter(selectedCollection?.CollectionPrice + saving)}
                                         </span>
                                     </div>
 
@@ -110,7 +110,7 @@ const ProductWithSidebar: React.FC = () => {
                                         <h4 className="text-lg font-semibold text-green-400">Member Savings</h4>
                                         <div className="flex items-center gap-2">
                                             <span className="text-green-400 text-xl font-extrabold">
-                                                {amountFormatter(saving)}.00
+                                                {amountFormatter(saving)}
                                             </span>
                                         </div>
                                     </div>
@@ -120,7 +120,7 @@ const ProductWithSidebar: React.FC = () => {
                                     <div className="flex items-center justify-between gap-4">
                                         <span className="!text-2xl font-bold text-gray-300">Member Price</span>
                                         <span className="text-2xl font-extrabold text-white">
-                                            {amountFormatter(selectedCollection?.CollectionPrice)}.00
+                                            {amountFormatter(selectedCollection?.CollectionPrice)}
                                         </span>
                                     </div>
 
