@@ -16,10 +16,10 @@ import Tips from "./pages/tips";
 
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
 import Swal from "sweetalert2";
-import { logout } from "./redux/reducers/userSlice";
+import { logout, selectUser } from "./redux/reducers/userSlice";
 import { store } from "./redux/store";
 
 
@@ -30,20 +30,13 @@ interface JwtPayload {
   [key: string]: any;
 }
 
-// const user = useSelector(selectUser);
 
-// const isAuthenticated = user && user._id;
 const PrivateRoute = () => {
   const dispatch = useDispatch();
 
-  const token = Cookies.get("accessToken");
+  const token = Cookies.get("accessToken") || useSelector(selectUser).user.token as any || {};
 
   if (!token) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Sorry, you need to become a member first. If you are a member, please login.',
-      text: 'You need to login first!',
-    })
     dispatch(logout())
     return <Navigate to="/" replace />;
   }
@@ -55,12 +48,6 @@ const PrivateRoute = () => {
     decoded = jwtDecode<JwtPayload>(token);
 
   } catch (_error) {
-
-    Swal.fire({
-      icon: 'error',
-      title: 'Sorry, you need to become a member first. If you are a member, please login.',
-      text: 'You need to login first!',
-    })
     dispatch(logout())
 
     Cookies.remove("accessToken");
@@ -74,8 +61,16 @@ const PrivateRoute = () => {
   if (decoded.exp < currentTime) {
     Swal.fire({
       icon: 'error',
-      title: 'Sorry, you need to become a member first. If you are a member, please login.',
-      text: 'You need to login first!',
+      title: 'Session Expired',
+      text: '',
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonText: "Login",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        return <Navigate to="/login" replace />;
+      }
     })
 
     dispatch(logout())
