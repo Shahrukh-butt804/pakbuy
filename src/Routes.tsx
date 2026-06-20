@@ -34,7 +34,7 @@ interface JwtPayload {
 const PrivateRoute = () => {
   const dispatch = useDispatch();
 
-  const token = Cookies.get("accessToken") || useSelector(selectUser).token as any || {};
+  const token = Cookies.get("accessToken") || useSelector(selectUser)?.token as any || {};
 
   if (!token) {
     dispatch(logout())
