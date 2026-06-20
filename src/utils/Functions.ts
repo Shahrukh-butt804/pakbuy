@@ -1,6 +1,7 @@
 import { FetchArgs, fetchBaseQuery, FetchBaseQueryError, BaseQueryFn } from "@reduxjs/toolkit/query/react";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../constants/api";
+import { prepareHeaders } from "../redux/prepareHeader/preapareHeader";
 
 export const ImageUrl = (image: string) => {
   const { hostname } = window.location;
@@ -19,6 +20,8 @@ export const makeBaseQueryWith401Handler = (urlSuffix: string) => {
   const rawBaseQuery = fetchBaseQuery({
     baseUrl: BASE_URL + urlSuffix,
     credentials: 'include',
+    prepareHeaders,
+    
   });
 
   const baseQueryWith401Handler: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
