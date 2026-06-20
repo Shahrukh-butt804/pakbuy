@@ -194,7 +194,7 @@ const Header: React.FC = () => {
                     title: 'Success',
                     text: response?.data?.message,
                 })
-                dispatch(setUser(response?.data?.user))
+                dispatch(setUser({...response?.data?.user, token: response?.data?.accessToken}))
                 setIsModalOpen(false);
             } else {
                 Swal.fire({
