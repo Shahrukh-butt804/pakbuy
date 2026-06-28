@@ -87,8 +87,8 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
             data-aos-delay={index * 300}
             data-aos-duration="800"
           >
-            <p className="text-sm text-white/70 mb-2 categories-title">{item?.title || 'Choose Collection'}</p>
-            <p className="text-white text-sm categories-choose">CHOOSE</p>
+            <p className="text-sm text-white/70 mb-2 categories-title">{item?.title || 'Pak Buy Collection'}</p>
+            <p className="text-white text-sm categories-choose">Pak Buy</p>
             <p className={`text-2xl font-semibold italic categories-name ${colorsForCollections[index].color}`}>{item?.name || 'Collection'}</p>
           </div>
         ))}
@@ -123,7 +123,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                         navigate(`/shop/${selectedPackage?._id}`);
                       }}
                     >
-                      <span className='text-black'>
+                      <span className='!text-white'>
                         {/* See Collection  ${selectedPackage?.CollectionPrice} */}
                         See Collection  
                       </span>
@@ -132,7 +132,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                 </div>
               )}
               <h2 className="text-sm font-semibold mb-4 text-white/60">
-                CHOOSE{" "}
+                Pak Buy{" "}
                 <span className={`italic italic-font text-lg ml-1 font-medium ${categories[index]}`}>
                   {selected?.name}
                 </span>

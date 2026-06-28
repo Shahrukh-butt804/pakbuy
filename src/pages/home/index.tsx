@@ -41,7 +41,7 @@ const Home = () => {
             <div className="home-top-bg">
                 <div className="home-top-content" data-aos="fade-down" data-aos-delay="500">
                     <h1 className="home-top-title">
-                        CHOOSE <span className="home-top-subtitle">well</span>
+                        PAK <span className="home-top-subtitle ">Buy</span>
                     </h1>
                 </div>
                 <InfoCards />
@@ -74,7 +74,7 @@ const Home = () => {
 
                             <button
                                 onClick={closeModal}
-                                className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                className="site-btn bg-transparent hover:bg-gray-700 !text-white font-medium rounded-full border border-gray-600 transition-colors duration-200"
                                 data-aos="zoom-in"
                                 data-aos-delay="800"
                                 data-aos-duration="800"
@@ -128,12 +128,12 @@ const Home = () => {
             <div className="ticker">
                 <div className="ticker-content">
                     <h6>
-                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> * &nbsp;
-                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> *
+                        Pak Buy <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> * &nbsp;
+                        Pak Buy <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> *
                     </h6>
                     <h6>
-                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> * &nbsp;
-                        CHOOSE your <span>Collection</span> * &nbsp; CHOOSE your <span>Collection</span> *
+                        Pak Buy <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> * &nbsp;
+                        Pak Buy <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> *
                     </h6>
                 </div>
             </div>
@@ -155,7 +155,7 @@ const Home = () => {
 
                     <button
                         onClick={closeModal}
-                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 mt-4"
+                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 mt-4 !text-white"
                         data-aos="zoom-in"
                         data-aos-delay="1100"
                         data-aos-duration="800"

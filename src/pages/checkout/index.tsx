@@ -224,7 +224,7 @@ const Checkout: React.FC = () => {
                             placeholder="Gift Card Code"
                             className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
                         />
-                        <button className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                        <button className="bg-[#C97873] hover:bg-[#C97873] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Apply
                         </button>
                     </div> */}
@@ -253,7 +253,7 @@ const Checkout: React.FC = () => {
                                 />
                                 <button
                                     onClick={handleValidateCoupon}
-                                    className="bg-[#D7C6B7] hover:bg-[#D7C6B7] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                                    className="bg-[#C97873] hover:bg-[#C97873] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                                     {isLoading ? "wait..." : "Apply"}
                                 </button>
                             </div>
@@ -266,7 +266,7 @@ const Checkout: React.FC = () => {
                                 setIsCouponApplied(false)
                                 // setSubTotal(myCart?.reduce((total: number, item: any) => total + item.price, 0))
                             }}
-                            className="bg-[#D7C6B7] hover:bg-[#D7C6B7] w-full px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
+                            className="bg-[#C97873] hover:bg-[#C97873] w-full px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Clear Coupon
                         </button>
                     }
@@ -544,7 +544,7 @@ const Checkout: React.FC = () => {
                             {/* Message */}
                             <p className="text-gray-600 text-sm mb-6">
                                 Congratulations on CHOOSING WELL! You will soon experience one of
-                                the many powerful benefits of your CHOOSE Well membership.
+                                the many powerful benefits of your Pak Buy membership.
                             </p>
 
                             {/* Continue Button */}

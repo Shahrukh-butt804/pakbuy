@@ -19,7 +19,7 @@ export const EthicsBound: React.FC = () => {
               No Ads <br />  No Tracking <br /> No Conflicts of Interest
             </h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Brands can’t pay to appear on CHOOSE. <br />
+              Brands can’t pay to appear on Pak Buy. <br />
               We never process or sell your data. <br />
               {/* • We don’t sell medications or supplements. */}
             </p>
@@ -54,7 +54,7 @@ export const EthicsBound: React.FC = () => {
             <span className="text-sm italic text-gray-300 mb-4 block bound-itaclic-text">ethics bound</span>
             <h3 className="text-lg font-semibold mb-3">Strictly Independent</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              CHOOSE makes NO money from Members’ purchases. <br />
+              Pak Buy makes NO money from Members’ purchases. <br />
               We accept NO funds from outside companies.<br />
               We don’t sell medications or supplements.
               {/* • Pharma <br />

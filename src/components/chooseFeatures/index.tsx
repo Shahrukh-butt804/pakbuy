@@ -37,7 +37,7 @@ export const ChooseFeatures: React.FC = () => {
           data-aos-delay="800"
           data-aos-duration="800"
         >
-          The 3 features of each CHOOSE Collection:
+          The 3 features of each Pak Buy Collection:
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 py-4">

@@ -19,7 +19,7 @@ const navigationItems = [
         id: 'science',
         label: (
             <div className="times-font">
-                CHOOSE <span className='mist-font'>Serenity</span>
+                Pak Buy <span className='mist-font'>Serenity</span>
             </div>
         ),
         path: '/shop',
@@ -28,7 +28,7 @@ const navigationItems = [
         id: 'tests',
         label: (
             <div className="times-font">
-                CHOOSE <span className='mist-font'>Relief</span>
+                Pak Buy <span className='mist-font'>Relief</span>
             </div>
         ),
         path: '/shop',
@@ -441,7 +441,8 @@ const Header: React.FC = () => {
 
 
     return (
-        <header className="w-full z-10 bg-[#374159]">
+        <>
+        <header className="w-full z-40 bg-[#374159]">
             <Row justify="center">
                 <Col lg={22} md={24} xs={24}>
                     <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex  justify-end items-center gap-3">
@@ -496,11 +497,11 @@ const Header: React.FC = () => {
                             <div className="flex items-center justify-center text-center mx-auto">
                                 {user && user._id ? (
                                     <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
-                                        Thank you for being a valued CHOOSE Well member.
+                                        Thank you for being a valued Pak Buy member.
                                     </div>
                                 ) : (
                                     <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
-                                        Become a CHOOSE Well member for <span className='text-green-400'>$119 annually.</span>  That’s less than $10 per month.
+                                        Become a Pak Buy member for <span className='text-green-400'>$119 annually.</span>  That’s less than $10 per month.
                                     </div>
                                 )}
                             </div>
@@ -527,7 +528,7 @@ const Header: React.FC = () => {
                                     </button>
 
                                     {myCart.length > 0 && (
-                                        <span className="absolute -top-1 -right-1 bg-[#D7C6B7] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                        <span className="absolute -top-1 -right-1 bg-[#C97873] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                                             {myCart.length}
                                         </span>
                                     )}
@@ -542,7 +543,7 @@ const Header: React.FC = () => {
                                 </button>
                                 <button
                                     disabled={logoutLoading}
-                                    className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                                    className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 "
                                     onClick={() => {
                                         Swal.fire({
                                             title: 'Are you sure you want to logout?',
@@ -655,15 +656,16 @@ const Header: React.FC = () => {
                     </div>
                 </Col>
             </Row>
+        </header>
 
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-left transform transition-all duration-300 ease-out text-black">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 p-4">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm max-h-[95vh] shadow-xl text-left transform transition-all duration-300 ease-out text-black overflow-y-auto">
 
                         {/* Close Button */}
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
                         >
                             ✕
                         </button>
@@ -723,7 +725,7 @@ const Header: React.FC = () => {
                             <button
                                 disabled={isLoading}
                                 onClick={handleLogin}
-                                className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition"
+                                className="site-btn w-full bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full transition"
                             >
                                 {isLoading ? "LOGGING IN" : "LOGIN"}
 
@@ -745,14 +747,14 @@ const Header: React.FC = () => {
             )}
 
             {isRegisterModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl text-left transform transition-all duration-300 ease-out text-black">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
+                    <div className="relative bg-white rounded-2xl p-6 md:p-8 w-full max-w-2xl max-h-[90vh] shadow-xl text-left transform transition-all duration-300 ease-out text-black my-8 overflow-y-auto">
 
-                        <div className='flex justify-between items-center mb-3'>
+                        <div className='flex justify-between items-start mb-3'>
                             {/* Close Button */}
                             <button
                                 onClick={() => closeModal()}
-                                className="absolute  right-4 text-gray-600 hover:text-black text-xl"
+                                className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
                             >
                                 ✕
                             </button>
@@ -788,7 +790,7 @@ const Header: React.FC = () => {
                         </div>
 
                         <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome!</h3>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Become a CHOOSE Member Now</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Become a Pak Buy Member Now</h2>
                         <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
 
                         {/* Form */}
@@ -870,7 +872,7 @@ const Header: React.FC = () => {
                             </div>
 
                             <h4 className="text-white">Additional Information</h4>
-                            <h6>Please pay the subscription amount <span className="font-semibold text-[#cb9f9a]">$119</span> to complete your signup journey</h6>
+                            <h6>Please pay the subscription amount <span className="font-semibold text-[#C97873]">$119</span> to complete your signup journey</h6>
 
                             {/* Stripe Implementaion */}
                             <h4 className="text-black">Card Details ( Debit / Credit)</h4>
@@ -886,7 +888,7 @@ const Header: React.FC = () => {
                             <button
                                 onClick={handleRegister}
                                 disabled={registerLoading}
-                                className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full transition">
+                                className="site-btn w-full bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full transition">
                                 {registerLoading ? "REGISTERING..." : "REGISTER"}
                             </button>
                         </div> */}
@@ -907,11 +909,11 @@ const Header: React.FC = () => {
 
 
             {isForgotModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black my-8">
                         <button
                             onClick={() => setIsForgotModalOpen(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
                         >
                             ✕
                         </button>
@@ -928,7 +930,7 @@ const Header: React.FC = () => {
 
                         <button
                             disabled={forgetPasswordLoading}
-                            className="site-btn w-full mt-4 bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
+                            className="site-btn w-full mt-4 bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full"
                             onClick={handleForgotPassword}
                             style={{ marginTop: '16px' }}
                         >
@@ -940,11 +942,11 @@ const Header: React.FC = () => {
             )}
 
             {isOtpModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black my-8">
                         <button
                             onClick={() => setIsOtpModalOpen(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
                         >
                             ✕
                         </button>
@@ -961,7 +963,7 @@ const Header: React.FC = () => {
 
                         <button
                             disabled={verifyOtpLoading}
-                            className="site-btn w-full mt-4 bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
+                            className="site-btn w-full mt-4 bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full"
                             onClick={handleVerifyOtp}
                             style={{ marginTop: '16px' }}
                         >
@@ -973,11 +975,11 @@ const Header: React.FC = () => {
 
 
             {isResetModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm">
-                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
+                    <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black my-8">
                         <button
                             onClick={() => setIsResetModalOpen(false)}
-                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl"
+                            className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
                         >
                             ✕
                         </button>
@@ -1020,7 +1022,7 @@ const Header: React.FC = () => {
 
                         <button
                             disabled={resetPasswordLoading}
-                            className="site-btn w-full bg-[#f1c7c2] hover:bg-[#e7b8b1] text-black font-semibold py-2 rounded-full"
+                            className="site-btn w-full bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full"
                             onClick={handleResetPassword}
                             style={{ marginTop: '16px' }}
                         >
@@ -1159,9 +1161,7 @@ const Header: React.FC = () => {
 
             </Drawer>}
             {/* cart */}
-
-
-        </header>
+        </>
     );
 };
 

@@ -40,7 +40,7 @@ export const MemberBenefits: React.FC = () => {
                             All services and products are independently evaluated.
                         </h3>
                         <p className="text-gray-300 text-sm">
-                            Only those meeting or exceeding our established criteria are included in CHOOSE Well Collections™
+                            Only those meeting or exceeding our established criteria are included in Pak Buy Collections™
                         </p>
                     </div>
                 </div>

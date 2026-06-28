@@ -77,7 +77,7 @@ const ChangePassword: React.FC = () => {
                             <label className="block text-sm text-gray-600 mb-1">Current Password</label>
                             <input
                                 type="password"
-                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-[#D7C6B7]"
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-[#C97873]"
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                             />
@@ -87,7 +87,7 @@ const ChangePassword: React.FC = () => {
                             <label className="block text-sm text-gray-600 mb-1">New Password</label>
                             <input
                                 type="password"
-                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-[#D7C6B7]"
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-[#C97873]"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
                             />
@@ -97,7 +97,7 @@ const ChangePassword: React.FC = () => {
                             <label className="block text-sm text-gray-600 mb-1">Confirm New Password</label>
                             <input
                                 type="password"
-                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-[#D7C6B7]"
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-[#C97873]"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
@@ -107,13 +107,13 @@ const ChangePassword: React.FC = () => {
                     <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
                         <button
                             onClick={() => navigate('/profile')}
-                            className="site-btn py-2 px-4 rounded-full hover:bg-[#D7C6B7] transition"
+                            className="site-btn py-2 px-4 rounded-full hover:bg-[#C97873] transition"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleChangePassword}
-                            className="site-btn py-2 px-4 rounded-full hover:bg-[#D7C6B7] transition"
+                            className="site-btn py-2 px-4 rounded-full hover:bg-[#C97873] transition"
                         >
                             Change Password
                         </button>
@@ -136,7 +136,7 @@ const ChangePassword: React.FC = () => {
                         <p className="text-gray-600 mt-2">Your password has been changed successfully!</p>
                         <button
                             onClick={() => navigate('/profile')}
-                            className="mt-6 site-btn px-6 py-2 rounded-full hover:[#D7C6B7] transition"
+                            className="mt-6 site-btn px-6 py-2 rounded-full hover:[#C97873] transition"
                         >
                             OK
                         </button>

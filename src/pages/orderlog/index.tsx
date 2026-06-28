@@ -84,7 +84,7 @@ const AboutUs: React.FC = () => {
                         color = "blue";
                         break;
                     case "dispatched":
-                        color = "gold";
+                        color = "magenta";
                         break;
                     case "delivered":
                         color = "green";

@@ -83,11 +83,11 @@ const Footer: React.FC = () => {
                             <Row>
                                 <Col lg={8}>
                                     <div>
-                                        <h2 className="text-lg font-semibold mb-4">CHOOSE</h2>
+                                        <h2 className="text-lg font-semibold mb-4">Pak Buy</h2>
                                         <p className="text-sm text-white w-[90%] footer-p">
-                                            CHOOSE Well is a marketplace for proven health options. The CHOOSE team has selected
+                                            Pak Buy is a marketplace for proven health options. The Pak Buy team has selected
                                             the best from a variety of companies located throughout the world and have brought them
-                                            together to form the CHOOSE Well Collections® with common sense pricing.
+                                            together to form the Pak Buy Collections® with common sense pricing.
                                         </p>
                                     </div>
                                 </Col>
@@ -127,8 +127,8 @@ const Footer: React.FC = () => {
                                 <Col lg={8}>
                                     <div className="bg-white p-6 rounded-3xl shadow-md text-black email-box">
                                         <h3 className="font-semibold text-sm mb-2">STAY IN TOUCH</h3>
-                                        <p className="text-xs mb-3 text-gray-700">
-                                            Provide your email address and we'll keep you updated with CHOOSE Well Collections.
+                                        <p className="text-xs mb-3 !text-gray-700">
+                                            Provide your email address and we'll keep you updated with Pak Buy Collections.
                                         </p>
                                         <Space direction="vertical" size="middle" className='mb-4 w-full'>
                                             <Space.Compact style={{ width: '100%' }}>
@@ -138,8 +138,8 @@ const Footer: React.FC = () => {
                                                 </svg></Button>
                                             </Space.Compact>
                                         </Space>
-                                        <p className="text-[10px] mt-2 text-gray-600">
-                                            By clicking Send, you agree to receive periodic emails from CHOOSE. We will never disclose your email address to anyone else.
+                                        <p className="text-[10px] mt-2 !text-gray-700">
+                                            By clicking Send, you agree to receive periodic emails from Pak Buy. We will never disclose your email address to anyone else.
                                         </p>
                                     </div>
                                 </Col>
@@ -152,7 +152,7 @@ const Footer: React.FC = () => {
 
                             <div className="flex space-x-2 mt-4 justify-between items-center copyright-section">
                                 <p className="text-white text-sm">
-                                    CHOOSE  © {currentYear}  Copyright 2025. All rights reserved
+                                    Pak Buy  © {currentYear}  Copyright 2025. All rights reserved
                                 </p>
                                 <div className="flex space-x-4 copyright-icons">
                                     <a href="#"><img

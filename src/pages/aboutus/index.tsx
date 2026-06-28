@@ -33,12 +33,12 @@ const AboutUs: React.FC = () => {
               Empowering Health, One Choice <br /> At A Time
             </h2>
             <p className="text-sm md:text-base mb-4 web-font">
-              CHOOSE Well is a marketplace for proven health options.
+              Pak Buy is a marketplace for proven health options.
             </p>
             <p className="text-sm md:text-base mb-4 web-font">
-              The CHOOSE team has selected the best from a variety of companies
+              The Pak Buy team has selected the best from a variety of companies
               located throughout the world and have brought them together to
-              form the CHOOSE Well Collections™ with common sense pricing.
+              form the Pak Buy Collections™ with common sense pricing.
             </p>
             <p className="text-sm md:text-base">
               By thoughtfully combining complementary options, we equip our
@@ -74,7 +74,7 @@ const AboutUs: React.FC = () => {
               Our Story
             </h3>
             <p className="text-sm md:text-base leading-relaxed web-font">
-              CHOOSE™ was born in response to growing demand for proven health
+              Pak Buy™ was born in response to growing demand for proven health
               options that aren’t typically covered by insurance—and may not be
               recommended by physicians.
               <br />
@@ -85,7 +85,7 @@ const AboutUs: React.FC = () => {
               game.
               <br />
               <br />
-              Today, CHOOSE Well is more than a brand—it means joining an
+              Today, Pak Buy is more than a brand—it means joining an
               exclusive community of conscious consumers who care deeply about
               health and quality of life for themselves and their loved ones.
               Our mission is to make choosing health feel intuitive and

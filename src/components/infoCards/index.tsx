@@ -27,7 +27,7 @@ const InfoCards = () => {
           data-aos-duration="1000"
         >
           <p>
-            <span className="font-semibold tracking-wider">CHOOSE™</span> was born in response to growing demand for{' '}
+            <span className="font-semibold tracking-wider">Pak Buy™</span> was born in response to growing demand for{' '}
             <span className="font-semibold text-lg blue-text">proven</span> health options that aren’t typically covered by insurance—
             and may not be recommended by physicians.
           </p>

@@ -54,13 +54,13 @@ const ProductWithSidebar: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="min-h-screen bg-[#181d2c] text-white px-4 md:px-8 py-6">
+            <div className="min-h-screen bg-gradient-to-br from-[#0d0d0d] via-[#1a1a1a] to-[#2a2a2a] text-white px-4 md:px-8 py-6">
                 <h6 className="shop-heading">SHOP</h6>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Sidebar */}
-                    <div className="bg-[#1f2638] rounded-xl p-6 space-y-4 w-full">
+                    <div className="bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-xl p-6 space-y-4 w-full border border-[rgba(212,175,55,0.15)]">
                         <div>
-                            <h3 className="text-sm font-semibold text-gray-300 mb-2">
+                            <h3 className="text-sm font-semibold text-gray-300 mb-2 uppercase tracking-wide">
                                 COLLECTION
                             </h3>
                             {collection && collection.length > 0 ?
@@ -68,15 +68,15 @@ const ProductWithSidebar: React.FC = () => {
                                 collection?.map((item: any) => (
                                     <label
                                         key={item?._id}
-                                        className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2"
+                                        className="flex items-center space-x-2 text-sm mb-1 cursor-pointer py-2 hover:text-[#C97873] transition-colors"
                                     >
                                         <input
                                             type="checkbox"
                                             checked={selectedCollection === item}
                                             onChange={() => handleChange(item)}
-                                            className="form-checkbox accent-green-500"
+                                            className="form-checkbox accent-[#C97873] w-4 h-4"
                                         />
-                                        <span className="text-white pl-2">CHOOSE {item?.name}</span>
+                                        <span className="text-white pl-2">{item?.name}</span>
                                     </label>
                                 ))
 
@@ -94,7 +94,7 @@ const ProductWithSidebar: React.FC = () => {
 
                         {selectedCollection && (
                             <>
-                                <div className="space-y-4 bg-white/5 p-4 rounded-xl border border-white/10 shadow-md w-full">
+                                <div className="space-y-4 bg-[rgba(212,175,55,0.05)] p-4 rounded-xl border border-[rgba(212,175,55,0.15)] shadow-md w-full">
 
                                     {/* Price Section */}
                                     <div className="flex items-center justify-between gap-4">
@@ -107,9 +107,9 @@ const ProductWithSidebar: React.FC = () => {
                                     {/* Savings Section */}
 
                                     <div className="flex items-center justify-between gap-4">
-                                        <h4 className="text-lg font-semibold text-green-400">Member Savings</h4>
+                                        <h4 className="text-lg font-semibold text-[#C97873]">Member Savings</h4>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-green-400 text-xl font-extrabold">
+                                            <span className="text-[#C97873] text-xl font-extrabold">
                                                 {amountFormatter(saving)}
                                             </span>
                                         </div>
@@ -126,7 +126,7 @@ const ProductWithSidebar: React.FC = () => {
 
                                 </div>
 
-                                <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200">
+                                <button onClick={() => handleAddToCart(selectedCollection)} className="w-full site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 !text-white">
                                     Add To Cart
                                 </button>
                             </>
@@ -142,7 +142,7 @@ const ProductWithSidebar: React.FC = () => {
                             <div className="flex space-x-2 gap-3">
                                 <button
                                     onClick={() => setIsGridView(true)}
-                                    className={`p-2 rounded ${isGridView ? "bg-[#3a4160]" : "bg-[#2a3146]"
+                                    className={`p-2 rounded transition-colors ${isGridView ? "bg-[rgba(212,175,55,0.15)]" : "bg-[#2a2a2a]"
                                         }`}
                                 >
                                     <svg
@@ -158,7 +158,7 @@ const ProductWithSidebar: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={() => setIsGridView(false)}
-                                    className={`p-2 rounded ${!isGridView ? "bg-[#3a4160]" : "bg-[#2a3146]"
+                                    className={`p-2 rounded transition-colors ${!isGridView ? "bg-[rgba(212,175,55,0.15)]" : "bg-[#2a2a2a]"
                                         }`}
                                 >
                                     <svg
@@ -175,13 +175,13 @@ const ProductWithSidebar: React.FC = () => {
 
                             </div>
 
-                            <h2 className="text-2xl md:text-3xl font-semibold mt-4 pt-2">
-                                CHOOSE {selectedCollection?.name}
+                            <h2 className="text-2xl md:text-3xl font-semibold mt-4 pt-2 text-[#C97873] tracking-wide">
+                                {selectedCollection?.name}
                             </h2>
                         </div>
 
 
-                        <div className="w-full p-4 bg-[#1f2638] rounded-xl my-4  md:text-xl">
+                        <div className="w-full p-4 bg-[rgba(212,175,55,0.05)] rounded-xl my-4 md:text-xl border border-[rgba(212,175,55,0.15)]">
                             {/* {selectedCollection?.about || ""} */}
                             <div dangerouslySetInnerHTML={{ __html: selectedCollection?.about || '' }} />
                         </div>
@@ -193,7 +193,7 @@ const ProductWithSidebar: React.FC = () => {
                                 return (
                                     <div
                                         key={product.id}
-                                        className={`bg-[#1f2638] p-4 rounded-lg shadow hover:shadow-lg transition-all ${!isGridView ? "flex items-center gap-4" : ""
+                                        className={`bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] p-4 rounded-lg shadow hover:shadow-lg transition-all border border-[rgba(212,175,55,0.1)] hover:border-[rgba(212,175,55,0.25)] ${!isGridView ? "flex items-center gap-4" : ""
                                             }`}
                                     >
                                         <div className="bg-[#fff]">

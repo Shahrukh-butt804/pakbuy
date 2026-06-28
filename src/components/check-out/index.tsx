@@ -55,7 +55,7 @@ function CheckoutForm({ handleSubmitForm ,  showSubmitBtn = true }: any) {
                     style: {
                         base: {
                             fontSize: '16px',
-                            color: '#cb9f9a',
+                            color: '#C97873',
                             '::placeholder': { color: '#a0aec0' },
                         },
                         invalid: { color: '#fa755a' },

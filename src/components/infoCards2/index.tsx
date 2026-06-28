@@ -19,8 +19,8 @@ const InfoCards2 = () => {
                 >
                     <h2 className="text-xl font-semibold mb-4">A marketplace for proven health options</h2>
                     <p className="text-sm">
-                        The CHOOSE team has selected the best from a variety of companies located throughout the world and have brought
-                        them together to form the CHOOSE Well Collections™ with common sense pricing.
+                        The Pak Buy team has selected the best from a variety of companies located throughout the world and have brought
+                        them together to form the Pak Buy Collections™ with common sense pricing.
                     </p>
                 </div>
 
@@ -47,7 +47,7 @@ const InfoCards2 = () => {
                     </p>
                     <button
                         onClick={() => navigate("/shop")}
-                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
+                        className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 !text-white"
                     >
                         SEE COLLECTIONS
                     </button>
