@@ -1,12 +1,13 @@
 import { MessageCircle, Minus, Send, ShoppingBag, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { BASE_URL } from "../../constants/api";
 
 
 const INITIAL_MESSAGES = [
   {
     id: 1,
     role: "bot",
-    text: "Hey! I'm your shopping assistant. Ask me about products, collections, sizing, or order status.",
+    text: "Hey! I'm your shopping assistant. Ask me about products, collections, or order status.",
   },
 ];
 
@@ -32,7 +33,7 @@ export default function ChatWidget() {
   const pushMessage = (msg:any) =>
     setMessages((prev) => [...prev, { id: prev.length + 1, ...msg }]);
 
-  const handleSend = (text:any) => {
+  const handleSend = async (text:any) => {
     const value = (text ?? input).trim();
     if (!value) return;
 
@@ -40,17 +41,31 @@ export default function ChatWidget() {
     setInput("");
     setTyping(true);
 
-    // --- Mock response. Replace this block with a real API call, e.g.:
-    // const res = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ message: value }) });
-    // const data = await res.json();
-    // pushMessage({ role: 'bot', text: data.reply });
-    setTimeout(() => {
-      setTyping(false);
+    // Last few turns as OpenRouter-style { role, content } history
+    const history = messages
+      .filter((m) => m.role === "user" || m.role === "bot")
+      .slice(-6)
+      .map((m) => ({ role: m.role === "bot" ? "assistant" : "user", content: m.text }));
+
+    try {
+      const res = await fetch(`${BASE_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: value, history }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data?.error || "Request failed");
+
+      pushMessage({ role: "bot", text: data.reply });
+    } catch (err) {
       pushMessage({
         role: "bot",
-        text: `Here's what I'd suggest for "${value}" — once the AI is wired up I'll pull real products and collections for this.`,
+        text: "Sorry, I couldn't reach the assistant just now — please try again in a moment.",
       });
-    }, 1100);
+    } finally {
+      setTyping(false);
+    }
   };
 
   return (
@@ -80,7 +95,7 @@ export default function ChatWidget() {
                 <span className="text-[13.5px] font-semibold leading-tight text-white">
                   Shop Assistant
                 </span>
-                <span className="text-[12px] leading-tight text-white/70">
+                <span className="text-[11px] leading-tight text-white/70">
                   Online · replies in seconds
                 </span>
               </div>
@@ -174,12 +189,12 @@ export default function ChatWidget() {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend("")}
+              onKeyDown={(e) => e.key === "Enter" && handleSend(input)}
               placeholder="Ask about a product or collection…"
               className="flex-1 rounded-xl bg-[#1B1E26] px-3.5 py-2.5 text-[13px] text-white placeholder-[#6B7280] outline-none ring-1 ring-[#262A34] focus:ring-[#C97873]"
             />
             <button
-              onClick={() => handleSend("")}
+              onClick={() => handleSend(input)}
               disabled={!input.trim()}
               className="flex h-9 w-9 flex-none items-center justify-center rounded-xl text-white transition disabled:opacity-40"
               style={{ background: "linear-gradient(135deg,#C97873,#D98F7E)" }}
