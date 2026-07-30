@@ -11,6 +11,7 @@ import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from '../../redux/reducers/userSlice';
 import { useForgetPasswordMutation, useLoginMutation, useLogoutMutation, useRegisterMutation, useResetPasswordMutation, useVerifyOtpMutation } from '../../redux/services/authSlice';
 import NavItem from './NavItem';
+import ChatWidget from '../chat-bot';
 
 const navigationItems = [
     { id: 'home', label: 'New Collections', path: '/' },
@@ -442,6 +443,7 @@ const Header: React.FC = () => {
 
     return (
         <>
+        <ChatWidget/>
         <header className="w-full z-40 bg-[#374159]">
             <Row justify="center">
                 <Col lg={22} md={24} xs={24}>
