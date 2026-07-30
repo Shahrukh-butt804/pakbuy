@@ -679,26 +679,26 @@ const Header: React.FC = () => {
                         <div className="space-y-4">
                             {/* Username */}
                             <div>
-                                <label className="block text-sm text-gray-700 mb-1">Email</label>
+                                <label className="block text-sm !text-gray-900 mb-1">Email</label>
                                 <input
                                     type="email"
                                     value={loginEmail}
                                     onChange={(e) => setLoginEmail(e.target.value)}
                                     placeholder="Enter your user name"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                    className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                 />
                             </div>
 
                             {/* Password */}
                             <div>
-                                <label className="block text-sm text-gray-700 mb-1">Password</label>
+                                <label className="block text-sm !text-gray-900 mb-1">Password</label>
                                 <div className="relative">
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter your Password"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10 "
+                                      className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                     />
                                     <span
                                         className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
@@ -789,49 +789,48 @@ const Header: React.FC = () => {
 
                         </div>
 
-                        <h3 className="text-sm font-medium text-gray-500 mb-1">Welcome!</h3>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Become a Pak Buy Member Now</h2>
-                        <p className="text-sm text-gray-500 mb-6">Enter Membership credentials.</p>
+                        <h3 className="text-sm font-medium text-gray-500 ">Welcome!</h3>
+                        <h2 className="text-2xl font-bold text-gray-900 ">Become a Pak Buy Member Now</h2>
 
                         {/* Form */}
                         <form >
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* Full Name */}
                                 <div>
-                                    <label className="block text-sm text-gray-700 mb-1">Full Name</label>
+                                    <label className="block text-sm !text-gray-800 mb-1">Full Name</label>
                                     <input
                                         value={signupData.fullName}
                                         name='fullName'
                                         onChange={onChange}
                                         type="text"
                                         placeholder="Enter your user name"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                        className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                     />
                                 </div>
 
                                 {/* Email */}
                                 <div>
-                                    <label className="block text-sm text-gray-700 mb-1">Email</label>
+                                    <label className="block text-sm !text-gray-800 mb-1">Email</label>
                                     <input
                                         value={signupData.email}
                                         name='email'
                                         onChange={onChange}
                                         type="email"
                                         placeholder="Enter your user name"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                                        className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                     />
                                 </div>
 
                                 {/* Password */}
                                 <div className="relative">
-                                    <label className="block text-sm text-gray-700 mb-1">Password</label>
+                                    <label className="block text-sm !text-gray-800 mb-1">Password</label>
                                     <input
                                         value={signupData.password}
                                         name='password'
                                         onChange={onChange}
                                         type={showRegPassword ? "text" : "password"}
                                         placeholder="Enter your Password"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                        className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                     />
                                     <span
                                         className="absolute right-3 top-9 text-gray-400 cursor-pointer"
@@ -843,14 +842,14 @@ const Header: React.FC = () => {
 
                                 {/* Confirm Password */}
                                 <div className="relative">
-                                    <label className="block text-sm text-gray-700 mb-1">Confirm Password</label>
+                                    <label className="block text-sm !text-gray-800 mb-1">Confirm Password</label>
                                     <input
                                         value={signupData.confirmPassword}
                                         name='confirmPassword'
                                         onChange={onChange}
                                         type={showConfirmPassword ? "text" : "password"}
                                         placeholder="Enter your Password"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
+                                        className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                                     />
                                     <span
                                         className="absolute right-3 top-9 text-gray-400 cursor-pointer"
@@ -864,7 +863,7 @@ const Header: React.FC = () => {
 
 
                             {/* Checkbox */}
-                            <div className="my-4 flex items-center gap-2 text-sm text-gray-700">
+                            <div className="my-4 flex items-center gap-2 text-sm !text-gray-900">
                                 <input type="checkbox" className="accent-black" />
                                 <label>
                                     I agree to the privacy policy and terms and conditions.
@@ -894,7 +893,7 @@ const Header: React.FC = () => {
                         </div> */}
 
                         {/* Footer */}
-                        <p className="text-sm text-center text-gray-600 mt-4">
+                        <p className="text-sm text-center !text-gray-900 mt-4">
                             Already have an Account ?{" "}
                             <span className="font-semibold text-black cursor-pointer hover:underline" onClick={() => {
                                 closeModal();
@@ -1119,7 +1118,7 @@ const Header: React.FC = () => {
                                             />
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="font-semibold text-gray-700 mt-1">{item.name}</span>
+                                            <span className="font-semibold text-gray-900 mt-1">{item.name}</span>
                                             <span className="text-xs text-gray-500">${item.CollectionPrice?.toFixed(2)}</span>
                                         </div>
                                     </div>
