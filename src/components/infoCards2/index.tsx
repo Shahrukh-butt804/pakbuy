@@ -1,7 +1,6 @@
 // import React from 'react';
 import { useNavigate } from 'react-router';
 // import { ImageUrl } from '../../utils/Functions';
-import well from "../../assets/well.png";
 
 const InfoCards2 = () => {
     const navigate = useNavigate();
@@ -36,11 +35,13 @@ const InfoCards2 = () => {
                         alt="well"
                         className="mb-4"
                     /> */}
-                    <img
+                    {/* <img
                         src={well}
                         alt="well"
                         className="mb-4"
-                    />
+                    /> */}
+                    <h2 className="text-3xl font-extrabold mb-4">A marketplace for trusted health solutions</h2>
+
                     <p className="text-sm mb-6">
                         By thoughtfully combining complementary options, we equip our members to make informed decisions and move
                         forward on their path to better health.
