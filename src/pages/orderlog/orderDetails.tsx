@@ -44,7 +44,7 @@ const OrderDetails: React.FC = () => {
   return (
     <>
       <Header />
- <div className="max-w-6xl mx-auto p-6">
+ <div className="mx-auto p-6 md:px-24 bg-gradient-to-br from-[#0d0d0d] via-[#1a1a1a] to-[#2a2a2a]">
   <h2 className="text-center text-2xl font-semibold mb-6 text-[#d17f89]">
     Order Details
   </h2>
