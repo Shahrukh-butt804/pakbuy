@@ -101,53 +101,48 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
         centered
         width={650}
         className="custom-ant-modal product-modal"
-
-        closeIcon={<span className="text-sm px-4 py-1 rounded-full bg-[#e3cbb3]">CLOSE</span>}
+        closeIcon={<span className="text-sm px-4 py-1 rounded-full bg-[#C97873] text-white font-semibold tracking-wide hover:bg-[#b86762] transition-colors duration-300">CLOSE</span>}
       >
         {selected && (
-          <div className="bg-[#0c0d16] p-8 rounded-md text-white">
+          <div className="bg-gradient-to-b from-[#18181b] to-[#101012] border border-[#C97873]/20 p-8 rounded-2xl text-white shadow-2xl">
             <div className="text-left">
               {/* Conditional: show subtitle OR purchase button */}
               {!memberBtn ? (
-                <p className="text-md font-semibold text-center mb-6 text-white/70 uppercase tracking-wide">
+                <p className="text-md font-semibold text-center mb-6 text-[#C97873]/70 uppercase tracking-widest">
                   NON-MEMBER PREVIEW
                 </p>
               ) : (
                 <div className="flex justify-center mb-6">
                   {user && user?._id && (
                     <button
-                      className="bg-[#02d05b] text-black px-6 py-2 rounded-full font-semibold hover:bg-[#02d05b] transition"
+                      className="bg-[#C97873] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#b86762] shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98]"
                       style={{ borderRadius: '100px' }}
                       onClick={() => {
-                        // console.log("Purchase clicked for:", selected.keyword);
                         navigate(`/shop/${selectedPackage?._id}`);
                       }}
                     >
                       <span className='!text-white'>
-                        {/* See Collection  ${selectedPackage?.CollectionPrice} */}
                         See Collection
                       </span>
                     </button>
                   )}
                 </div>
               )}
-              <h2 className="text-sm font-semibold mb-4 text-white/60">
+              <h2 className="text-sm font-semibold mb-4 text-gray-400">
                 Pak Buy{" "}
                 <span className={`italic italic-font text-lg ml-1 font-medium ${categories[index]}`}>
                   {selected?.name}
                 </span>
               </h2>
 
-
-
               {selected.description.map((data: any, idx: number) => (
-                <p key={idx} className="mb-2 abc">
+                <p key={idx} className="mb-3 text-gray-300 leading-relaxed abc">
                   <span className={`font-bold mr-2 ${categories[index]}`}>{data.heading}</span>
                   {data.text}
                 </p>
               ))}
 
-              <p className={`mt-6 text-center text-lg font-medium ${categories[index]}`}>
+              <p className={`mt-6 text-center text-lg font-semibold ${categories[index]}`}>
                 {selected.slogan}
               </p>
             </div>
