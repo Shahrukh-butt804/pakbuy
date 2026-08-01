@@ -1465,30 +1465,97 @@ footer a:hover {
 }
 
 
-/* Pagination — higher specificity + both background props to beat AntD's injected styles */
+/* ═══════════════════════════════════════════════════════════════
+   ORDER LOG TABLE — Full dark theme override for Ant Design Table
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Table wrapper */
+.order-log-table.order-log-table .ant-table {
+  background: transparent !important;
+  color: #e5e5e5 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Header */
+.order-log-table.order-log-table .ant-table-thead > tr > th {
+  background: rgba(201, 120, 115, 0.1) !important;
+  color: #C97873 !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  border-bottom: 1px solid rgba(201, 120, 115, 0.2) !important;
+  padding: 14px 16px !important;
+}
+
+.order-log-table.order-log-table .ant-table-thead > tr > th::before {
+  display: none !important;
+}
+
+/* Body cells */
+.order-log-table.order-log-table .ant-table-tbody > tr > td {
+  background: transparent !important;
+  color: #d4d4d4 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding: 14px 16px !important;
+  font-size: 13px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Row hover */
+.order-log-table.order-log-table .ant-table-tbody > tr:hover > td {
+  background: rgba(201, 120, 115, 0.06) !important;
+}
+
+/* Bordered overrides — remove harsh white borders */
+.order-log-table.order-log-table .ant-table-bordered .ant-table-container {
+  border: none !important;
+}
+
+.order-log-table.order-log-table.ant-table-wrapper .ant-table.ant-table-bordered > .ant-table-container {
+  border: none !important;
+}
+
+.order-log-table.order-log-table .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th,
+.order-log-table.order-log-table .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td {
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Empty state */
+.order-log-table.order-log-table .ant-empty-description {
+  color: #737373 !important;
+}
+
+/* Loading spinner */
+.order-log-table.order-log-table .ant-spin-dot-item {
+  background-color: #C97873 !important;
+}
+
+/* ─── Pagination ─── */
 .order-log-table.order-log-table .ant-pagination-item {
   background: rgba(255, 255, 255, 0.05) !important;
   background-color: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 8px !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-item a {
-  color: #f5f5f5 !important;
+  color: #a3a3a3 !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-item:hover {
-  border-color: #d17f89 !important;
+  border-color: #C97873 !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-item:hover a {
-  color: #d17f89 !important;
+  color: #C97873 !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-item-active {
-  background: #d17f89 !important;
-  background-color: #d17f89 !important;
-  border-color: #d17f89 !important;
+  background: #C97873 !important;
+  background-color: #C97873 !important;
+  border-color: #C97873 !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-item-active a {
@@ -1504,18 +1571,23 @@ footer a:hover {
 .order-log-table.order-log-table .ant-pagination-prev .ant-pagination-item-link,
 .order-log-table.order-log-table .ant-pagination-next .ant-pagination-item-link {
   background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 8px !important;
-  color: #f5f5f5 !important;
+  color: #a3a3a3 !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-prev:hover .ant-pagination-item-link,
 .order-log-table.order-log-table .ant-pagination-next:hover .ant-pagination-item-link {
-  border-color: #d17f89 !important;
-  color: #d17f89 !important;
+  border-color: #C97873 !important;
+  color: #C97873 !important;
 }
 
 .order-log-table.order-log-table .ant-pagination-disabled .ant-pagination-item-link {
-  color: rgba(255, 255, 255, 0.25) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Total text */
+.order-log-table.order-log-table .ant-pagination-total-text {
+  color: #737373 !important;
 }

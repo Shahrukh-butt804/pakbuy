@@ -7,7 +7,7 @@ import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useGetOrderByUserQuery } from "../../redux/services/orderSlice";
 
-const AboutUs: React.FC = () => {
+const MyOrders: React.FC = () => {
   const navigate = useNavigate();
 
   const { data: orderData, isLoading } = useGetOrderByUserQuery(
@@ -66,88 +66,88 @@ const AboutUs: React.FC = () => {
         <p className="whitespace-nowrap">{amount.toFixed(2)}</p>
       ),
     },
-{
-  title: "Status",
-  dataIndex: "status",
-  key: "status",
-  render: (status: string) => {
-    const statusStyles: Record<string, { bg: string; text: string; dot: string }> = {
-      pending: { bg: "rgba(234, 179, 8, 0.12)", text: "#eab308", dot: "#eab308" },
-      confirmed: { bg: "rgba(59, 130, 246, 0.12)", text: "#60a5fa", dot: "#60a5fa" },
-      dispatched: { bg: "rgba(217, 70, 239, 0.12)", text: "#e879f9", dot: "#e879f9" },
-      delivered: { bg: "rgba(34, 197, 94, 0.12)", text: "#4ade80", dot: "#4ade80" },
-      cancelled: { bg: "rgba(239, 68, 68, 0.12)", text: "#f87171", dot: "#f87171" },
-    };
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status: string) => {
+        const statusStyles: Record<string, { bg: string; text: string; dot: string }> = {
+          pending: { bg: "rgba(234, 179, 8, 0.12)", text: "#eab308", dot: "#eab308" },
+          confirmed: { bg: "rgba(59, 130, 246, 0.12)", text: "#60a5fa", dot: "#60a5fa" },
+          dispatched: { bg: "rgba(217, 70, 239, 0.12)", text: "#e879f9", dot: "#e879f9" },
+          delivered: { bg: "rgba(34, 197, 94, 0.12)", text: "#4ade80", dot: "#4ade80" },
+          cancelled: { bg: "rgba(239, 68, 68, 0.12)", text: "#f87171", dot: "#f87171" },
+        };
 
-    const key = status?.toLowerCase() ?? "";
-    const style = statusStyles[key] ?? {
-      bg: "rgba(255, 255, 255, 0.08)",
-      text: "#a3a3a3",
-      dot: "#a3a3a3",
-    };
+        const key = status?.toLowerCase() ?? "";
+        const style = statusStyles[key] ?? {
+          bg: "rgba(255, 255, 255, 0.08)",
+          text: "#a3a3a3",
+          dot: "#a3a3a3",
+        };
 
-    return (
-      <span
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "6px",
-          padding: "4px 12px",
-          borderRadius: "9999px",
-          backgroundColor: style.bg,
-          color: style.text,
-          fontSize: "12px",
-          fontWeight: 600,
-          textTransform: "capitalize",
-          letterSpacing: "0.02em",
-          border: `1px solid ${style.text}33`,
-        }}
-      >
-        <span
-          style={{
-            width: "6px",
-            height: "6px",
-            borderRadius: "9999px",
-            backgroundColor: style.dot,
-          }}
+        return (
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "4px 12px",
+              borderRadius: "9999px",
+              backgroundColor: style.bg,
+              color: style.text,
+              fontSize: "12px",
+              fontWeight: 600,
+              textTransform: "capitalize",
+              letterSpacing: "0.02em",
+              border: `1px solid ${style.text}33`,
+            }}
+          >
+            <span
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "9999px",
+                backgroundColor: style.dot,
+              }}
+            />
+            {status}
+          </span>
+        );
+      },
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: any) => (
+        <Button
+          type="text"
+          icon={<EyeOutlined style={{ color: "#ffffff" }} />}
+          onClick={() => navigate(`/track-order/${record._id}`)}
         />
-        {status}
-      </span>
-    );
-  },
-},
-{
-  title: "Action",
-  key: "action",
-  render: (_: any, record: any) => (
-    <Button
-      type="text"
-      icon={<EyeOutlined style={{ color: "#ffffff" }} />}
-      onClick={() => navigate(`/track-order/${record._id}`)}
-    />
-  ),
-},
+      ),
+    },
   ];
 
   return (
     <>
       <Header />
-      <div className="max-w-6xl mx-auto p-6 !bg-transparent ">
-        <h2 className="text-center text-2xl font-semibold mb-6 text-[#d17f89]">
+      <div className="max-w-6xl mx-auto p-6 bg-transparent min-h-[60vh]">
+        <h2 className="text-center text-3xl font-bold mb-8 text-[#C97873] tracking-wide">
           Order Log
         </h2>
-        <div className="rounded-xl shadow-md overflow-hidden p-4 border border-white/10">
+        <div className="bg-gradient-to-b from-[#18181b] to-[#101012] rounded-2xl shadow-2xl overflow-hidden p-4 border border-[#C97873]/20">
           <Table
             columns={columns}
             dataSource={orderData || []}
             loading={isLoading}
             pagination={{ pageSize: 6 }}
-            bordered
+            rowKey="_id"
             className="order-log-table"
           />
         </div>
       </div>
-      <section className="ethicsBoundary-bg">
+      <section className="bg-[#0d0d0d]">
         <ChooseInfoSection />
         <Footer />
       </section>
@@ -155,4 +155,4 @@ const AboutUs: React.FC = () => {
   );
 };
 
-export default AboutUs;
+export default MyOrders;
