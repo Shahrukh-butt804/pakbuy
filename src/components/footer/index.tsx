@@ -76,14 +76,14 @@ const Footer: React.FC = () => {
   return (
     <Row justify={"center"}>
       <Col lg={22}>
-        <footer className="w-full text-white py-12 px-8 font-sans footer-box bg-white/10 backdrop-blur-2xl">
+        <footer className="w-full text-white py-12 px-8 font-sans footer-box bg-gradient-to-b from-[#18181b] to-[#101012] border-t border-[#C97873]/20 backdrop-blur-2xl">
           <div className=" mx-auto">
             <div className=" text-white py-10">
               <Row>
                 <Col lg={8}>
                   <div>
-                    <h2 className="text-lg font-semibold mb-4">Pak Buy</h2>
-                    <p className="text-sm text-white w-[90%] footer-p">
+                    <h2 className="text-lg font-semibold mb-4 text-[#C97873]">Pak Buy</h2>
+                    <p className="text-sm text-gray-400 w-[90%] footer-p leading-relaxed">
                       Pak Buy is a marketplace for proven health options. The
                       Pak Buy team has selected the best from a variety of
                       companies located throughout the world and have brought
@@ -95,7 +95,7 @@ const Footer: React.FC = () => {
                 <Col lg={8}>
                   <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div>
-                      <h2 className="text-sm font-bold mb-4">QUICK LINKS</h2>
+                      <h2 className="text-sm font-bold mb-4 text-[#C97873] uppercase tracking-widest">QUICK LINKS</h2>
                       {/* <ul className="space-y-2 text-sm text-gray-300">
                                                 <li><a href="/" className="hover:text-white">Home</a></li>
                                                 <li><a href="/aboutus" className="hover:text-white">About Us</a></li>
@@ -103,10 +103,10 @@ const Footer: React.FC = () => {
                                                 <li><a href="/contactUs" className="hover:text-white">Contact Us</a></li>
                                                 <li><a href="/my-orders" className="hover:text-white">My Orders</a></li>
                                             </ul> */}
-                      <ul className="space-y-2 text-sm text-gray-300">
+                      <ul className="space-y-2 text-sm text-gray-400">
                         {footerLinks.map((link) => (
                           <li key={link.path}>
-                            <Link to={link.path} className="hover:text-white">
+                            <Link to={link.path} className="hover:text-[#C97873] transition-colors duration-300">
                               {link.label}
                             </Link>
                           </li>
@@ -115,11 +115,11 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div>
-                      <h2 className="text-sm font-bold mb-4">USEFUL LINKS</h2>
-                      <ul className="space-y-2 text-sm text-gray-300">
+                      <h2 className="text-sm font-bold mb-4 text-[#C97873] uppercase tracking-widest">USEFUL LINKS</h2>
+                      <ul className="space-y-2 text-sm text-gray-400">
                         <li>
                           <a
-                            className="hover:text-white"
+                            className="hover:text-[#C97873] transition-colors duration-300 cursor-pointer"
                             onClick={() => navigate("/privacypolicy")}
                           >
                             Privacy Policy
@@ -127,7 +127,7 @@ const Footer: React.FC = () => {
                         </li>
                         <li>
                           <a
-                            className="hover:text-white"
+                            className="hover:text-[#C97873] transition-colors duration-300 cursor-pointer"
                             onClick={() => navigate("/termsconditions")}
                           >
                             Terms & Conditions
@@ -135,7 +135,7 @@ const Footer: React.FC = () => {
                         </li>
                         <li>
                           <a
-                            className="hover:text-white"
+                            className="hover:text-[#C97873] transition-colors duration-300 cursor-pointer"
                             onClick={() => navigate("/tips")}
                           >
                             Tips
@@ -147,11 +147,11 @@ const Footer: React.FC = () => {
                   </div>
                 </Col>
                 <Col lg={8}>
-                  <div className="bg-white p-6 rounded-3xl shadow-md text-black email-box">
-                    <h3 className="font-semibold text-sm mb-2">
+                  <div className="bg-gradient-to-b from-[#1e1e22] to-[#151517] border border-[#C97873]/20 p-6 rounded-2xl shadow-2xl text-white email-box">
+                    <h3 className="font-semibold text-sm mb-2 text-[#C97873] uppercase tracking-widest">
                       STAY IN TOUCH
                     </h3>
-                    <p className="text-xs mb-3 !text-gray-700">
+                    <p className="text-xs mb-3 !text-gray-400">
                       Provide your email address and we'll keep you updated with
                       Pak Buy Collections.
                     </p>
@@ -168,13 +168,15 @@ const Footer: React.FC = () => {
                           value={email}
                           type="email"
                           placeholder="Enter your email"
-                          className="!bg-white !text-black"
+                          className="!bg-[#0d0d0d] !text-white !border-[#C97873]/30 !placeholder-gray-500"
                         />
                         <Button
                           onClick={handleNewsLetter}
                           loading={isLoading}
                           disabled={isLoading}
                           type="primary"
+                          style={{ backgroundColor: '#C97873', borderColor: '#C97873' }}
+                          className="hover:!bg-[#b86762]"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +190,7 @@ const Footer: React.FC = () => {
                         </Button>
                       </div>
                     </Space>
-                    <p className="text-[10px] mt-2 !text-gray-700">
+                    <p className="text-[10px] mt-2 !text-gray-500">
                       By clicking Send, you agree to receive periodic emails
                       from Pak Buy. We will never disclose your email address to
                       anyone else.
@@ -200,25 +202,25 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Copyright */}
-            <div className="border-t border-white/10 pt-2 ">
+            <div className="border-t border-[#C97873]/20 pt-2 ">
               <div className="flex space-x-2 mt-4 justify-between items-center copyright-section">
-                <p className="text-white text-sm">
+                <p className="text-gray-400 text-sm">
                   Pak Buy © {currentYear} Copyright 2025. All rights reserved
                 </p>
                 <div className="flex space-x-4 copyright-icons">
-                  <a href="#">
+                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                     <img src={fbIcon} alt="well" className="w-7" />
                   </a>
-                  <a href="#">
+                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                     <img src={twIcon} alt="well" className="w-7" />
                   </a>
-                  <a href="#">
+                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                     <img src={inIcon} alt="well" className="w-7" />
                   </a>
-                  <a href="#">
+                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                     <img src={ytIcon} alt="well" className="w-7" />
                   </a>
-                  <a href="#">
+                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                     <img src={instaIcon} alt="well" className="w-7" />
                   </a>
                   {/* <a href="#"><img src="/icons/youtube.svg" alt="YouTube" className="w-4 h-4" /></a> */}
