@@ -81,15 +81,15 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
         {collections?.map((item: any, index: number) => (
           <div
             key={index}
-            className="golden_border border-white/10 bg-[#000000c4] rounded-sm p-4 py-10 text-center hover:shadow-md transition relative categories-main-cards w-[280px] cursor-pointer"
+            className="border border-[#C97873]/20 bg-gradient-to-b from-[#18181b] to-[#101012] hover:border-[#C97873]/50 rounded-2xl p-6 py-10 text-center shadow-lg hover:shadow-2xl hover:shadow-[#C97873]/10 transition-all duration-300 relative categories-main-cards w-[280px] cursor-pointer group"
             onClick={() => openModal(item, colorsForCollections[index].index)}
             data-aos="zoom-in"
             data-aos-delay={index * 300}
             data-aos-duration="800"
           >
-            <p className="text-sm text-white/70 mb-2 categories-title">{item?.title || 'Pak Buy Collection'}</p>
-            <p className="text-white text-sm categories-choose">Pak Buy</p>
-            <p className={`text-2xl font-semibold italic categories-name ${colorsForCollections[index].color}`}>{item?.name || 'Collection'}</p>
+            <p className="text-xs text-gray-400 mb-2 categories-title uppercase tracking-wider">{item?.title || 'Pak Buy Collection'}</p>
+            <p className="text-white text-xs font-semibold categories-choose tracking-widest uppercase">Pak Buy</p>
+            <p className={`text-2xl font-extrabold italic categories-name group-hover:scale-105 transition-transform duration-300 ${colorsForCollections[index].color}`}>{item?.name || 'Collection'}</p>
           </div>
         ))}
       </div>

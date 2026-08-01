@@ -7,28 +7,28 @@ const InfoCards = () => {
 
         {/* Right Card */}
         <div
-          className="bg-[#000000c4] text-white rounded-xl p-8 flex-1"
+          className="bg-gradient-to-b from-[#18181b] to-[#101012] border border-[#C97873]/20 shadow-2xl backdrop-blur-md text-white rounded-2xl p-8 flex-1"
           data-aos="fade-left"
           data-aos-delay="800"
           data-aos-duration="1000"
         >
-          <p>
+          <p className="text-gray-200 leading-relaxed text-sm md:text-base">
             Millions begin their health journey with hope, only to{' '}
-            <span className="font-semibold text-lg blue-text" style={{fontSize:"20px"}}>feel lost and frustrated</span> in a sea of influencers, sponsored content,
+            <span className="font-bold text-[#C97873]">feel lost and frustrated</span> in a sea of influencers, sponsored content,
             ads, and endless conflicting reviews.
           </p>
         </div>
 
         {/* Left Card */}
         <div
-          className="bg-[#000000c4] text-white rounded-xl p-8 flex-1 "
+          className="bg-gradient-to-b from-[#18181b] to-[#101012] border border-[#C97873]/20 shadow-2xl backdrop-blur-md text-white rounded-2xl p-8 flex-1"
           data-aos="fade-right"
           data-aos-delay="800"
           data-aos-duration="1000"
         >
-          <p>
-            <span className="font-semibold tracking-wider">Pak Buy™</span> was born in response to growing demand for{' '}
-            <span className="font-semibold text-lg blue-text">proven</span> health options that aren’t typically covered by insurance—
+          <p className="text-gray-200 leading-relaxed text-sm md:text-base">
+            <span className="font-semibold tracking-wider text-white">Pak Buy™</span> was born in response to growing demand for{' '}
+            <span className="font-bold text-[#C97873]">proven</span> health options that aren’t typically covered by insurance—
             and may not be recommended by physicians.
           </p>
         </div>

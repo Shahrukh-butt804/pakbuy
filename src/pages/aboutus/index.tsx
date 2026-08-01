@@ -17,7 +17,7 @@ const AboutUs: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        
+
         {/* Hero Section */}
         <div className="relative mb-16 pb-12 border-b border-[#C97873]/20 overflow-hidden">
           {/* Ambient Glow background decorative elements */}
@@ -81,7 +81,7 @@ const AboutUs: React.FC = () => {
         <div className="mb-16">
           <div className="bg-gradient-to-b from-[#18181b] to-[#101012] p-6 sm:p-10 rounded-3xl border border-[#C97873]/20 shadow-2xl backdrop-blur-md relative overflow-hidden">
             <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-[#C97873]/10 rounded-full blur-3xl pointer-events-none" />
-            
+
             <div className="grid lg:grid-cols-2 gap-10 items-center relative z-10">
               <div className="overflow-hidden rounded-2xl border border-white/10 shadow-xl group">
                 <img
