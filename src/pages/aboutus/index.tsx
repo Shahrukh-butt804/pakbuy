@@ -57,7 +57,7 @@ const AboutUs: React.FC = () => {
             <img
               src={ImageUrl("tree-purple2.png")}
               alt="Our Story"
-              className="rounded-xl  shadow-md absolute top-24 right-12 rotate-[-6deg]"
+              className="rounded-xl w-96 h-80 shadow-md absolute top-24 right-12 rotate-[-6deg]"
             />
           </div>
         </div>

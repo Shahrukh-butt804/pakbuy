@@ -34,6 +34,17 @@ const Footer: React.FC = () => {
         text: "Please enter your email",
       });
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Please enter a valid email address",
+      });
+    }
+
     try {
       const response: any = await addToNewsLetter({ email });
       if (response?.data?.success) {
@@ -68,7 +79,6 @@ const Footer: React.FC = () => {
         <footer className="w-full text-white py-12 px-8 font-sans footer-box bg-white/10 backdrop-blur-2xl">
           <div className=" mx-auto">
             <div className=" text-white py-10">
-              {/* <div className="mx-auto grid grid-cols-1 md:grid-cols-4 gap-10"> */}
               <Row>
                 <Col lg={8}>
                   <div>
@@ -158,6 +168,7 @@ const Footer: React.FC = () => {
                           value={email}
                           type="email"
                           placeholder="Enter your email"
+                          className="!bg-white !text-black"
                         />
                         <Button
                           onClick={handleNewsLetter}

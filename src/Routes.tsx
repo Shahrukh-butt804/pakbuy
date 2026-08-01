@@ -13,7 +13,6 @@ import Shop from "./pages/shop";
 import TermsConditions from "./pages/termsConditions";
 import Tips from "./pages/tips";
 
-
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +21,6 @@ import Swal from "sweetalert2";
 import { logout, selectUser } from "./redux/reducers/userSlice";
 import { store } from "./redux/store";
 
-
 interface JwtPayload {
   exp: number;
   email?: string;
@@ -30,60 +28,59 @@ interface JwtPayload {
   [key: string]: any;
 }
 
-
 const PrivateRoute = () => {
   const dispatch = useDispatch();
 
-  const token = Cookies.get("accessToken") || useSelector(selectUser)?.token as any || {};
+  const token =
+    Cookies.get("accessToken") || (useSelector(selectUser)?.token as any) || {};
 
   if (!token) {
-    dispatch(logout())
+    Swal.fire({
+      icon: "warning",
+      title: "Members Only",
+      text: "This page is available to members only. Please login or become a member to continue.",
+      confirmButtonText: "Okay",
+    });
+    dispatch(logout());
     return <Navigate to="/" replace />;
   }
 
   let decoded: JwtPayload;
 
   try {
-
     decoded = jwtDecode<JwtPayload>(token);
-
   } catch (_error) {
-    dispatch(logout())
+    Swal.fire({
+      icon: "warning",
+      title: "Members Only",
+      text: "This page is available to members only. Please login or become a member to continue.",
+      confirmButtonText: "Okay",
+    });
+    dispatch(logout());
 
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
 
     return <Navigate to="/" replace />;
-
   }
   const currentTime = Date.now() / 1000;
 
   if (decoded.exp < currentTime) {
     Swal.fire({
-      icon: 'error',
-      title: 'Session Expired',
-      text: '',
-      showCancelButton: true,
-      showDenyButton: true,
-      confirmButtonText: "Login",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        return <Navigate to="/login" replace />;
-      }
-    })
-
-    dispatch(logout())
+      icon: "warning",
+      title: "Session Expired",
+      text: "Please login to continue.",
+      confirmButtonText: "Okay",
+    });
+    dispatch(logout());
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
 
     return <Navigate to="/" replace />;
-
   }
 
   return <Outlet />;
 };
-
 
 function AppRoutes() {
   return (
@@ -104,11 +101,13 @@ function AppRoutes() {
               <Route path="/track-order/:id" element={<OrderDetails />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/edit" element={<EditProfile />} />
-              <Route path="/profile/changePassword" element={<ChangePassword />} />
+              <Route
+                path="/profile/changePassword"
+                element={<ChangePassword />}
+              />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/shop/:id" element={<Shop />} />
               <Route path="/shop" element={<Shop />} />
-
             </Route>
 
             {/* <Route element={<PrivateRoute />}>
