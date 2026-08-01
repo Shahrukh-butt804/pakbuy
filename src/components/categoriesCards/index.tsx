@@ -125,7 +125,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
                     >
                       <span className='!text-white'>
                         {/* See Collection  ${selectedPackage?.CollectionPrice} */}
-                        See Collection  
+                        See Collection
                       </span>
                     </button>
                   )}
