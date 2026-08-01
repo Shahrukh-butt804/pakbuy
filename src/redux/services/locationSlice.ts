@@ -11,14 +11,14 @@ export const locationSlice = createApi({
     getAllStates: builder.query({
       query: () => "/countries/states",
       transformResponse: (response: any) =>
-        response.data.find((c: any) => c.name === "United States").states,
+        response.data.find((c: any) => c.name === "Pakistan").states,
     }),
 
     getCitiesByState: builder.mutation({
       query: (stateName) => ({
         url: "countries/state/cities",
         method: "POST",
-        body: { country: "United States", state: stateName },
+        body: { country: "Pakistan", state: stateName },
       }),
     }),
   }),

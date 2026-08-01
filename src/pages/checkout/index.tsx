@@ -200,42 +200,10 @@ const Checkout: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="min-h-screen bg-[#1c2230] text-white flex flex-col md:flex-row gap-6 p-4 md:p-10">
-                {/* Sidebar */}
+            <div className="min-h-screen text-white flex flex-col md:flex-row gap-6 p-4 md:p-10 ">
 
-                <aside className="w-full md:w-1/3 bg-[#1e2432] text-white p-5 rounded-xl shadow-md">
-                    {/* Title */}
-                    {/* <h3 className="text-lg font-semibold mb-4">Summary</h3> */}
-
-                    {/* Total */}
-                    {/* <div className="flex justify-between mb-4">
-                        <span className="text-sm">Total</span>
-                        <span className="text-sm font-medium">${subTotal + tax}</span>
-                    </div> */}
-
-                    {/* Gift Card Discount */}
-                    {/* <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm">Gift Card Discount</span>
-                        <button className="text-xs text-pink-400 hover:text-pink-300">Apply Code</button>
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <input
-                            type="text"
-                            placeholder="Gift Card Code"
-                            className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
-                        />
-                        <button className="bg-[#C97873] hover:bg-[#C97873] px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
-                            Apply
-                        </button>
-                    </div> */}
-
-                    {/* Gift Card Discount */}
-
-
-                    {/* Coupon Code */}
-
-
-
+                <aside className="w-full md:w-1/3  text-white p-5 rounded-xl shadow-md">
+                 
                     {!isCouponApplied ?
                         <>
                             <div className="flex justify-between items-center mb-1">
@@ -264,7 +232,6 @@ const Checkout: React.FC = () => {
                             onClick={() => {
                                 setCouponCode("")
                                 setIsCouponApplied(false)
-                                // setSubTotal(myCart?.reduce((total: number, item: any) => total + item.price, 0))
                             }}
                             className="bg-[#C97873] hover:bg-[#C97873] w-full px-4 text-sm text-black font-semibold" style={{ color: '#000', borderRadius: "50px" }}>
                             Clear Coupon
@@ -290,11 +257,7 @@ const Checkout: React.FC = () => {
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
                                 <span className="text-xs text-gray-400">Tax And Other Charges Will Be Applied</span>
                                 <span></span>
-                                {/* <span>${tax.toFixed(2)}</span> */}
                             </div>
-                            {/* <div>
-                                <h4>Amount <span style={{ float: "right" }}>${(subTotal).toFixed(2)}</span></h4>
-                            </div> */}
                         </div>
                     </>}
                     <List
@@ -338,7 +301,7 @@ const Checkout: React.FC = () => {
                         <h4>Billing Information</h4>
 
 
-                        <Form form={form} layout="vertical" initialValues={{ country: "US" }}
+                        <Form form={form} layout="vertical" initialValues={{ country: "PK" }}
                         >
                             <Row gutter={16}>
                                 <Col xs={24} md={12}>
@@ -364,7 +327,7 @@ const Checkout: React.FC = () => {
 
                                     <Form.Item label="Country *" name="country" rules={[{ required: true, message: "Country is required" }]}>
                                         <Select className="web-input" placeholder="Select Country">
-                                            <Option value="US">United States</Option>
+                                            <Option value="PK">Pakistan</Option>
                                         </Select>
                                     </Form.Item>
 
@@ -391,16 +354,6 @@ const Checkout: React.FC = () => {
                                 </Col>
                             </Row>
 
-
-                            {/* <Form.Item label="Zip Code *" name="zipCode" rules={[{ required: true }]}>
-                                <Select className="web-input" placeholder="Select Zip Code">
-                                    {zipCodes.map(zip => (
-                                        <Option key={zip} value={zip}>{zip}</Option>
-                                    ))}
-                                </Select>
-                            </Form.Item> */}
-
-
                             <Form.Item label="Zip Code *" name="zipCode" rules={[{ required: true, message: "Zip Code is required" }]}>
                                 <Input className="web-input" placeholder="Zip Code" />
                             </Form.Item>
@@ -419,66 +372,7 @@ const Checkout: React.FC = () => {
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            {/* 
-                            <Checkbox checked={shipDifferent} onChange={(e) => setShipDifferent(e.target.checked)} style={{ margin: "16px 0" }}>
-                                Ship to different address
-                            </Checkbox> */}
-
-                            {/* {shipDifferent && (
-                                <div style={{ border: "1px solid #EEE", padding: 16, borderRadius: 8, marginBottom: 24 }}>
-
-
-                                    <Row gutter={16}>
-                                        <Col xs={24} md={8}>
-                                            <Form.Item label="Country *" name="shippingCountry" rules={[{ required: true, message: "Country is required" }]}>
-                                                <Select className="web-input" placeholder="Select Country">
-                                                    <Option value="United States">United States</Option>
-                                                    <Option value="Canada">Canada</Option>
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={24} md={8}>
-                                            <Form.Item label="Region/State *" name="shippingState" rules={[{ required: true, message: "Region/State is required" }]}>
-                                                <Select className="web-input" placeholder="Select Region/State">
-                                                    <Option value="New York">New York</Option>
-                                                    <Option value="Florida">Florida</Option>
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={24} md={8}>
-                                            <Form.Item label="City *" name="shippingCity" rules={[{ required: true, message: "City is required" }]}>
-                                                <Select className="web-input" placeholder="Select City">
-                                                    <Option value="New York City">New York City</Option>
-                                                    <Option value="Miami">Miami</Option>
-                                                </Select>
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-
-
-
-
-
-
-                                    <Form.Item label="Zip Code *" name="shippingZipCode" rules={[{ required: true, message: "Zip Code is required" }]}>
-                                        <Input className="web-input" placeholder="Zip Code" />
-                                    </Form.Item>
-                                    <Row gutter={16}>
-                                        <Col xs={24} md={12}>
-                                            <Form.Item label="Email *" name="shippingEmail" rules={[{ required: true, message: "Email is required" }]}>
-                                                <Input className="web-input" placeholder="Email" type="email" />
-                                            </Form.Item>
-                                        </Col>
-                                        <Col xs={24} md={12}>
-                                            <Form.Item label="Phone Number *" name="shippingPhone" rules={[{ required: true, message: "Phone Number is required" }]}>
-                                                <Input className="web-input" placeholder="Phone Number" />
-                                            </Form.Item>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            )} */}
-
-
+                          
                             <h4 className="text-white">Additional Information</h4>
                             <Form.Item label="Order Notes (Optional)" name="orderNote">
                                 <Input.TextArea rows={4} placeholder="Notes about your order" className="web-textarea text-white hover:text-black" />
@@ -491,9 +385,6 @@ const Checkout: React.FC = () => {
                             </div>
 
                         </Form >
-
-
-
                     </div >
                 </Col >
             </div >

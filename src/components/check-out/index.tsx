@@ -92,7 +92,7 @@ export default function PaymentPage({ handleSubmit,
 
 
     return (
-        <div className="mx-auto p-6 ">
+        <div className="mx-auto p-6">
             <Elements stripe={stripePromise}>
                 <CheckoutForm handleSubmitForm={handleSubmit} showSubmitBtn={showSubmitBtn} />
             </Elements>
