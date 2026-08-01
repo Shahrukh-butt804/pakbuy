@@ -16,14 +16,13 @@ import { UPLOADS_URL } from '../../constants/api';
 const EditProfile: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { email, fullName: name, image: userImage } = useSelector(selectUser);
+    const { email, fullName: name, image: userImage, token } = useSelector(selectUser);
     const [fullName, setFullName] = useState(name);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [imageFile, setImageFile] = useState<File | null>(null)
     const inputRef = useRef<HTMLInputElement>(null);
 
-
-    const [updateProfile] = useUpdateProfileMutation()
+    const [updateProfile, { isLoading }] = useUpdateProfileMutation()
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -48,7 +47,12 @@ const EditProfile: React.FC = () => {
             const response: any = await updateProfile(formData)
             if (response?.data?.success) {
                 setIsModalOpen(true);
-                dispatch(setUser(response?.data?.user))
+                dispatch(
+                    setUser({
+                        ...response?.data?.user,
+                        token,
+                    }),
+                );
 
             } else {
                 Swal.fire({
@@ -76,18 +80,23 @@ const EditProfile: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="flex flex-col items-center justify-center px-4 bg-white text-center py-14">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6">Edit Profile</h2>
+            <div className="flex flex-col items-center justify-center px-4 text-center py-14">
+                <h2 className="text-2xl font-semibold text-[#d17f89] mb-6">Edit Profile</h2>
 
-                <div className="bg-white rounded-lg shadow p-6 max-w-md w-full border-1">
+                <div className="rounded-xl shadow p-6 max-w-md w-full border border-white/10">
                     <div className="flex flex-col items-center">
 
-                        <div>
-                            <img src={
-                                imagePreview ||
-                                (userImage ? UPLOADS_URL + userImage : null) ||
-                                "https://static.vecteezy.com/system/resources/previews/036/280/651/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
-                            } className='w-24 h-24 rounded-full' crossOrigin='anonymous' alt="image" />
+                        <div className="relative mb-6">
+                            <img
+                                src={
+                                    imagePreview ||
+                                    (userImage ? UPLOADS_URL + userImage : null) ||
+                                    "https://static.vecteezy.com/system/resources/previews/036/280/651/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
+                                }
+                                className="w-24 h-24 rounded-full object-cover border border-white/10"
+                                crossOrigin="anonymous"
+                                alt="profile"
+                            />
 
                             <input
                                 ref={inputRef}
@@ -97,59 +106,62 @@ const EditProfile: React.FC = () => {
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     if (e.target.files && e.target.files[0]) {
                                         const file = e.target.files[0];
-                                        setImagePreview(URL.createObjectURL(file)); // for <img>
-                                        setImageFile(file); // actual file for upload
+                                        setImagePreview(URL.createObjectURL(file));
+                                        setImageFile(file);
                                     }
                                 }}
                             />
 
-                            <FaPencilAlt
+                            <button
+                                type="button"
                                 onClick={() => inputRef.current?.click()}
-                                className="cursor-pointer mt-2"
-                                color="black"
-                            />
-
+                                className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#d17f89] flex items-center justify-center hover:bg-[#c26a75] transition-colors"
+                            >
+                                <FaPencilAlt className="text-black text-xs" />
+                            </button>
                         </div>
 
-
                         {/* Input Fields */}
-                        <div className="w-full text-left space-y-4 mb-6 text-black">
+                        <div className="w-full text-left space-y-4 mb-8">
                             <div>
-                                <label className="block text-sm text-gray-600 mb-1">Name</label>
+                                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5">
+                                    Name
+                                </label>
                                 <input
                                     type="text"
-                                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-500"
+                                    className="w-full rounded-md px-3 py-2.5 bg-white/5 border border-white/15 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#d17f89] focus:ring-1 focus:ring-[#d17f89] transition-colors"
                                     value={fullName}
                                     onChange={(e) => setFullName(e.target.value)}
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm text-gray-600 mb-1">Email Address</label>
+                                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1.5">
+                                    Email Address
+                                </label>
                                 <input
                                     type="email"
-                                    className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-500"
+                                    className="w-full rounded-md px-3 py-2.5 bg-white/5 border border-white/10 text-gray-400 cursor-not-allowed"
                                     value={email}
-                                    // onChange={(e) => setEmail(e.target.value)}
                                     disabled
                                 />
                             </div>
                         </div>
 
                         {/* Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-
+                        <div className="flex flex-col sm:flex-row gap-3 w-full justify-center">
                             <button
                                 onClick={() => navigate('/profile')}
-                                className="site-btn bg-green-700  py-2 px-4 rounded-full hover:bg-green-900 transition"
+                                className="py-2.5 px-6 rounded-full text-sm font-semibold uppercase tracking-wider border border-white/25 text-white transition-colors hover:border-[#d17f89] hover:text-[#d17f89]"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSave}
-                                className="site-btn bg-green-700  py-2 px-4 rounded-full hover:bg-green-900 transition"
+                                disabled={isLoading}
+                                className="py-2.5 px-6 rounded-full text-sm font-semibold uppercase tracking-wider bg-[#d17f89] text-black transition-colors hover:bg-[#c26a75]"
                             >
-                                Save
+                                {isLoading ? 'Saving...' : 'Save'}
                             </button>
                         </div>
                     </div>
@@ -169,14 +181,20 @@ const EditProfile: React.FC = () => {
                 footer={null}
                 centered
                 closeIcon={false}
+                styles={{
+                    content: {
+                        background: "#151515",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                    },
+                }}
             >
                 <div className="text-center p-6">
-                    <CheckCircleOutlined style={{ fontSize: '48px', color: '#52c41a' }} />
-                    <h2 className="mt-4 text-xl font-semibold text-gray-800">Profile Updated</h2>
-                    <p className="text-gray-600 mt-2">Your changes have been saved successfully!</p>
+                    <CheckCircleOutlined style={{ fontSize: '48px', color: '#d17f89' }} />
+                    <h2 className="mt-4 text-xl font-semibold text-white">Profile Updated</h2>
+                    <p className="text-gray-400 mt-2">Your changes have been saved successfully!</p>
                     <button
                         onClick={() => navigate('/profile')}
-                        className="mt-6 bg-green-700 text-white px-6 py-2 rounded-full hover:bg-green-800 transition"
+                        className="mt-6 bg-[#d17f89] text-black font-semibold px-6 py-2.5 rounded-full hover:bg-[#c26a75] transition-colors"
                     >
                         OK
                     </button>
