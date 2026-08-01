@@ -1463,3 +1463,59 @@ footer a:hover {
 .swal2-timer-progress-bar {
   background: #d17f89 !important;
 }
+
+
+/* Pagination — higher specificity + both background props to beat AntD's injected styles */
+.order-log-table.order-log-table .ant-pagination-item {
+  background: rgba(255, 255, 255, 0.05) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-item a {
+  color: #f5f5f5 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-item:hover {
+  border-color: #d17f89 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-item:hover a {
+  color: #d17f89 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-item-active {
+  background: #d17f89 !important;
+  background-color: #d17f89 !important;
+  border-color: #d17f89 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-item-active a {
+  color: #0d0d0d !important;
+  font-weight: 700 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-item-active:hover a {
+  color: #0d0d0d !important;
+}
+
+/* Prev/Next arrows */
+.order-log-table.order-log-table .ant-pagination-prev .ant-pagination-item-link,
+.order-log-table.order-log-table .ant-pagination-next .ant-pagination-item-link {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  color: #f5f5f5 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-prev:hover .ant-pagination-item-link,
+.order-log-table.order-log-table .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: #d17f89 !important;
+  color: #d17f89 !important;
+}
+
+.order-log-table.order-log-table .ant-pagination-disabled .ant-pagination-item-link {
+  color: rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
