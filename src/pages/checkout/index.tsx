@@ -200,7 +200,7 @@ const Checkout: React.FC = () => {
     return (
         <>
             <Header />
-            <div className="min-h-screen text-white flex flex-col md:flex-row gap-6 p-4 md:p-10 ">
+            <div className="min-h-screen text-white flex flex-col md:flex-row gap-6 p-4 md:p-10 bg-gradient-to-br from-[#0d0d0d] via-[#1a1a1a] to-[#2a2a2a] ">
 
                 <aside className="w-full md:w-1/3  text-white p-5 rounded-xl shadow-md">
                  
