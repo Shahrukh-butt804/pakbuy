@@ -373,89 +373,6 @@ const Header: React.FC = () => {
     }
   }
 
-  // const handleSubmit = async (token: any) => {
-  //     const values = form.getFieldsValue(); // 👈 get all form values
-
-  //     const products = cartItems.map((item: any) => ({
-  //         packageId: item._id,
-  //         name: item.name,
-  //         quantity: 1,
-  //     }));
-
-  //     const payload: any = {
-  //         billingAddress: {
-  //             firstName: values.firstName,
-  //             lastName: values.lastName,
-  //             address: values.address,
-  //             country: values.country,
-  //             state: values.state,
-  //             city: values.city,
-  //             zipCode: values.zipCode,
-  //             email: values.email,
-  //             phone: values.phone,
-  //         },
-  //         cardDetails: {
-  //             nameOnCard: values.nameOnCard,
-  //             cardNumber: values.cardNumber,
-  //             expirationDate: values.expirationDate,
-  //             cvc: values.cvc,
-  //         },
-  //         orderNote: values.orderNote,
-  //         products,
-  //         token,
-  //     };
-
-  //     if (shipDifferent) {
-  //         payload.shippingAddress = {
-  //             firstName: values.shippingFirstName,
-  //             lastName: values.shippingLastName,
-  //             address: values.shippingAddress,
-  //             country: values.shippingCountry,
-  //             state: values.shippingState,
-  //             city: values.shippingCity,
-  //             zipCode: values.shippingZipCode,
-  //             email: values.shippingEmail,
-  //             phone: values.shippingPhone,
-  //         };
-  //     }
-
-  //     try {
-  //         const response: any = await createOrder(payload);
-
-  //         if (response?.data?.success) {
-  //             Swal.fire({
-  //                 title: "Success",
-  //                 text: response.data.message,
-  //                 icon: "success",
-  //                 confirmButtonText: "Ok",
-  //             });
-  //             dispatch(clearCart());
-  //             form.resetFields();
-  //             return true
-  //         } else {
-  //             Swal.fire({
-  //                 title: "Error!",
-  //                 text:
-  //                     response.error?.data?.errors?.[0]?.msg ||
-  //                     response.error?.data?.message ||
-  //                     "Something went wrong!",
-  //                 icon: "error",
-  //                 confirmButtonText: "Ok",
-  //             });
-  //             return false
-  //         }
-  //     } catch (error: any) {
-  //         console.log("🚀 ~ handleSubmit ~ error:", error);
-  //         Swal.fire({
-  //             title: "Error!",
-  //             text: error?.error?.data?.message || "Something went wrong!",
-  //             icon: "error",
-  //             confirmButtonText: "Ok",
-  //         });
-  //         return false
-  //     }
-  // };
-
   return (
     <>
       <ChatWidget />
@@ -516,20 +433,11 @@ const Header: React.FC = () => {
                   className="text-white hover:text-gray-300 transition cursor-pointer"
                   onClick={() => handleNavClick("home", "/")}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 9l9-7 9 7" />
-                    <path d="M9 22V12h6v10" />
-                  </svg>
+                  <img
+                    src="./images/logo.png"
+                    className="w-16 h-16"
+                    alt="logo"
+                  />
                 </span>
 
                 {/* Center Message */}
@@ -1163,16 +1071,19 @@ const Header: React.FC = () => {
           }
           styles={{
             header: {
-              background: "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
+              background:
+                "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
               borderBottom: "1px solid rgba(255,255,255,0.1)",
               padding: "16px 20px",
             },
             body: {
-              background: "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
+              background:
+                "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
               padding: "20px",
             },
             content: {
-               background: "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
+              background:
+                "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
             },
             mask: {
               background: "rgba(0,0,0,0.7)",
