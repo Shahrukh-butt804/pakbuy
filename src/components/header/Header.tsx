@@ -1,8 +1,9 @@
 import { Button, Col, Divider, Drawer, List, Row } from "antd";
 import { CircleUser, Menu, ShoppingCart, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import PaymentPage from "../../components/check-out";
 import { UPLOADS_URL } from "../../constants/api";
@@ -20,59 +21,19 @@ import {
   useResetPasswordMutation,
   useVerifyOtpMutation,
 } from "../../redux/services/authSlice";
-import NavItem from "./NavItem";
 import ChatWidget from "../chat-bot";
 
 const navigationItems = [
-  { id: "home", label: "New Collections", path: "/" },
-  { id: "about", label: "Coming Soon", path: "/shop" },
-  {
-    id: "science",
-    label: (
-      <div className="times-font">
-        Pak Buy <span className="mist-font">Serenity</span>
-      </div>
-    ),
-    path: "/shop",
-  },
-  {
-    id: "tests",
-    label: (
-      <div className="times-font">
-        Pak Buy <span className="mist-font">Relief</span>
-      </div>
-    ),
-    path: "/shop",
-  },
+  { label: "Home", path: "/" },
+  { label: "About Us", path: "/aboutus" },
+  { label: "Shop", path: "/shop" },
+  { label: "Contact Us", path: "/contactUs" },
+  { label: "My Orders", path: "/my-orders" },
 ];
 
-// interface Product {
-//     id: number;
-//     title: string;
-//     price: number;
-//     image: string;
-//     rating: number;
-// }
-
-// const addOns: Product[] = [
-//     {
-//         id: 1,
-//         title: "Muse S Athena",
-//         price: 200,
-//         image: "product1.png",
-//         rating: 5,
-//     },
-//     {
-//         id: 2,
-//         title: "Brain HQ",
-//         price: 150,
-//         image: "product1.png",
-//         rating: 4,
-//     },
-// ];
-
 const Header: React.FC = () => {
-  const [activeItem, setActiveItem] = useState("home");
+  const location = useLocation()
+  const [activeItem, setActiveItem] = useState(location.pathname === "/" ? "Home" : navigationItems.find(item => location.pathname === item.path)?.label || "Home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -95,8 +56,8 @@ const Header: React.FC = () => {
     0,
   );
   // const tax = subTotal * 0.2;
-  const handleNavClick = (id: string, path: string) => {
-    setActiveItem(id);
+  const handleNavClick = (label: string, path: string) => {
+    setActiveItem(label);
     setMobileMenuOpen(false);
     navigate(path);
   };
@@ -416,17 +377,6 @@ const Header: React.FC = () => {
                 )}
               </button>
 
-              {/* Desktop Navigation */}
-              {/* <nav className="hidden lg:flex items-baseline space-x-1 ">
-                            {navigationItems.map((item) => (
-                                <NavItem
-                                    key={item.id}
-                                    label={item.label}
-                                    isActive={activeItem === item.id}
-                                    onClick={() => handleNavClick(item.id, item.path)}
-                                />
-                            ))}
-                        </nav> */}
               <div className="hidden lg:flex items-center gap-6 w-full">
                 {/* Home Icon */}
                 <span
@@ -547,74 +497,103 @@ const Header: React.FC = () => {
             />
 
             {/* Mobile Sidebar Menu */}
-            <div
-              className={`fixed top-0 right-0 h-full w-64 bg-gray-900 z-10 transform transition-transform duration-300 ease-in-out lg:hidden ${
-                mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-              }`}
-            >
-              <div className="flex flex-col h-full pt-6 px-4 relative">
-                <button
-                  className="absolute top-4 right-4 text-white p-2"
+            {createPortal(
+              <>
+                {/* Backdrop */}
+                <div
+                  className={`fixed inset-0 z-[998] bg-black/60 transition-opacity duration-300 lg:hidden ${
+                    mobileMenuOpen
+                      ? "opacity-100"
+                      : "pointer-events-none opacity-0"
+                  }`}
                   onClick={() => setMobileMenuOpen(false)}
+                />
+
+                {/* Mobile Sidebar Menu */}
+                <div
+                  className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] z-[999] transform transition-transform duration-300 ease-in-out lg:hidden ${
+                    mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                  }`}
+                  style={{ background: "#0F1115" }}
                 >
-                  <X className="h-6 w-6" />
-                </button>
+                  <div className="flex flex-col h-full">
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
+                      <span className="text-lg font-semibold">
+                        <span className="text-white">Pak</span>
+                        <span className="text-[#d17f89]">Buy</span>
+                      </span>
+                      <button
+                        className="text-white/70 hover:text-white transition-colors p-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                        aria-label="Close menu"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
 
-                <nav className="flex flex-col space-y-1 mt-10">
-                  {navigationItems.map((item) => (
-                    <NavItem
-                      key={item.id}
-                      label={item.label}
-                      isActive={activeItem === item.id}
-                      onClick={() => handleNavClick(item.id, item.path)}
-                    />
-                  ))}
-                </nav>
+                    {/* Nav links */}
+                    <nav className="flex flex-col px-3 py-4 gap-0.5 overflow-y-auto">
+                      {navigationItems.map((item) => (
+                        <button
+                          key={item.label}
+                          onClick={() => handleNavClick(item.label, item.path)}
+                          className={`text-left px-3 py-3 rounded-lg text-[15px] font-medium transition-colors ${
+                            activeItem === item.label
+                              ? "bg-[#d17f89]/10 text-[#d17f89]"
+                              : "text-white/80 hover:bg-white/5 hover:text-white"
+                          }`}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </nav>
 
-                {/* Bottom Buttons */}
-                <div className="mt-auto pb-8 flex flex-col space-y-4 nav-btns">
-                  {user && user._id ? (
-                    <>
-                      <button
-                        className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                        onClick={() => {
-                          Swal.fire({
-                            title: "Are you sure you want to logout?",
-                            text: "You won't be able to revert this!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#3085d6",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Yes, logout!",
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              handleLogout();
-                            }
-                          });
-                        }}
-                      >
-                        <span className="">Logout</span>
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                        onClick={() => closeModal()}
-                      >
-                        <span className="">Member Sign up</span>
-                      </button>
-                      <button
-                        className="site-btn bg-transparent hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-full border border-gray-600 transition-colors duration-200"
-                        onClick={() => setIsModalOpen(true)}
-                      >
-                        <span className="">Login</span>
-                      </button>
-                    </>
-                  )}
+                    {/* Bottom Buttons */}
+                    <div className="mt-auto px-4 py-5 border-t border-white/10 flex flex-col gap-2.5">
+                      {user && user._id ? (
+                        <button
+                          className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-[#d17f89] text-black transition-colors hover:bg-[#c26a75]"
+                          onClick={() => {
+                            Swal.fire({
+                              title: "Are you sure you want to logout?",
+                              text: "You won't be able to revert this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, logout!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                handleLogout();
+                              }
+                            });
+                          }}
+                        >
+                          Logout
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border border-white/25 text-white transition-colors hover:border-[#d17f89] hover:text-[#d17f89]"
+                            onClick={() => closeModal()}
+                          >
+                            Member Sign up
+                          </button>
+                          <button
+                            className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-[#d17f89] text-black transition-colors hover:bg-[#c26a75]"
+                            onClick={() => setIsModalOpen(true)}
+                          >
+                            Login
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>,
+              document.body,
+            )}
           </Col>
         </Row>
       </header>
