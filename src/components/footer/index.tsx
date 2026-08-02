@@ -74,7 +74,7 @@ const Footer: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Row justify={"center"}>
+    <Row className="px-2 lg:px-0" justify={"center"}>
       <Col lg={22}>
         <footer className="w-full text-white py-12 px-8 font-sans footer-box bg-gradient-to-b from-[#18181b] to-[#101012] border-t border-[#C97873]/20 backdrop-blur-2xl">
           <div className=" mx-auto">

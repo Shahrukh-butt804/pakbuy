@@ -379,7 +379,7 @@ const Header: React.FC = () => {
       <header className="w-full z-40 bg-[#374159]">
         <Row justify="center">
           <Col lg={22} md={24} xs={24}>
-            <div className="bg-[#374159] backdrop-blur-lg px-10 py-3 mx-auto flex  justify-end items-center gap-3">
+            <div className="bg-[#374159] backdrop-blur-lg md:px-10 py-3 mx-auto flex  justify-end items-center gap-3">
               {/* <Logo /> */}
               <button
                 className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center"

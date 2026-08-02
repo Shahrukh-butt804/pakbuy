@@ -1,6 +1,7 @@
 import { MessageCircle, Minus, Send, ShoppingBag, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BASE_URL } from "../../constants/api";
+import { createPortal } from "react-dom";
 
 
 const INITIAL_MESSAGES = [
@@ -17,12 +18,13 @@ const QUICK_REPLIES = [
   "Track my order",
 ];
 
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
-  const scrollRef:any = useRef(null);
+  const scrollRef: any = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -30,10 +32,10 @@ export default function ChatWidget() {
     }
   }, [messages, typing, open]);
 
-  const pushMessage = (msg:any) =>
+  const pushMessage = (msg: any) =>
     setMessages((prev) => [...prev, { id: prev.length + 1, ...msg }]);
 
-  const handleSend = async (text:any) => {
+  const handleSend = async (text: any) => {
     const value = (text ?? input).trim();
     if (!value) return;
 
@@ -41,7 +43,6 @@ export default function ChatWidget() {
     setInput("");
     setTyping(true);
 
-    // Last few turns as OpenRouter-style { role, content } history
     const history = messages
       .filter((m) => m.role === "user" || m.role === "bot")
       .slice(-6)
@@ -68,12 +69,12 @@ export default function ChatWidget() {
     }
   };
 
-  return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end font-sans">
+  return createPortal(
+    <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-[999] flex flex-col items-end font-sans">
       {/* ---------------- Expanded chat panel ---------------- */}
       {open && (
         <div
-          className="mb-4 flex h-[520px] w-[360px] max-w-[92vw] flex-col overflow-hidden rounded-2xl border border-white/10 shadow-2xl"
+          className="mb-4 flex h-[75vh] max-h-[520px] w-[92vw] sm:w-[360px] max-w-[92vw] flex-col overflow-hidden rounded-2xl border border-white/10 shadow-2xl"
           style={{
             background: "#0F1115",
             animation: "chatw-pop 220ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -164,7 +165,6 @@ export default function ChatWidget() {
               </div>
             )}
 
-            {/* Quick replies — shown until the user sends their first message */}
             {messages.length === 1 && !typing && (
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {QUICK_REPLIES.map((q) => (
@@ -237,6 +237,7 @@ export default function ChatWidget() {
           100% { box-shadow: 0 0 0 0 rgba(201,120,115,0); }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }

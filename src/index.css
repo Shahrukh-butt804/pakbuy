@@ -1591,3 +1591,7 @@ footer a:hover {
 .order-log-table.order-log-table .ant-pagination-total-text {
   color: #737373 !important;
 }
+
+html, body {
+  overflow-x: hidden;
+}

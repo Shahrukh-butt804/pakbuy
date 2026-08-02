@@ -2,7 +2,7 @@
 
 const InfoCards = () => {
   return (
-    <div className="flex items-center justify-center p-6 info-cards-container">
+    <div className="flex items-center justify-center p-6 !px-2 info-cards-container">
       <div className="flex flex-col md:flex-row gap-6 max-w-6xl w-full">
 
         {/* Right Card */}
