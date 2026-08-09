@@ -1,7 +1,7 @@
 import { MessageCircle, Minus, Send, ShoppingBag, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { BASE_URL } from "../../constants/api";
 import { createPortal } from "react-dom";
+import { useChatMutation } from "../../redux/services/chatSlice";
 
 
 const INITIAL_MESSAGES = [
@@ -23,51 +23,90 @@ export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
-  const [typing, setTyping] = useState(false);
   const scrollRef: any = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, typing, open]);
+  }, [messages, open]);
 
   const pushMessage = (msg: any) =>
     setMessages((prev) => [...prev, { id: prev.length + 1, ...msg }]);
 
-  const handleSend = async (text: any) => {
-    const value = (text ?? input).trim();
-    if (!value) return;
+  const [chat, { isLoading:typing }] = useChatMutation();
 
-    pushMessage({ role: "user", text: value });
-    setInput("");
-    setTyping(true);
+const handleSend = async (text: any) => {
+  const value = (text ?? input).trim();
 
-    const history = messages
-      .filter((m) => m.role === "user" || m.role === "bot")
-      .slice(-6)
-      .map((m) => ({ role: m.role === "bot" ? "assistant" : "user", content: m.text }));
+  if (!value) return;
 
-    try {
-      const res = await fetch(`${BASE_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: value, history }),
-      });
-      const data = await res.json();
+  pushMessage({
+    role: "user",
+    text: value,
+  });
 
-      if (!res.ok) throw new Error(data?.error || "Request failed");
+  setInput("");
 
-      pushMessage({ role: "bot", text: data.reply });
-    } catch (err) {
-      pushMessage({
-        role: "bot",
-        text: "Sorry, I couldn't reach the assistant just now — please try again in a moment.",
-      });
-    } finally {
-      setTyping(false);
-    }
-  };
+  const history = messages
+    .filter((m) => m.role === "user" || m.role === "bot")
+    .slice(-6)
+    .map((m) => ({
+      role: m.role === "bot" ? "assistant" : "user",
+      content: m.text,
+    }));
+
+  try {
+    const data = await chat({
+      message: value,
+      history,
+    }).unwrap();
+
+    pushMessage({
+      role: "bot",
+      text: data.reply,
+    });
+  } catch (err) {
+    pushMessage({
+      role: "bot",
+      text: "Sorry, I couldn't reach the assistant just now — please try again in a moment.",
+    });
+  }
+};
+
+  // const handleSend = async (text: any) => {
+  //   const value = (text ?? input).trim();
+  //   if (!value) return;
+
+  //   pushMessage({ role: "user", text: value });
+  //   setInput("");
+  //   setTyping(true);
+
+  //   const history = messages
+  //     .filter((m) => m.role === "user" || m.role === "bot")
+  //     .slice(-6)
+  //     .map((m) => ({ role: m.role === "bot" ? "assistant" : "user", content: m.text }));
+
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/chat`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ message: value, history }),
+  //     });
+  //     const data = await res.json();
+
+  //     if (!res.ok) throw new Error(data?.error || "Request failed");
+
+  //     pushMessage({ role: "bot", text: data.reply });
+  //   } catch (err) {
+  //     pushMessage({
+  //       role: "bot",
+  //       text: "Sorry, I couldn't reach the assistant just now — please try again in a moment.",
+  //     });
+  //   } finally {
+  //     setTyping(false);
+  //   }
+  // };
 
   return createPortal(
     <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-[999] flex flex-col items-end font-sans">
