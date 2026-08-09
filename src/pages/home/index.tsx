@@ -37,20 +37,7 @@ const Home = () => {
     <div className="min-h-screen bg-gradient-to-b from-[#0d0d0d] via-[#141414] to-[#1a1a1a] text-white flex flex-col font-sans selection:bg-[#C97873]/30 selection:text-white">
       <Header />
       <HeroSection />
-      <div className="ticker mt-2">
-        <div className="ticker-content">
-          <h6>
-            Pak Buy <span>Collection</span> * &nbsp; Pak Buy{" "}
-            <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> *
-            &nbsp; Pak Buy <span>Collection</span> *
-          </h6>
-          <h6>
-            Pak Buy <span>Collection</span> * &nbsp; Pak Buy{" "}
-            <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> *
-            &nbsp; Pak Buy <span>Collection</span> *
-          </h6>
-        </div>
-      </div>
+   
       <div className="home-top-bg">
         {/* <InfoCards /> */}
         <div
