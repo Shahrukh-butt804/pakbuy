@@ -385,7 +385,7 @@ const Header: React.FC = () => {
                 >
                   <img
                     src="./images/logo.png"
-                    className="w-18 h-16"
+                    className="w-16 h-14"
                     alt="logo"
                   />
                 </span>
@@ -408,13 +408,6 @@ const Header: React.FC = () => {
 
               {user && user._id ? (
                 <>
-                  {/* <button
-                                    onClick={handleCartClick}
-                                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
-                                    style={{ borderRadius: "100px", padding: "0", border: "1px solid #fff" }}
-                                >
-                                    <ShoppingCart className="h-5 w-5" />
-                                </button> */}
                   <div className="relative">
                     <button
                       onClick={handleCartClick}
