@@ -385,7 +385,7 @@ const Header: React.FC = () => {
                 >
                   <img
                     src="./images/logo.png"
-                    className="w-16 h-16"
+                    className="w-18 h-16"
                     alt="logo"
                   />
                 </span>
