@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Drawer, List, Row } from "antd";
+import { Col, Row } from "antd";
 import { CircleUser, Menu, ShoppingCart, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -6,11 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import PaymentPage from "../../components/check-out";
-import { UPLOADS_URL } from "../../constants/api";
-import {
-  removeFromCart,
-  selectCartItems,
-} from "../../redux/reducers/cartSlice";
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
 import { logout, selectUser, setUser } from "../../redux/reducers/userSlice";
 import {
@@ -21,6 +16,8 @@ import {
   useResetPasswordMutation,
   useVerifyOtpMutation,
 } from "../../redux/services/authSlice";
+import { useGetMyCartQuery } from "../../redux/services/cartSlice";
+import { Cart } from "../cart";
 import ChatWidget from "../chat-bot";
 
 const navigationItems = [
@@ -32,29 +29,27 @@ const navigationItems = [
 ];
 
 const Header: React.FC = () => {
-  const location = useLocation()
-  const [activeItem, setActiveItem] = useState(location.pathname === "/" ? "Home" : navigationItems.find(item => location.pathname === item.path)?.label || "Home");
+  const location = useLocation();
+  const [activeItem, setActiveItem] = useState(
+    location.pathname === "/"
+      ? "Home"
+      : navigationItems.find((item) => location.pathname === item.path)
+          ?.label || "Home",
+  );
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showRegPassword, setShowRegPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const dispatch = useDispatch();
-  const isRegisterModalOpen = useSelector(
-    (state: any) => state.modal.isRegisterModalOpen,
-  );
-  function closeModal() {
-    dispatch(toggleRegisterModal());
-  }
+  const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
+
+  function closeModal() {dispatch(toggleRegisterModal())}
 
   const navigate = useNavigate();
   const user = useSelector(selectUser);
-  const myCart = useSelector(selectCartItems);
+  const { data: myCart } = useGetMyCartQuery({skip : !user}, { pollingInterval: 2000 });
 
-  const subTotal = myCart?.reduce(
-    (total: number, item: any) => total + item.CollectionPrice,
-    0,
-  );
   // const tax = subTotal * 0.2;
   const handleNavClick = (label: string, path: string) => {
     setActiveItem(label);
@@ -130,10 +125,6 @@ const Header: React.FC = () => {
     // setOpen(false)
     setShowCart(false);
     localStorage.setItem("myBooleanFlag", "false");
-  };
-
-  const handleRemove = (id: string) => {
-    dispatch(removeFromCart(id));
   };
 
   async function handleLogout() {
@@ -336,7 +327,9 @@ const Header: React.FC = () => {
 
   return (
     <>
+    {user && (
       <ChatWidget />
+      )}
       <header className="w-full z-40 bg-[#374159]">
         <Row justify="center">
           <Col lg={22} md={24} xs={24}>
@@ -421,9 +414,9 @@ const Header: React.FC = () => {
                       <ShoppingCart className="h-5 w-5" />
                     </button>
 
-                    {myCart.length > 0 && (
+                    {myCart && myCart?.items?.length > 0 && (
                       <span className="absolute -top-1 -right-1 bg-[#C97873] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                        {myCart.length}
+                        {myCart?.items?.length}
                       </span>
                     )}
                   </div>
@@ -1004,130 +997,7 @@ const Header: React.FC = () => {
       )}
 
       {/* cart */}
-      {showCart && (
-        <Drawer
-          title="My Cart"
-          placement="right"
-          onClose={onClose}
-          open={showCart}
-          width={350}
-          closeIcon={
-            <span
-              style={{
-                padding: "15px",
-                color: "#ffffff",
-                fontSize: "13px",
-                lineHeight: 1,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "26px",
-                height: "26px",
-                borderRadius: "8px",
-                border: "1px solid rgba(255,255,255,0.25)",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#d17f89";
-                e.currentTarget.style.color = "#d17f89";
-                e.currentTarget.style.background = "rgba(209,127,137,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
-                e.currentTarget.style.color = "#ffffff";
-                e.currentTarget.style.background = "transparent";
-              }}
-            >
-              ✕
-            </span>
-          }
-          styles={{
-            header: {
-              background:
-                "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
-              borderBottom: "1px solid rgba(255,255,255,0.1)",
-              padding: "16px 20px",
-            },
-            body: {
-              background:
-                "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
-              padding: "20px",
-            },
-            content: {
-              background:
-                "linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #2a2a2a 100%)",
-            },
-            mask: {
-              background: "rgba(0,0,0,0.7)",
-            },
-          }}
-          classNames={{
-            header: "!text-[#d17f89]",
-          }}
-        >
-          <div className="flex gap-10">
-            <div className="w-full">
-              <List
-                itemLayout="horizontal"
-                dataSource={myCart}
-                renderItem={(item: any) => (
-                  <List.Item
-                    className="!border-white/10"
-                    actions={[
-                      <Button
-                        size="small"
-                        type="text"
-                        onClick={() => handleRemove(item._id)}
-                        className="!text-[#d17f89] hover:!text-[#e29aa2]"
-                      >
-                        ✕
-                      </Button>,
-                    ]}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex flex-col items-center">
-                        <img
-                          crossOrigin="anonymous"
-                          src={UPLOADS_URL + item.image}
-                          alt={item.name}
-                          className="w-20 h-15 border-2 border-white/10 object-cover -ml-2 first:ml-0"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="font-semibold text-white mt-1">
-                          {item.name}
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          ${item.CollectionPrice?.toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                  </List.Item>
-                )}
-              />
-
-              <Divider className="!border-white/10" />
-
-              {myCart.length > 0 && (
-                <div className="text-center space-y-1">
-                  <p className="text-white">
-                    Sub-total: <strong>${subTotal.toFixed(2)}</strong>
-                  </p>
-                  <button
-                    onClick={() => {
-                      onClose();
-                      navigate("/checkout");
-                    }}
-                    className="mt-2 w-full site-btn bg-[#d17f89] !text-white border border-[#d17f89] font-semibold rounded-full py-3 hover:bg-[#c26a75] hover:border-[#c26a75] transition-colors"
-                  >
-                    CHECKOUT
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </Drawer>
-      )}
+      <Cart showCart={showCart} onClose={onClose} />
     </>
   );
 };

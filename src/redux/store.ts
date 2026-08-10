@@ -4,7 +4,6 @@ import { apiSlice } from "./services/apiSlice";
 import { authSlice } from "./services/authSlice";
 import { productSlice } from "./services/productSlice";
 import userReducer from "./reducers/userSlice";
-import cartReducer from "./reducers/cartSlice";
 import modalReducer from "./reducers/modalSlice";
 import { orderSlice } from "./services/orderSlice";
 import { profileSlice } from "./services/profileSlice";
@@ -15,6 +14,7 @@ import { collectionSlice } from "./services/collectionSlice";
 import { resourceSlice } from "./services/resourceSlice";
 import { locationSlice } from "./services/locationSlice";
 import { chatSlice } from "./services/chatSlice";
+import { cartSlice } from "./services/cartSlice";
 
 export const store = configureStore({
   reducer: {
@@ -30,14 +30,14 @@ export const store = configureStore({
     [resourceSlice.reducerPath]: resourceSlice.reducer,
     [locationSlice.reducerPath]: locationSlice.reducer,
     [chatSlice.reducerPath]: chatSlice.reducer,
+    [cartSlice.reducerPath]: cartSlice.reducer,
     user: userReducer,
-    cart: cartReducer,
     modal: modalReducer,
 
 
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware).concat(productSlice.middleware).concat(orderSlice.middleware).concat(profileSlice.middleware).concat(contactSlice.middleware).concat(newsLetterSlice.middleware).concat(couponSlice.middleware).concat(collectionSlice.middleware).concat(resourceSlice.middleware).concat(locationSlice.middleware).concat(chatSlice.middleware), // Add RTK Query middleware
+    getDefaultMiddleware().concat(apiSlice.middleware, authSlice.middleware).concat(productSlice.middleware).concat(orderSlice.middleware).concat(profileSlice.middleware).concat(contactSlice.middleware).concat(newsLetterSlice.middleware).concat(couponSlice.middleware).concat(collectionSlice.middleware).concat(resourceSlice.middleware).concat(locationSlice.middleware).concat(chatSlice.middleware).concat(cartSlice.middleware), // Add RTK Query middleware
 });
 
 setupListeners(store.dispatch);
