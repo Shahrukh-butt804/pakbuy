@@ -387,7 +387,7 @@ const Header: React.FC = () => {
                 <div className="flex items-center justify-center text-center mx-auto">
                   {user && user._id ? (
                     <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
-                      Thank you for being a valued Pak Buy member.
+                      Thank you for being a valued Pak Buy member
                     </div>
                   ) : (
                     <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
