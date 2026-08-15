@@ -1,26 +1,24 @@
-import { Col, Form, Input, List, Row, Select } from "antd";
+import { Col, Form, Input, Row, Select } from "antd";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import PaymentPage from "../../components/check-out";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { UPLOADS_URL } from "../../constants/api";
-import {
-    useGetMyCartQuery
-} from "../../redux/services/cartSlice";
+import { useGetMyCartQuery } from "../../redux/services/cartSlice";
 import { useValidateCouponMutation } from "../../redux/services/couponSlice";
 import {
-    useGetAllStatesQuery,
-    useGetCitiesByStateMutation,
+  useGetAllStatesQuery,
+  useGetCitiesByStateMutation,
 } from "../../redux/services/locationSlice";
 import { useCreateOrderMutation } from "../../redux/services/orderSlice";
-import { useNavigate } from "react-router";
 
 const { Option } = Select;
 
 const Checkout: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [form] = Form.useForm();
@@ -28,16 +26,20 @@ const Checkout: React.FC = () => {
   const [createOrder] = useCreateOrderMutation();
   const [validateCoupon, { isLoading }] = useValidateCouponMutation();
 
-  const { data: cartResponse, isLoading: isCartLoading, isFetching: isCartFetching} = useGetMyCartQuery({});
-
+  const { data: cartResponse, isLoading: isCartLoading } = useGetMyCartQuery(
+    {},
+  );
 
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [couponId, setCouponId] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState(0);
 
   const [cities, setCities] = useState([]);
-  const { data: allStates, isLoading: isLoadingStates } = useGetAllStatesQuery({});
-  const [getCitiesByState, { isLoading: isLoadingCities }] = useGetCitiesByStateMutation();
+  const { data: allStates, isLoading: isLoadingStates } = useGetAllStatesQuery(
+    {},
+  );
+  const [getCitiesByState, { isLoading: isLoadingCities }] =
+    useGetCitiesByStateMutation();
 
   const cart = cartResponse;
   const cartItems = cart?.items || [];
@@ -111,7 +113,7 @@ const Checkout: React.FC = () => {
   const handleSubmit = async (token: any) => {
     const values = form.getFieldsValue();
     if (!cartItems.length) {
-     return Swal.fire({
+      return Swal.fire({
         title: "Cart is empty",
         text: "Please add something to your cart before placing an order.",
         icon: "warning",
@@ -119,15 +121,16 @@ const Checkout: React.FC = () => {
       });
     }
 
-    const products = cartItems.map((item: any) => {
+    const products = cartItems
+      .map((item: any) => {
         const collectionId = item.collection?._id;
-        if (!collectionId) return null
-        return { collectionId, quantity: item.quantity || 1};
-      }).filter(Boolean);
-
+        if (!collectionId) return null;
+        return { collectionId, quantity: item.quantity || 1 };
+      })
+      .filter(Boolean);
 
     if (!products.length) {
-     return Swal.fire({
+      return Swal.fire({
         title: "Error!",
         text: "No valid collections were found in your cart.",
         icon: "error",
@@ -178,7 +181,7 @@ const Checkout: React.FC = () => {
         setCouponId("");
         setIsCouponApplied(false);
         setDiscountedPrice(0);
-        navigate("/")
+        navigate("/");
       } else {
         Swal.fire({
           title: "Error!",
@@ -196,7 +199,10 @@ const Checkout: React.FC = () => {
       console.log("🚀 ~ handleSubmit ~ error:", error);
       Swal.fire({
         title: "Error!",
-        text: error?.error?.data?.message || error?.data?.message || "Something went wrong!",
+        text:
+          error?.error?.data?.message ||
+          error?.data?.message ||
+          "Something went wrong!",
         icon: "error",
         confirmButtonText: "Ok",
       });
@@ -213,365 +219,489 @@ const Checkout: React.FC = () => {
     }
   };
 
+  if (isLoading || isCartLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[40vh] text-white">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <>
       <Header />
 
-      <div className="min-h-screen text-white flex flex-col md:flex-row gap-6 p-4 md:p-10 bg-gradient-to-br from-[#0d0d0d] via-[#1a1a1a] to-[#2a2a2a] ">
-        <aside className="w-full md:w-1/3  text-white p-5 rounded-xl shadow-md">
-          {!isCouponApplied ? (
-            <>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-sm">Coupon Code</span>
-
-                <button className="text-xs text-pink-400 hover:text-pink-300">
-                  Apply Code
-                </button>
-              </div>
-
-              <div className="flex items-center mb-6">
-                <input
-                  type="text"
-                  placeholder="Coupon Code"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  className="flex-1 p-2 rounded-l-full bg-[#2b3143] text-sm focus:outline-none"
-                />
-
-                <button
-                  onClick={handleValidateCoupon}
-                  className="bg-[#C97873] hover:bg-[#C97873] px-4 text-sm text-black font-semibold"
-                  style={{
-                    color: "#000",
-                    borderRadius: "50px",
-                  }}
-                >
-                  {isLoading ? "wait..." : "Apply"}
-                </button>
-              </div>
-            </>
-          ) : (
-            <button
-              onClick={() => {
-                setCouponCode("");
-                setIsCouponApplied(false);
-                setCouponId("");
-                setDiscountedPrice(0);
-              }}
-              className="bg-[#C97873] hover:bg-[#C97873] w-full px-4 text-sm text-black font-semibold"
-              style={{
-                color: "#000",
-                borderRadius: "50px",
-              }}
-            >
-              Clear Coupon
-            </button>
-          )}
-
-          {discountedPrice && isCouponApplied ? (
-            <>
-              <div style={{ padding: 16 }}>
-                <h4>Summary</h4>
-
-                <div>
-                  <h4>
-                    Discounted Price
-                    <span
-                      style={{
-                        float: "right",
-                      }}
-                    >
-                      ${discountedPrice.toFixed(2)}
+      <div className="min-h-screen bg-gradient-to-br from-[#0d0d0d] via-[#171717] to-[#242424] text-white px-3 py-4 sm:px-5 md:px-8 lg:px-10">
+        <div className="mx-auto max-w-[1400px] flex flex-col lg:flex-row gap-4 lg:gap-6">
+          {/* ================= LEFT: ORDER SUMMARY ================= */}
+          <aside className="w-full lg:w-[32%] xl:w-[30%]">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.035] backdrop-blur-sm p-4 sm:p-5 shadow-xl">
+              {/* Coupon */}
+              {!isCouponApplied ? (
+                <div className="mb-5">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs sm:text-sm font-medium text-white/80">
+                      Coupon Code
                     </span>
-                  </h4>
+
+                    <button
+                      type="button"
+                      className="text-xs text-[#d17f89] hover:text-[#e29aa2] transition-colors"
+                    >
+                      Apply Code
+                    </button>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter coupon"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                      className="
+                    min-w-0 flex-1
+                    h-10
+                    px-3
+                    rounded-xl
+                    bg-white/[0.06]
+                    border border-white/10
+                    text-sm text-white
+                    placeholder:text-white/30
+                    focus:outline-none
+                    focus:border-[#d17f89]/60
+                    focus:ring-1
+                    focus:ring-[#d17f89]/30
+                    transition-all
+                  "
+                    />
+
+                    <button
+                      type="button"
+                      onClick={handleValidateCoupon}
+                      className="
+                    h-10
+                    px-4
+                    rounded-xl
+                    bg-[#C97873]
+                    hover:bg-[#d98791]
+                    text-black
+                    text-xs
+                    font-semibold
+                    transition-all
+                    shrink-0
+                  "
+                    >
+                      {isLoading ? "Wait..." : "Apply"}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div style={{ padding: 16 }}>
-                <h4>Summary</h4>
-
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 8,
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCouponCode("");
+                    setIsCouponApplied(false);
+                    setCouponId("");
+                    setDiscountedPrice(0);
                   }}
+                  className="
+                w-full
+                h-10
+                mb-5
+                rounded-xl
+                bg-[#C97873]
+                hover:bg-[#d98791]
+                text-black
+                text-xs
+                font-semibold
+                transition-all
+              "
                 >
-                  <span>Sub-total:</span>
+                  Clear Coupon
+                </button>
+              )}
 
-                  <span>${subTotal.toFixed(2)}</span>
-                </div>
+              {/* Summary */}
+              <div className="mb-5">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-semibold text-white">
+                    Order Summary
+                  </h3>
 
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 16,
-                  }}
-                >
-                  <span className="text-xs text-gray-400">
-                    Tax And Other Charges Will Be Applied
+                  <span className="text-[11px] text-white/35">
+                    {cartItems?.length || 0} item
+                    {(cartItems?.length || 0) !== 1 ? "s" : ""}
                   </span>
-
-                  <span></span>
                 </div>
-              </div>
-            </>
-          )}
 
-          <List
-            itemLayout="horizontal"
-            dataSource={cartItems}
-            loading={isCartLoading || isCartFetching}
-            renderItem={(item: any) => {
+                <div className="space-y-2 text-xs sm:text-sm">
+                  {discountedPrice && isCouponApplied ? (
+                    <div className="flex justify-between items-center">
+                      <span className="text-white/55">Discounted Price</span>
 
-             const collection = item.collection;
-
-              return (
-                <List.Item>
-                  <div className="flex items-center gap-4">
-                    {collection?.products?.map(
-                      (product: any, index: number) => (
-                        <div key={index} className="flex flex-col items-center">
-                          <img
-                            crossOrigin="anonymous"
-                            src={UPLOADS_URL + product.image}
-                            alt={product.name || `product-${index}`}
-                            className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
-                          />
-                        </div>
-                      ),
-                    )}
-
-                    {!collection?.products?.length && collection?.image && (
-                      <div className="flex flex-col items-center">
-                        <img
-                          crossOrigin="anonymous"
-                          src={UPLOADS_URL + collection.image}
-                          alt={collection.title || collection.name}
-                          className="w-10 h-10 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
-                        />
-                      </div>
-                    )}
-
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-gray-400 mt-1">
-                        {collection?.title || collection?.name}
-                      </span>
-
-                      <span className="text-xs text-gray-300">
-                        ${Number(collection?.CollectionPrice || 0).toFixed(2)} x{" "}
-                        {item.quantity}
+                      <span className="font-semibold text-[#d17f89]">
+                        ${discountedPrice.toFixed(2)}
                       </span>
                     </div>
-                  </div>
-                </List.Item>
-              );
-            }}
-          />
-        </aside>
+                  ) : (
+                    <>
+                      <div className="flex justify-between items-center">
+                        <span className="text-white/55">Subtotal</span>
 
-        {/* Main Form */}
+                        <span className="font-medium text-white">
+                          ${subTotal.toFixed(2)}
+                        </span>
+                      </div>
 
-        <Col xs={24} md={16} lg={18}>
-          <div className="form-box mt-0">
-            <h4>Billing Information</h4>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[11px] text-white/35">
+                          Tax & other charges
+                        </span>
 
-            <Form
-              form={form}
-              layout="vertical"
-              initialValues={{
-                country: "PK",
-              }}
-            >
-              <Row gutter={16}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="First Name *"
-                    name="firstName"
-                    rules={[
-                      {
-                        required: true,
-                        message: "First Name is required",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="First Name" className="web-input" />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Last Name *"
-                    name="lastName"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Last Name is required",
-                      },
-                    ]}
-                  >
-                    <Input className="web-input" placeholder="Last Name" />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Form.Item
-                label="Address *"
-                name="address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Address is required",
-                  },
-                ]}
-              >
-                <Input className="web-input" placeholder="Address" />
-              </Form.Item>
-
-              <Row gutter={16}>
-                <Col xs={24} md={8}>
-                  <Form.Item
-                    label="Country *"
-                    name="country"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Country is required",
-                      },
-                    ]}
-                  >
-                    <Select className="web-input" placeholder="Select Country">
-                      <Option value="PK">Pakistan</Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} md={8}>
-                  <Form.Item
-                    label="State *"
-                    name="state"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Select
-                      disabled={
-                        !allStates || allStates.length === 0 || isLoadingStates
-                      }
-                      className="web-input"
-                      placeholder="Select State"
-                      onChange={handleStateChange}
-                    >
-                      {allStates?.map((s: any) => (
-                        <Option key={s.name} value={s.name}>
-                          {s.name}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} md={8}>
-                  <Form.Item
-                    label="City *"
-                    name="city"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                    ]}
-                  >
-                    <Select
-                      disabled={
-                        !cities || cities.length === 0 || isLoadingCities
-                      }
-                      className="web-input"
-                      placeholder="Select City"
-                    >
-                      {cities.map((c: any) => (
-                        <Option key={c} value={c}>
-                          {c}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Form.Item
-                label="Zip Code *"
-                name="zipCode"
-                rules={[
-                  {
-                    required: true,
-                    message: "Zip Code is required",
-                  },
-                ]}
-              >
-                <Input className="web-input" placeholder="Zip Code" />
-              </Form.Item>
-
-              <Row gutter={16}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Email *"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Email is required",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="web-input"
-                      placeholder="Email"
-                      type="email"
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label="Phone Number *"
-                    name="phone"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Phone Number is required",
-                      },
-                    ]}
-                  >
-                    <Input className="web-input" placeholder="Phone Number" />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <h4 className="text-white">Additional Information</h4>
-
-              <Form.Item label="Order Notes (Optional)" name="orderNote">
-                <Input.TextArea
-                  rows={4}
-                  placeholder="Notes about your order"
-                  className="web-textarea text-white hover:text-black"
-                />
-              </Form.Item>
-
-              {/* Stripe Implementation */}
-
-              <h4 className="text-white">Card Details ( Debit / Credit)</h4>
-
-              <div className="">
-                <PaymentPage handleSubmit={handleSubmit} />
+                        <span className="text-[11px] text-white/30">
+                          At checkout
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </Form>
+
+              {/* Cart Items */}
+              <div className="border-t border-white/10 pt-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xs font-semibold text-white/80">
+                    Your Items
+                  </h3>
+                </div>
+
+                <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                  {cartItems?.map((item: any, index: number) => {
+                    const collection = item.collection;
+
+                    return (
+                      <div
+                        key={item._id || index}
+                        className="
+                      flex items-center gap-3
+                      p-2.5
+                      rounded-xl
+                      bg-white/[0.025]
+                      border border-white/5
+                      hover:bg-white/[0.045]
+                      transition-colors
+                    "
+                      >
+                        {/* Image */}
+                        <div className="flex shrink-0">
+                          {collection?.products?.length ? (
+                            collection.products
+                              .slice(0, 1)
+                              .map((product: any, productIndex: number) => (
+                                <img
+                                  key={productIndex}
+                                  crossOrigin="anonymous"
+                                  src={UPLOADS_URL + product.image}
+                                  alt={product.name || "product"}
+                                  className="
+                                w-10 h-10
+                                rounded-lg
+                                object-cover
+                                border border-white/10
+                              "
+                                />
+                              ))
+                          ) : collection?.image ? (
+                            <img
+                              crossOrigin="anonymous"
+                              src={UPLOADS_URL + collection.image}
+                              alt={collection.title || collection.name}
+                              className="
+                            w-10 h-10
+                            rounded-lg
+                            object-cover
+                            border border-white/10
+                          "
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-lg bg-white/5" />
+                          )}
+                        </div>
+
+                        {/* Details */}
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-medium text-white/75 truncate">
+                            {collection?.title || collection?.name}
+                          </p>
+
+                          <p className="text-[11px] text-white/35 mt-0.5">
+                            $
+                            {Number(collection?.CollectionPrice || 0).toFixed(
+                              2,
+                            )}{" "}
+                            × {item.quantity}
+                          </p>
+                        </div>
+
+                        <span className="text-xs font-medium text-white/70">
+                          $
+                          {(
+                            Number(collection?.CollectionPrice || 0) *
+                            Number(item.quantity || 0)
+                          ).toFixed(2)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* ================= RIGHT: CHECKOUT FORM ================= */}
+          <div className="w-full lg:flex-1">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.035] backdrop-blur-sm p-4 sm:p-5 md:p-6 shadow-xl">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-5 pb-3 border-b border-white/10">
+                <div>
+                  <h2 className="text-base sm:text-lg font-semibold text-white">
+                    Billing Information
+                  </h2>
+
+                  <p className="text-[11px] sm:text-xs text-white/35 mt-1">
+                    Enter your details to complete your order
+                  </p>
+                </div>
+
+                <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35">
+                  <span className="w-2 h-2 rounded-full bg-[#C97873]" />
+                  Secure Checkout
+                </div>
+              </div>
+
+              <Form
+                form={form}
+                layout="vertical"
+                initialValues={{
+                  country: "PK",
+                }}
+                className="checkout-form"
+              >
+                {/* Name */}
+                <Row gutter={[12, 0]}>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      label="First Name"
+                      name="firstName"
+                      rules={[
+                        {
+                          required: true,
+                          message: "First Name is required",
+                        },
+                      ]}
+                    >
+                      <Input placeholder="First Name" className="web-input" />
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      label="Last Name"
+                      name="lastName"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Last Name is required",
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Last Name" className="web-input" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                {/* Address */}
+                <Form.Item
+                  label="Address"
+                  name="address"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Address is required",
+                    },
+                  ]}
+                >
+                  <Input className="web-input" placeholder="Street address" />
+                </Form.Item>
+
+                {/* Location */}
+                <Row gutter={[12, 0]}>
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label="Country"
+                      name="country"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Country is required",
+                        },
+                      ]}
+                    >
+                      <Select
+                        className="web-input"
+                        placeholder="Select Country"
+                      >
+                        <Option value="PK">Pakistan</Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label="State"
+                      name="state"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Select
+                        disabled={
+                          !allStates ||
+                          allStates.length === 0 ||
+                          isLoadingStates
+                        }
+                        className="web-input"
+                        placeholder="Select State"
+                        onChange={handleStateChange}
+                      >
+                        {allStates?.map((s: any) => (
+                          <Option key={s.name} value={s.name}>
+                            {s.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label="City"
+                      name="city"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Select
+                        disabled={
+                          !cities || cities.length === 0 || isLoadingCities
+                        }
+                        className="web-input"
+                        placeholder="Select City"
+                      >
+                        {cities.map((c: any) => (
+                          <Option key={c} value={c}>
+                            {c}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                {/* Zip */}
+                <Form.Item
+                  label="Zip Code"
+                  name="zipCode"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Zip Code is required",
+                    },
+                  ]}
+                >
+                  <Input className="web-input" placeholder="Zip Code" />
+                </Form.Item>
+
+                {/* Contact */}
+                <Row gutter={[12, 0]}>
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      label="Email"
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Email is required",
+                        },
+                      ]}
+                    >
+                      <Input
+                        className="web-input"
+                        placeholder="Email address"
+                        type="email"
+                      />
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={12}>
+                    <Form.Item
+                      label="Phone Number"
+                      name="phone"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Phone Number is required",
+                        },
+                      ]}
+                    >
+                      <Input className="web-input" placeholder="Phone number" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                {/* Additional */}
+                <div className="mt-2 mb-3">
+                  <h3 className="text-sm font-semibold text-white">
+                    Additional Information
+                  </h3>
+                </div>
+
+                <Form.Item label="Order Notes" name="orderNote">
+                  <Input.TextArea
+                    rows={2}
+                    placeholder="Notes about your order (optional)"
+                    className="web-textarea"
+                  />
+                </Form.Item>
+
+                {/* Payment */}
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">
+                        Card Details
+                      </h3>
+
+                      <p className="text-[11px] text-white/35 mt-0.5">
+                        Debit / Credit Card
+                      </p>
+                    </div>
+
+                    <span className="text-[10px] px-2 py-1 rounded-md bg-white/5 text-white/40">
+                      Secure
+                    </span>
+                  </div>
+
+                  <PaymentPage handleSubmit={handleSubmit} />
+                </div>
+              </Form>
+            </div>
           </div>
-        </Col>
+        </div>
       </div>
 
       <section className="ethicsBoundary-bg">
