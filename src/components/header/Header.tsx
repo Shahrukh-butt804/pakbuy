@@ -1,5 +1,4 @@
-import { Col, Row } from "antd";
-import { CircleUser, Menu, ShoppingCart, X } from "lucide-react";
+import { CircleUser, Eye, EyeOff, LogOut, Menu, ShoppingCart, Sparkles, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +33,7 @@ const Header: React.FC = () => {
     location.pathname === "/"
       ? "Home"
       : navigationItems.find((item) => location.pathname === item.path)
-          ?.label || "Home",
+        ?.label || "Home",
   );
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,13 +43,14 @@ const Header: React.FC = () => {
   const dispatch = useDispatch();
   const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
 
-  function closeModal() {dispatch(toggleRegisterModal())}
+  function closeModal() {
+    dispatch(toggleRegisterModal());
+  }
 
   const navigate = useNavigate();
   const user = useSelector(selectUser);
-  const { data: myCart } = useGetMyCartQuery({skip : !user}, { pollingInterval: 2000 });
+  const { data: myCart } = useGetMyCartQuery({ skip: !user }, { pollingInterval: 2000 });
 
-  // const tax = subTotal * 0.2;
   const handleNavClick = (label: string, path: string) => {
     setActiveItem(label);
     setMobileMenuOpen(false);
@@ -67,8 +67,7 @@ const Header: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [showResetPassword, setShowResetPassword] = useState(false);
-  const [showResetConfirmPassword, setShowResetConfirmPassword] =
-    useState(false);
+  const [showResetConfirmPassword, setShowResetConfirmPassword] = useState(false);
   const [signupData, setSignupDate] = useState({
     fullName: "",
     email: "",
@@ -86,20 +85,15 @@ const Header: React.FC = () => {
   const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
   const [login, { isLoading }] = useLoginMutation();
   const [register] = useRegisterMutation();
-  const [forgetPassword, { isLoading: forgetPasswordLoading }] =
-    useForgetPasswordMutation();
+  const [forgetPassword, { isLoading: forgetPasswordLoading }] = useForgetPasswordMutation();
   const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation();
-  const [resetPassword, { isLoading: resetPasswordLoading }] =
-    useResetPasswordMutation();
+  const [resetPassword, { isLoading: resetPasswordLoading }] = useResetPasswordMutation();
+
   const handleCartClick = () => {
     const alreadyExists = localStorage.getItem("myBooleanFlag");
     if (!alreadyExists || alreadyExists === "false") {
       localStorage.setItem("myBooleanFlag", "true");
       window.dispatchEvent(new Event("localStorageUpdated"));
-
-      console.log("Boolean value set in localStorage");
-    } else {
-      console.log("Already exists in localStorage");
     }
   };
 
@@ -114,15 +108,12 @@ const Header: React.FC = () => {
       }
     };
 
-    checkStorage(); // check once on mount
-
+    checkStorage();
     window.addEventListener("localStorageUpdated", checkStorage);
-    return () =>
-      window.removeEventListener("localStorageUpdated", checkStorage);
+    return () => window.removeEventListener("localStorageUpdated", checkStorage);
   }, []);
 
   const onClose = () => {
-    // setOpen(false)
     setShowCart(false);
     localStorage.setItem("myBooleanFlag", "false");
   };
@@ -167,7 +158,7 @@ const Header: React.FC = () => {
           setUser({
             ...response?.data?.user,
             token: response?.data?.accessToken,
-          }),
+          })
         );
         setIsModalOpen(false);
       } else {
@@ -197,7 +188,6 @@ const Header: React.FC = () => {
     }
 
     const formdata = new FormData();
-
     formdata.append("fullName", signupData.fullName);
     formdata.append("email", signupData.email);
     formdata.append("password", signupData.password);
@@ -327,122 +317,81 @@ const Header: React.FC = () => {
 
   return (
     <>
-    {user && (
-      <ChatWidget />
-      )}
-      <header className="w-full z-40 bg-[#374159]">
-        <Row justify="center">
-          <Col lg={22} md={24} xs={24}>
-            <div className="bg-[#374159] backdrop-blur-lg md:px-10 py-3 mx-auto flex  justify-end items-center gap-3">
-              {/* <Logo /> */}
-              <button
-                className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center"
-                style={{
-                  borderRadius: "100px",
-                  padding: "0",
-                  border: "1px solid #fff",
-                }}
-                onClick={handleCartClick}
-              >
-                <ShoppingCart className="h-5 w-5" />
-              </button>
-              <button
-                className="text-white lg:hidden  rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 flex items-center justify-center"
-                style={{
-                  borderRadius: "100px",
-                  padding: "0",
-                  border: "1px solid #fff",
-                }}
-                onClick={() => navigate("/profile")}
-              >
-                <CircleUser className="h-5 w-5" />
-              </button>
+      {user && <ChatWidget />}
 
-              <button
-                style={{ color: "white" }}
-                className="block lg:hidden text-white p-2 z-50 relative"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </button>
+      {/* Sticky Modern Header Bar */}
+      <header className="sticky top-0 z-40 w-full bg-[#0d0d10]/95 backdrop-blur-xl border-b border-[#C97873]/25 shadow-2xl transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-between gap-4">
 
-              <div className="hidden lg:flex items-center gap-6 w-full">
-                {/* Home Icon */}
-                <span
-                  className="text-white hover:text-gray-300 transition cursor-pointer"
-                  onClick={() => handleNavClick("home", "/")}
-                >
-                  <img
-                    src="./images/logo.png"
-                    className="w-16 h-14"
-                    alt="logo"
-                  />
-                </span>
+            {/* Logo Brand (Hidden on small mobile screens to prevent stacked double logos) */}
+            <div
+              className="hidden sm:flex items-center gap-2 cursor-pointer group"
+              onClick={() => handleNavClick("home", "/")}
+            >
+              <img
+                src="./images/logo.png"
+                className="!w-16 !h-14 object-contain filter drop-shadow(0_0_6px_rgba(201,120,115,0.3)) group-hover:scale-105 transition-transform"
+                alt="Pak Buy"
+              />
+            </div>
 
-                {/* Center Message */}
-                <div className="flex items-center justify-center text-center mx-auto">
-                  {user && user._id ? (
-                    <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
-                      Thank you for being a valued Pak Buy member
-                    </div>
-                  ) : (
-                    <div className="text-white font-medium px-4 py-2 bg-gray-700 rounded-full text-lg">
-                      Become a Pak Buy member for{" "}
-                      <span className="text-green-400">$119 annually.</span>{" "}
-                      That’s less than $10 per month.
-                    </div>
-                  )}
+            {/* Desktop Center Pill Banner matching reference image */}
+            <div className="hidden lg:flex items-center justify-center flex-1 mx-4">
+              {user && user._id ? (
+                <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#18181b]/90 border border-[#C97873]/40 text-sm font-semibold tracking-wide text-white shadow-inner">
+                  <Sparkles className="w-4 h-4 text-[#C97873]" />
+                  <span>Thank you for being a valued Pak Buy member</span>
                 </div>
-              </div>
+              ) : (
+                <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#18181b]/90 border border-[#C97873]/40 text-sm font-semibold tracking-wide text-white shadow-inner">
+                  <span>Become a Pak Buy member for</span>
+                  <span className="text-[#C97873] font-bold">$119 annually.</span>
+                  <span className="text-gray-300 text-xs font-normal">(&lt; $10/mo)</span>
+                </div>
+              )}
+            </div>
 
+            {/* Right Side Actions Desktop */}
+            <div className="hidden lg:flex items-center gap-2.5">
               {user && user._id ? (
                 <>
+                  {/* Cart Button with Count Badge */}
                   <div className="relative">
                     <button
                       onClick={handleCartClick}
-                      className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10 items-center justify-center"
-                      style={{
-                        borderRadius: "100px",
-                        padding: "0",
-                        border: "1px solid #fff",
-                      }}
+                      className="icon-nav-btn"
+                      title="View Cart"
                     >
-                      <ShoppingCart className="h-5 w-5" />
+                      <ShoppingCart className="w-4 h-4 text-[#C97873]" />
                     </button>
-
                     {myCart && myCart?.items?.length > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-[#C97873] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                      <span className="absolute -top-1 -right-1 bg-[#C97873] text-black text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center shadow-md animate-pulse">
                         {myCart?.items?.length}
                       </span>
                     )}
                   </div>
+
+                  {/* Profile Button */}
                   <button
-                    // onClick={handleCartClick}
                     onClick={() => navigate("/profile")}
-                    className="text-white hidden lg:flex rounded-full hover:bg-gray-700 transition-colors duration-200 h-10 w-10  items-center justify-center"
-                    style={{
-                      borderRadius: "100px",
-                      padding: "0",
-                      border: "1px solid #fff",
-                    }}
+                    className="icon-nav-btn"
+                    title="Profile"
                   >
-                    <CircleUser className="h-5 w-5" />
+                    <CircleUser className="w-4 h-4 text-[#C97873]" />
                   </button>
+
+                  {/* Logout Button */}
                   <button
                     disabled={logoutLoading}
-                    className=" hidden lg:flex justify-center items-center site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200 "
                     onClick={() => {
                       Swal.fire({
                         title: "Are you sure you want to logout?",
                         text: "You won't be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
+                        confirmButtonColor: "#C97873",
+                        cancelButtonColor: "#333",
                         confirmButtonText: "Yes, logout!",
                       }).then((result) => {
                         if (result.isConfirmed) {
@@ -450,179 +399,201 @@ const Header: React.FC = () => {
                         }
                       });
                     }}
+                    className="py-1.5 px-4 rounded-xl border border-[#C97873]/60 bg-[#C97873]/15 hover:bg-[#C97873] text-white font-bold text-xs tracking-wider uppercase transition-all duration-200 active:scale-95 flex items-center gap-1.5"
                   >
-                    <span className="">logout</span>
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>LOGOUT</span>
                   </button>
                 </>
               ) : (
-                <div className="hidden lg:flex items-center space-x-4 gap-2">
+                <div className="flex items-center gap-2.5">
                   <button
-                    className="site-btn bg-transparent hover:bg-gray-700 font-medium rounded-full border border-gray-600 transition-colors duration-200"
                     onClick={() => closeModal()}
+                    className="py-1.5 px-4 rounded-xl bg-white/5 hover:bg-[#C97873]/20 border border-white/10 hover:border-[#C97873]/40 text-xs font-bold tracking-wider text-white transition-all duration-200"
                   >
-                    <span className="">Member Sign up</span>
+                    Member Sign up
                   </button>
                   <button
-                    className="site-btn bg-transparent hover:bg-gray-700 font-medium  rounded-full border border-gray-600 transition-colors duration-200"
                     onClick={() => setIsModalOpen(true)}
+                    className="py-1.5 px-5 rounded-xl bg-[#C97873] hover:bg-[#b86762] text-white font-bold text-xs tracking-wider uppercase shadow-lg shadow-[#C97873]/20 transition-all duration-200 active:scale-95"
                   >
-                    <span className="">Login</span>
+                    Login
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Overlay */}
-            <div
-              className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 lg:hidden ${
-                mobileMenuOpen
-                  ? "opacity-50 pointer-events-auto"
-                  : "opacity-0 pointer-events-none"
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            />
-
-            {/* Mobile Sidebar Menu */}
-            {createPortal(
-              <>
-                {/* Backdrop */}
-                <div
-                  className={`fixed inset-0 z-[998] bg-black/60 transition-opacity duration-300 lg:hidden ${
-                    mobileMenuOpen
-                      ? "opacity-100"
-                      : "pointer-events-none opacity-0"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                />
-
-                {/* Mobile Sidebar Menu */}
-                <div
-                  className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] z-[999] transform transition-transform duration-300 ease-in-out lg:hidden ${
-                    mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-                  }`}
-                  style={{ background: "#0F1115" }}
-                >
-                  <div className="flex flex-col h-full">
-                    {/* Header */}
-                    <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
-                      <span className="text-lg font-semibold">
-                        <span className="text-white">Pak</span>
-                        <span className="text-[#d17f89]">Buy</span>
+            {/* Mobile Actions Controls */}
+            <div className="flex items-center gap-2 lg:hidden ml-auto">
+              {user && user._id && (
+                <>
+                  <div className="relative">
+                    <button
+                      onClick={handleCartClick}
+                      className="icon-nav-btn"
+                    >
+                      <ShoppingCart className="w-4 h-4 text-[#C97873]" />
+                    </button>
+                    {myCart && myCart?.items?.length > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-[#C97873] text-black text-[9px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center">
+                        {myCart?.items?.length}
                       </span>
-                      <button
-                        className="text-white/70 hover:text-white transition-colors p-1"
-                        onClick={() => setMobileMenuOpen(false)}
-                        aria-label="Close menu"
-                      >
-                        <X className="h-5 w-5" />
-                      </button>
-                    </div>
-
-                    {/* Nav links */}
-                    <nav className="flex flex-col px-3 py-4 gap-0.5 overflow-y-auto">
-                      {navigationItems.map((item) => (
-                        <button
-                          key={item.label}
-                          onClick={() => handleNavClick(item.label, item.path)}
-                          className={`text-left px-3 py-3 rounded-lg text-[15px] font-medium transition-colors ${
-                            activeItem === item.label
-                              ? "bg-[#d17f89]/10 text-[#d17f89]"
-                              : "text-white/80 hover:bg-white/5 hover:text-white"
-                          }`}
-                        >
-                          {item.label}
-                        </button>
-                      ))}
-                    </nav>
-
-                    {/* Bottom Buttons */}
-                    <div className="mt-auto px-4 py-5 border-t border-white/10 flex flex-col gap-2.5">
-                      {user && user._id ? (
-                        <button
-                          className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-[#d17f89] text-black transition-colors hover:bg-[#c26a75]"
-                          onClick={() => {
-                            Swal.fire({
-                              title: "Are you sure you want to logout?",
-                              text: "You won't be able to revert this!",
-                              icon: "warning",
-                              showCancelButton: true,
-                              confirmButtonColor: "#3085d6",
-                              cancelButtonColor: "#d33",
-                              confirmButtonText: "Yes, logout!",
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                handleLogout();
-                              }
-                            });
-                          }}
-                        >
-                          Logout
-                        </button>
-                      ) : (
-                        <>
-                          <button
-                            className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider border border-white/25 text-white transition-colors hover:border-[#d17f89] hover:text-[#d17f89]"
-                            onClick={() => closeModal()}
-                          >
-                            Member Sign up
-                          </button>
-                          <button
-                            className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-[#d17f89] text-black transition-colors hover:bg-[#c26a75]"
-                            onClick={() => setIsModalOpen(true)}
-                          >
-                            Login
-                          </button>
-                        </>
-                      )}
-                    </div>
+                    )}
                   </div>
-                </div>
-              </>,
-              document.body,
-            )}
-          </Col>
-        </Row>
+                  <button
+                    onClick={() => navigate("/profile")}
+                    className="icon-nav-btn"
+                  >
+                    <CircleUser className="w-4 h-4 text-[#C97873]" />
+                  </button>
+                </>
+              )}
+
+              <button
+                className="mobile-menu-btn z-50"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5 text-[#C97873]" /> : <Menu className="w-5 h-5 text-[#C97873]" />}
+              </button>
+            </div>
+
+          </div>
+        </div>
       </header>
 
+      {/* Mobile Drawer Menu Portal */}
+      {createPortal(
+        <>
+          <div
+            className={`fixed inset-0 z-[998] bg-black/70 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${mobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          <div
+            className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] z-[999] bg-gradient-to-b from-[#18181b] via-[#141417] to-[#0f0f11] border-l border-[#C97873]/30 transform transition-transform duration-300 ease-in-out lg:hidden shadow-2xl flex flex-col justify-between ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+          >
+            <div>
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+                <span className="text-lg font-extrabold uppercase tracking-wider text-white">
+                  Pak <span className="text-[#C97873]">Buy</span>
+                </span>
+                <button
+                  className="drawer-close-btn w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-white flex items-center justify-center transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <X className="w-4 h-4 text-[#C97873] hover:text-white" />
+                </button>
+              </div>
+
+              {/* Mobile Navigation Links */}
+              <nav className="flex flex-col px-4 py-6 gap-1.5">
+                {navigationItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => handleNavClick(item.label, item.path)}
+                    className={`text-left px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${activeItem === item.label
+                      ? "bg-[#C97873]/20 border border-[#C97873]/50 text-white shadow-sm"
+                      : "text-gray-300 hover:bg-white/5 hover:text-white"
+                      }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            {/* Mobile Drawer Bottom Actions */}
+            <div className="p-6 border-t border-white/10 space-y-3 bg-[#0d0d0f]">
+              {user && user._id ? (
+                <button
+                  className="w-full py-3 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C97873] hover:bg-[#b86762] text-white transition-colors shadow-lg shadow-[#C97873]/20 flex items-center justify-center gap-2"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    Swal.fire({
+                      title: "Are you sure you want to logout?",
+                      text: "You won't be able to revert this!",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonColor: "#C97873",
+                      cancelButtonColor: "#333",
+                      confirmButtonText: "Yes, logout!",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        handleLogout();
+                      }
+                    });
+                  }}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="w-full py-3 rounded-full text-xs font-bold uppercase tracking-wider border border-white/20 text-white hover:border-[#C97873] hover:text-[#C97873] transition-colors"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      closeModal();
+                    }}
+                  >
+                    Member Sign up
+                  </button>
+                  <button
+                    className="w-full py-3 rounded-full text-xs font-bold uppercase tracking-wider bg-[#C97873] hover:bg-[#b86762] text-white transition-colors shadow-lg shadow-[#C97873]/20"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Login
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
+
+      {/* Styled Dark Login Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 p-4">
-          <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm max-h-[95vh] shadow-xl text-left transform transition-all duration-300 ease-out text-black overflow-y-auto">
-            {/* Close Button */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300">
+          <div className="relative bg-gradient-to-b from-[#1c1c20] via-[#141417] to-[#0f0f11] border border-[#C97873]/30 rounded-3xl p-6 sm:p-8 w-full max-w-sm max-h-[90vh] shadow-2xl text-white overflow-y-auto">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
+              className="modal-close-btn absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-gray-300 hover:text-white flex items-center justify-center transition-all z-10"
             >
               ✕
             </button>
 
-            {/* Heading */}
-            <h3 className="text-sm font-medium text-gray-500 mb-1">
-              Welcome !
-            </h3>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">Login</h2>
-            <p className="text-sm text-gray-500 mb-6">
-              Enter Membership credentials.
+            <span className="text-xs font-bold text-[#C97873] uppercase tracking-widest block mb-1">
+              Welcome Back
+            </span>
+            <h2 className="text-2xl font-black text-white mb-2">Member Login</h2>
+            <p className="text-xs text-gray-400 mb-6">
+              Enter your Pak Buy membership credentials below.
             </p>
 
-            {/* Form */}
             <div className="space-y-4">
-              {/* Username */}
               <div>
-                <label className="block text-sm !text-gray-900 mb-1">
-                  Email
+                <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
+                  Email Address
                 </label>
                 <input
                   type="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  placeholder="Enter your user name"
-                  className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                  placeholder="name@example.com"
+                  className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors"
                 />
               </div>
 
-              {/* Password */}
               <div>
-                <label className="block text-sm !text-gray-900 mb-1">
+                <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
                   Password
                 </label>
                 <div className="relative">
@@ -630,49 +601,43 @@ const Header: React.FC = () => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your Password"
-                    className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    placeholder="••••••••"
+                    className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors pr-10"
                   />
-                  <span
-                    className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-white"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? "🙈" : "👁️"}
-                  </span>
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Options */}
-              <div className="flex items-center justify-between text-sm text-gray-600">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-black" />
-                  Remember Me
-                </label>
+              <div className="flex items-center justify-between text-xs text-gray-400">
                 <button
-                  className="hover:underline"
+                  className="hover:text-[#C97873] transition-colors"
                   onClick={() => {
                     setIsModalOpen(false);
                     setIsForgotModalOpen(true);
                   }}
                 >
-                  Forgot Password ?
+                  Forgot Password?
                 </button>
               </div>
 
-              {/* Login Button */}
               <button
                 disabled={isLoading}
                 onClick={handleLogin}
-                className="site-btn w-full bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full transition"
+                className="w-full py-3 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#C97873]/25 transition-all active:scale-95 mt-2"
               >
-                {isLoading ? "LOGGING IN" : "LOGIN"}
+                {isLoading ? "LOGGING IN..." : "LOGIN"}
               </button>
 
-              {/* Footer */}
-              <p className="text-sm text-center text-gray-600 mt-4">
-                Don’t have an Account?{" "}
+              <p className="text-xs text-center text-gray-400 !mt-4">
+                Don’t have an account?{" "}
                 <span
-                  className="font-semibold text-black cursor-pointer hover:underline"
+                  className="font-bold text-[#C97873] cursor-pointer hover:underline"
                   onClick={() => {
                     setIsModalOpen(false);
                     closeModal();
@@ -686,60 +651,33 @@ const Header: React.FC = () => {
         </div>
       )}
 
+      {/* Styled Dark Register Modal */}
       {isRegisterModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
-          <div className="relative bg-white rounded-2xl p-6 md:p-8 w-full max-w-2xl max-h-[90vh] shadow-xl text-left transform transition-all duration-300 ease-out text-black my-8 overflow-y-auto">
-            <div className="flex justify-between items-start mb-3">
-              {/* Close Button */}
-              <button
-                onClick={() => closeModal()}
-                className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
-              >
-                ✕
-              </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300 overflow-y-auto">
+          <div className="relative bg-gradient-to-b from-[#1c1c20] via-[#141417] to-[#0f0f11] border border-[#C97873]/30 rounded-3xl p-6 sm:p-8 w-full max-w-2xl max-h-[90vh] shadow-2xl text-white my-8 overflow-y-auto">
 
-              {/* Stripe Secure Badge */}
-              <div className="flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1.5 rounded-full shadow-lg hover:shadow-xl transition-shadow duration-200 ">
-                {/* Lock Icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  {/* Shield */}
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 2l8 4v6c0 5-4 9-8 10-4-1-8-5-8-10V6l8-4z"
-                  />
-                  {/* Checkmark */}
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 12l2 2 4-4"
-                  />
-                </svg>
+            <button
+              onClick={() => closeModal()}
+              className="modal-close-btn absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-gray-300 hover:text-white flex items-center justify-center transition-all z-10"
+            >
+              ✕
+            </button>
 
-                <span className="text-sm font-semibold">
-                  Secure Checkout powered by Stripe
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+              <div>
+                <span className="text-xs font-bold text-[#C97873] uppercase tracking-widest block mb-1">
+                  Exclusive Access
                 </span>
+                <h2 className="text-2xl font-black text-white">
+                  Become a Pak Buy Member
+                </h2>
               </div>
             </div>
 
-            <h3 className="text-sm font-medium text-gray-500 ">Welcome!</h3>
-            <h2 className="text-2xl font-bold text-gray-900 ">
-              Become a Pak Buy Member Now
-            </h2>
-
-            {/* Form */}
-            <form>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Full Name */}
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm !text-gray-800 mb-1">
+                  <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
                     Full Name
                   </label>
                   <input
@@ -747,29 +685,27 @@ const Header: React.FC = () => {
                     name="fullName"
                     onChange={onChange}
                     type="text"
-                    placeholder="Enter your user name"
-                    className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    placeholder="John Doe"
+                    className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors"
                   />
                 </div>
 
-                {/* Email */}
                 <div>
-                  <label className="block text-sm !text-gray-800 mb-1">
-                    Email
+                  <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
+                    Email Address
                   </label>
                   <input
                     value={signupData.email}
                     name="email"
                     onChange={onChange}
                     type="email"
-                    placeholder="Enter your user name"
-                    className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    placeholder="name@example.com"
+                    className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors"
                   />
                 </div>
 
-                {/* Password */}
                 <div className="relative">
-                  <label className="block text-sm !text-gray-800 mb-1">
+                  <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
                     Password
                   </label>
                   <input
@@ -777,20 +713,20 @@ const Header: React.FC = () => {
                     name="password"
                     onChange={onChange}
                     type={showRegPassword ? "text" : "password"}
-                    placeholder="Enter your Password"
-                    className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    placeholder="••••••••"
+                    className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors pr-10"
                   />
-                  <span
-                    className="absolute right-3 top-9 text-gray-400 cursor-pointer"
+                  <button
+                    type="button"
+                    className="absolute right-3 top-8 text-gray-400 hover:text-white"
                     onClick={() => setShowRegPassword(!showRegPassword)}
                   >
-                    {showRegPassword ? "🙈" : "👁️"}
-                  </span>
+                    {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
 
-                {/* Confirm Password */}
                 <div className="relative">
-                  <label className="block text-sm !text-gray-800 mb-1">
+                  <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
                     Confirm Password
                   </label>
                   <input
@@ -798,58 +734,39 @@ const Header: React.FC = () => {
                     name="confirmPassword"
                     onChange={onChange}
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Enter your Password"
-                    className="w-full px-4 py-2 border border-gray-300  !text-black !bg-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    placeholder="••••••••"
+                    className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors pr-10"
                   />
-                  <span
-                    className="absolute right-3 top-9 text-gray-400 cursor-pointer"
+                  <button
+                    type="button"
+                    className="absolute right-3 top-8 text-gray-400 hover:text-white"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showConfirmPassword ? "🙈" : "👁️"}
-                  </span>
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Checkbox */}
-              <div className="my-4 flex items-center gap-2 text-sm !text-gray-900">
-                <input type="checkbox" className="accent-black" />
-                <label>
-                  I agree to the privacy policy and terms and conditions.
-                </label>
+              <div className="p-4 rounded-2xl bg-[#C97873]/10 border border-[#C97873]/30 my-4 space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-gray-300">Annual Membership Subscription</span>
+                  <span className="text-[#C97873] font-mono text-base">$119 / year</span>
+                </div>
+                <p className="text-[11px] text-gray-400">
+                  Unlocks member-only collections, wholesale product pricing, and zero markup.
+                </p>
               </div>
 
-              <h4 className="text-white">Additional Information</h4>
-              <h6>
-                Please pay the subscription amount{" "}
-                <span className="font-semibold text-[#C97873]">$119</span> to
-                complete your signup journey
-              </h6>
-
-              {/* Stripe Implementaion */}
-              <h4 className="text-black">Card Details ( Debit / Credit)</h4>
-              <div className="payment119">
-                <PaymentPage
-                  handleSubmit={handleRegister}
-                  showSubmitBtn={true}
-                />
+              {/* Stripe Payment Integration */}
+              <div className="payment119 custom-stripe-theme">
+                <PaymentPage handleSubmit={handleRegister} showSubmitBtn={true} />
               </div>
             </form>
 
-            {/* Register Button */}
-            {/* <div className="mt-6">
-                            <button
-                                onClick={handleRegister}
-                                disabled={registerLoading}
-                                className="site-btn w-full bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full transition">
-                                {registerLoading ? "REGISTERING..." : "REGISTER"}
-                            </button>
-                        </div> */}
-
-            {/* Footer */}
-            <p className="text-sm text-center !text-gray-900 mt-4">
-              Already have an Account ?{" "}
+            <p className="text-xs text-center text-gray-400 mt-5">
+              Already have an account?{" "}
               <span
-                className="font-semibold text-black cursor-pointer hover:underline"
+                className="font-bold text-[#C97873] cursor-pointer hover:underline"
                 onClick={() => {
                   closeModal();
                   setIsModalOpen(true);
@@ -862,35 +779,34 @@ const Header: React.FC = () => {
         </div>
       )}
 
+      {/* Styled Forgot Password Modal */}
       {isForgotModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
-          <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300">
+          <div className="relative bg-gradient-to-b from-[#1c1c20] via-[#141417] to-[#0f0f11] border border-[#C97873]/30 rounded-3xl p-6 sm:p-8 w-full max-w-sm shadow-2xl text-white">
             <button
               onClick={() => setIsForgotModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
+              className="modal-close-btn absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-gray-300 hover:text-white flex items-center justify-center transition-all z-10"
             >
               ✕
             </button>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
-              Forgot Password
-            </h2>
-            <p className="text-sm text-gray-500 mb-4">
-              Enter your email to receive an OTP
+
+            <h2 className="text-2xl font-black text-white mb-1">Forgot Password</h2>
+            <p className="text-xs text-gray-400 mb-5">
+              Enter your account email to receive a verification OTP.
             </p>
 
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder="name@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors mb-4"
             />
 
             <button
               disabled={forgetPasswordLoading}
-              className="site-btn w-full mt-4 bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full"
+              className="w-full !mt-3 py-3 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#C97873]/25 transition-all active:scale-95"
               onClick={handleForgotPassword}
-              style={{ marginTop: "16px" }}
             >
               {forgetPasswordLoading ? "SENDING..." : "SEND OTP"}
             </button>
@@ -898,33 +814,34 @@ const Header: React.FC = () => {
         </div>
       )}
 
+      {/* Styled OTP Verification Modal */}
       {isOtpModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
-          <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300">
+          <div className="relative bg-gradient-to-b from-[#1c1c20] via-[#141417] to-[#0f0f11] border border-[#C97873]/30 rounded-3xl p-6 sm:p-8 w-full max-w-sm shadow-2xl text-white">
             <button
               onClick={() => setIsOtpModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
+              className="modal-close-btn absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-gray-300 hover:text-white flex items-center justify-center transition-all z-10"
             >
               ✕
             </button>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">Enter OTP</h2>
-            <p className="text-sm text-gray-500 mb-4">
-              We've sent a code to {email}
+
+            <h2 className="text-2xl font-black text-white mb-1">Enter Verification Code</h2>
+            <p className="text-xs text-gray-400 mb-5">
+              We've sent a 6-digit OTP code to <span className="text-[#C97873] font-mono">{email}</span>
             </p>
 
             <input
               type="text"
-              placeholder="Enter OTP"
+              placeholder="Enter OTP Code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors mb-4 text-center font-mono text-lg tracking-widest"
             />
 
             <button
               disabled={verifyOtpLoading}
-              className="site-btn w-full mt-4 bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full"
+              className="w-full py-3 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#C97873]/25 transition-all active:scale-95"
               onClick={handleVerifyOtp}
-              style={{ marginTop: "16px" }}
             >
               {verifyOtpLoading ? "VERIFYING..." : "VERIFY OTP"}
             </button>
@@ -932,74 +849,74 @@ const Header: React.FC = () => {
         </div>
       )}
 
+      {/* Styled Reset Password Modal */}
       {isResetModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1b1b1b81] backdrop-blur-sm transition-opacity duration-300 overflow-y-auto p-4">
-          <div className="relative bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl text-black my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300">
+          <div className="relative bg-gradient-to-b from-[#1c1c20] via-[#141417] to-[#0f0f11] border border-[#C97873]/30 rounded-3xl p-6 sm:p-8 w-full max-w-sm shadow-2xl text-white">
             <button
               onClick={() => setIsResetModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-600 hover:text-black text-xl z-10"
+              className="modal-close-btn absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-gray-300 hover:text-white flex items-center justify-center transition-all z-10"
             >
               ✕
             </button>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
-              Reset Password
-            </h2>
-            <p className="text-sm text-gray-500 mb-4">
-              Set a new password for your account
+
+            <h2 className="text-2xl font-black text-white mb-1">Set New Password</h2>
+            <p className="text-xs text-gray-400 mb-5">
+              Enter and confirm your new password.
             </p>
 
-            {/* New Password */}
-            <div className="relative mb-4">
-              <input
-                type={showResetPassword ? "text" : "password"}
-                placeholder="New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
-              />
-              <span
-                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
-                onClick={() => setShowResetPassword(!showResetPassword)}
-              >
-                {showResetPassword ? "🙈" : "👁️"}
-              </span>
-            </div>
+            <div className="space-y-4 mb-5">
+              <div className="relative">
+                <input
+                  type={showResetPassword ? "text" : "password"}
+                  placeholder="New Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors pr-10"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 text-gray-400 hover:text-white"
+                  onClick={() => setShowResetPassword(!showResetPassword)}
+                >
+                  {showResetPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
 
-            {/* Confirm New Password */}
-            <div className="relative mb-4">
-              <input
-                type={showResetConfirmPassword ? "text" : "password"}
-                placeholder="Confirm Password"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black pr-10"
-              />
-              <span
-                className="absolute right-3 top-2.5 text-gray-400 cursor-pointer"
-                onClick={() =>
-                  setShowResetConfirmPassword(!showResetConfirmPassword)
-                }
-              >
-                {showResetConfirmPassword ? "🙈" : "👁️"}
-              </span>
+              <div className="relative">
+                <input
+                  type={showResetConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm New Password"
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors pr-10"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 text-gray-400 hover:text-white"
+                  onClick={() => setShowResetConfirmPassword(!showResetConfirmPassword)}
+                >
+                  {showResetConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <button
               disabled={resetPasswordLoading}
-              className="site-btn w-full bg-[#C97873] hover:bg-[#E08A83] text-black font-semibold py-2 rounded-full"
+              className="w-full py-3 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#C97873]/25 transition-all active:scale-95"
               onClick={handleResetPassword}
-              style={{ marginTop: "16px" }}
             >
-              {resetPasswordLoading ? "RESETING..." : "RESET PASSWORD"}
+              {resetPasswordLoading ? "RESETTING..." : "RESET PASSWORD"}
             </button>
           </div>
         </div>
       )}
 
-      {/* cart */}
+      {/* Cart Drawer */}
       <Cart showCart={showCart} onClose={onClose} />
     </>
   );
 };
 
 export default Header;
+

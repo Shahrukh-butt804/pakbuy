@@ -107,30 +107,56 @@ button:hover {
 
 /* HEADER STYLING */
 header {
-  background: linear-gradient(90deg, rgba(13, 13, 13, 0.98) 0%, rgba(26, 26, 26, 0.98) 50%, rgba(13, 13, 13, 0.98) 100%) !important;
-  border-bottom: 2px solid rgba(199, 120, 115, 0.15) !important;
+  background: rgba(13, 13, 16, 0.95) !important;
+  border-bottom: 1px solid rgba(199, 120, 115, 0.25) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
 }
 
 .bg-\[\#374159\] {
-  background: linear-gradient(90deg, rgba(13, 13, 13, 0.98) 0%, rgba(26, 26, 26, 0.98) 50%, rgba(13, 13, 13, 0.98) 100%) !important;
-  border-bottom: 2px solid rgba(199, 120, 115, 0.15) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 header button {
-  border: 2px solid var(--accent-gold);
-  color: var(--accent-gold);
-  background: rgba(199, 120, 115, 0.08);
-  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
 }
 
-header button:hover {
-  background: rgba(199, 120, 115, 0.15);
-  box-shadow: 0 0 12px rgba(199, 120, 115, 0.3);
-  color: var(--accent-silver);
+button.icon-nav-btn,
+button.mobile-menu-btn,
+button.drawer-close-btn,
+button.modal-close-btn {
+  padding: 0 !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
+
+header button.icon-nav-btn,
+header button.mobile-menu-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(199, 120, 115, 0.4) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+}
+
+header button.icon-nav-btn {
+  border-radius: 9999px !important;
+}
+
+header button.icon-nav-btn:hover,
+header button.mobile-menu-btn:hover {
+  background: rgba(199, 120, 115, 0.2) !important;
+  border-color: #C97873 !important;
+}
+
+
+
 
 /* custom font css Start*/
 
