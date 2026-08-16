@@ -44,7 +44,7 @@ export const EthicsBound: React.FC = () => {
         {ethicsItems.map((item, idx) => (
           <div
             key={idx}
-            className="group bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] border border-[#C97873]/20 hover:border-[#C97873]/50 backdrop-blur-md text-white rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#C97873]/10 relative overflow-hidden"
+            className="group bg-[#121215]/80 border border-[#C97873]/20 hover:border-[#C97873]/50 backdrop-blur-md text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#C97873]/10 relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#C97873]/5 rounded-full blur-2xl pointer-events-none group-hover:bg-[#C97873]/10 transition-colors duration-500" />
             

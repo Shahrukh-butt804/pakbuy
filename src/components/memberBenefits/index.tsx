@@ -15,7 +15,7 @@ export const MemberBenefits: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card 1 */}
-        <div className="group bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] border border-[#C97873]/20 hover:border-[#C97873]/50 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#C97873]/10 relative overflow-hidden flex flex-col justify-between">
+        <div className="group bg-[#121215]/80 border border-[#C97873]/20 hover:border-[#C97873]/50 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#C97873]/10 relative overflow-hidden flex flex-col justify-between">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#C97873]/5 rounded-full blur-2xl pointer-events-none group-hover:bg-[#C97873]/10 transition-colors duration-500" />
           
           <div className="relative z-10">
@@ -32,7 +32,7 @@ export const MemberBenefits: React.FC = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="group bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] border border-[#C97873]/20 hover:border-[#C97873]/50 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#C97873]/10 relative overflow-hidden flex flex-col justify-between">
+        <div className="group bg-[#121215]/80 border border-[#C97873]/20 hover:border-[#C97873]/50 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#C97873]/10 relative overflow-hidden flex flex-col justify-between">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#C97873]/5 rounded-full blur-2xl pointer-events-none group-hover:bg-[#C97873]/10 transition-colors duration-500" />
           
           <div className="relative z-10">

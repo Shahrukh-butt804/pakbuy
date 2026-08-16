@@ -35,7 +35,7 @@ const FEATURES: Feature[] = [
 export const ChooseFeatures: React.FC = () => {
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-10 max-w-7xl mx-auto w-full">
-      <div className="bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] border border-[#C97873]/25 text-white w-full rounded-3xl p-6 sm:p-10 md:p-12 shadow-2xl backdrop-blur-md relative overflow-hidden">
+      <div className="bg-[#121215]/80 border border-[#C97873]/20 text-white w-full rounded-3xl p-6 sm:p-10 md:p-12 shadow-xl backdrop-blur-md relative overflow-hidden">
         {/* Glow ambient circle */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#C97873]/10 rounded-full blur-3xl pointer-events-none" />
 

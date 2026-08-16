@@ -35,7 +35,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
 
   const colorsForCollections = useMemo(() => {
     if (!collections) return [];
-    return collections.map((_, i) => ({
+    return collections.map((_: any, i: number) => ({
       index: i % categories.length,
       color: categories[i % categories.length],
     }));
@@ -63,7 +63,7 @@ const ChooseSection: React.FC<ChooseSectionProps> = ({ memberBtn = true }) => {
             <div
               key={item._id || i}
               onClick={() => openModal(item, colorsForCollections[i]?.index || 0)}
-              className="group relative bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] border border-[#C97873]/20 hover:border-[#C97873]/60 rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl hover:shadow-[#C97873]/15 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between hover:-translate-y-1"
+              className="group relative bg-[#121215]/80 border border-[#C97873]/20 hover:border-[#C97873]/60 rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl hover:shadow-[#C97873]/15 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between hover:-translate-y-1"
             >
               {/* Top ambient highlight */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#C97873]/5 rounded-full blur-2xl pointer-events-none group-hover:bg-[#C97873]/15 transition-colors duration-500" />

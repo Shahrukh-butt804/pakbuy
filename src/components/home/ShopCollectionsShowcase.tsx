@@ -81,7 +81,7 @@ export const ShopCollectionsShowcase: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         {/* Sidebar Collection Picker */}
         <aside className="lg:col-span-1 space-y-6">
-          <div className="bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] rounded-3xl p-5 border border-[#C97873]/25 shadow-2xl backdrop-blur-md relative overflow-hidden">
+          <div className="bg-[#121215]/80 rounded-3xl p-5 border border-[#C97873]/20 shadow-xl backdrop-blur-md relative overflow-hidden">
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
               <h3 className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">
                 COLLECTION
