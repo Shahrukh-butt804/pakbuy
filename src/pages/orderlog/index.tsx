@@ -11,7 +11,7 @@ const MyOrders: React.FC = () => {
   const navigate = useNavigate();
 
   const { data: orderData, isLoading } = useGetOrderByUserQuery({},
-    { refetchOnMountOrArgChange: true, pollingInterval : 3000 },
+    { refetchOnMountOrArgChange: true, pollingInterval: 3000 },
   );
 
   const columns = [
@@ -131,11 +131,11 @@ const MyOrders: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="max-w-6xl mx-auto p-6 bg-transparent min-h-[60vh]">
+      <div className="max-w-6xl mx-auto p-6  min-h-[60vh]">
         <h2 className="text-center text-3xl font-bold mb-8 text-[#C97873] tracking-wide">
           Order Log
         </h2>
-        <div className="bg-gradient-to-b from-[#18181b] to-[#101012] rounded-2xl shadow-2xl overflow-hidden p-4 border border-[#C97873]/20">
+        <div className="rounded-2xl shadow-2xl overflow-hidden p-4 border border-[#C97873]/20">
           <Table
             columns={columns}
             dataSource={orderData || []}

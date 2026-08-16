@@ -1,5 +1,5 @@
 import { Divider, Drawer, Spin } from "antd";
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { Minus, Plus, ShoppingBag, Trash2, X, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ export const Cart = ({ showCart, onClose }: any) => {
 
   const { data, isLoading, isFetching } = useGetMyCartQuery(undefined, {
     skip: !showCart,
-    refetchOnMountOrArgChange : true
+    refetchOnMountOrArgChange: true,
   });
 
   const [updateCart, { isLoading: isUpdating }] = useUpdateCartMutation();
@@ -23,7 +23,7 @@ export const Cart = ({ showCart, onClose }: any) => {
 
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const debounceTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>(
-    {},
+    {}
   );
 
   const cart = data;
@@ -51,14 +51,11 @@ export const Cart = ({ showCart, onClose }: any) => {
   useEffect(() => {
     return () => {
       Object.values(debounceTimers.current).forEach((timer) =>
-        clearTimeout(timer),
+        clearTimeout(timer)
       );
     };
   }, []);
 
-  /*
-   * Quantity update with debounce.
-   */
   const handleQuantityChange = (collectionId: string, newQuantity: number) => {
     if (newQuantity < 1) return;
 
@@ -67,12 +64,10 @@ export const Cart = ({ showCart, onClose }: any) => {
       [collectionId]: newQuantity,
     }));
 
-    // Clear previous timer for this collection
     if (debounceTimers.current[collectionId]) {
       clearTimeout(debounceTimers.current[collectionId]);
     }
 
-    // Wait 500ms before calling API
     debounceTimers.current[collectionId] = setTimeout(async () => {
       try {
         await updateCart({
@@ -91,13 +86,11 @@ export const Cart = ({ showCart, onClose }: any) => {
 
   const handleDecrease = (collectionId: string, currentQuantity: number) => {
     if (currentQuantity <= 1) return;
-
     handleQuantityChange(collectionId, currentQuantity - 1);
   };
 
   const handleRemove = async (collectionId: string) => {
     try {
-      // Clear pending quantity update
       if (debounceTimers.current[collectionId]) {
         clearTimeout(debounceTimers.current[collectionId]);
       }
@@ -118,15 +111,17 @@ export const Cart = ({ showCart, onClose }: any) => {
     <Drawer
       title={
         <div className="flex items-center gap-3">
-          <ShoppingBag size={20} className="text-[#d17f89]" />
+          <div className="w-8 h-8 rounded-full bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873]">
+            <ShoppingBag className="w-4 h-4" />
+          </div>
 
-          <span className="text-[#d17f89] font-bold tracking-wide">
-            MY CART
+          <span className="text-white font-extrabold tracking-wider text-sm uppercase">
+            MY <span className="text-[#C97873]">CART</span>
           </span>
 
           {cartItems.length > 0 && (
-            <span className="text-xs text-white/40 font-normal">
-              ({cartItems.length} {cartItems.length === 1 ? "item" : "items"})
+            <span className="text-xs text-gray-400 font-medium px-2 py-0.5 rounded-full bg-white/5 border border-white/10 font-mono">
+              {cartItems.length} {cartItems.length === 1 ? "item" : "items"}
             </span>
           )}
         </div>
@@ -134,242 +129,148 @@ export const Cart = ({ showCart, onClose }: any) => {
       placement="right"
       onClose={onClose}
       open={showCart}
-      width={400}
+      width={420}
+      className="custom-cart-drawer"
       closeIcon={
-        <span
-          className="
-            flex items-center justify-center
-            w-10 h-10
-            rounded-xl
-            border border-white/15
-            text-white
-            transition-all duration-200
-            hover:border-[#d17f89]
-            hover:text-[#d17f89]
-            hover:bg-[#d17f89]/10
-          "
-        >
-          ✕
+        <span className="drawer-close-btn w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-white flex items-center justify-center transition-colors">
+          <X className="w-4 h-4 text-[#C97873] hover:text-white" />
         </span>
       }
       styles={{
         header: {
-          background:
-            "linear-gradient(135deg, #0d0d0d 0%, #171717 50%, #202020 100%)",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
-          padding: "15px 20px",
+          background: "#0d0d10",
+          borderBottom: "1px solid rgba(201, 120, 115, 0.25)",
+          padding: "16px 20px",
         },
-
         body: {
-          background:
-            "linear-gradient(135deg, #0b0b0b 0%, #121212 50%, #1b1b1b 100%)",
-          padding: "18px",
+          background: "#0a0a0c",
+          padding: "20px",
         },
-
         content: {
-          background:
-            "linear-gradient(135deg, #0b0b0b 0%, #121212 50%, #1b1b1b 100%)",
+          background: "#0a0a0c",
         },
-
         mask: {
-          background: "rgba(0,0,0,0.75)",
+          background: "rgba(0,0,0,0.8)",
+          backdropFilter: "blur(4px)",
         },
       }}
     >
-      {/* Loading */}
+      {/* Loading State */}
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20">
-          <Spin size="large" className="[&_.ant-spin-dot-item]:!bg-[#d17f89]" />
-
-          <p className="!mt-4 text-white/40 text-sm">Loading your Cart...</p>
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <Spin size="large" className="[&_.ant-spin-dot-item]:!bg-[#C97873]" />
+          <p className="mt-4 text-gray-400 text-xs font-semibold uppercase tracking-widest">
+            Loading your Cart...
+          </p>
         </div>
       ) : cartItems.length === 0 ? (
-        /* Empty cart */
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div
-            className="
-              w-20 h-20
-              rounded-full
-              flex items-center justify-center
-              bg-[#d17f89]/10
-              border border-[#d17f89]/20
-              mb-5
-            "
-          >
-            <ShoppingBag size={32} className="text-[#d17f89]" />
+        /* Empty Cart State */
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="w-20 h-20 rounded-full flex items-center justify-center bg-[#C97873]/10 border border-[#C97873]/30 mb-5 shadow-inner">
+            <ShoppingBag className="w-10 h-10 text-[#C97873]" />
           </div>
 
-          <h3 className="text-white text-lg font-semibold">
-            Your cart is empty
+          <h3 className="text-white text-xl font-extrabold tracking-tight">
+            Your Cart is Empty
           </h3>
 
-          <p className="text-white/40 text-sm mt-2">
-            Looks like you haven't added anything yet.
+          <p className="text-gray-400 text-xs mt-2 max-w-xs leading-relaxed">
+            Looks like you haven't added any Pak Buy collections to your cart yet.
           </p>
 
           <button
             onClick={onClose}
-            className="
-              mt-6
-              px-6 py-2.5
-              rounded-full
-              bg-[#d17f89]
-              text-white
-              font-semibold
-              text-sm
-              transition-all
-              hover:bg-[#c26a75]
-              hover:shadow-[0_0_20px_rgba(209,127,137,0.25)]
-            "
+            className="mt-6 px-6 py-3 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-95 flex items-center gap-2"
           >
-            CONTINUE SHOPPING
+            <span>Explore Shop</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       ) : (
         <>
-          {/* Cart items */}
-          <div className="space-y-3">
+          {/* Cart Items List */}
+          <div className="space-y-4">
             {cartItems.map((item: any) => {
               const collection = item.collection;
-
               if (!collection) return null;
 
               const collectionId = collection._id;
-
               const quantity = quantities[collectionId] ?? item.quantity;
 
               return (
                 <div
                   key={collectionId}
-                  className="
-                    group
-                    relative
-                    p-3
-                    rounded-2xl
-                    border border-white/[0.07]
-                    bg-white/[0.025]
-                    hover:bg-white/[0.045]
-                    hover:border-[#d17f89]/20
-                    transition-all duration-300
-                  "
+                  className="group relative p-4 rounded-2xl border border-[#C97873]/20 bg-[#121215]/90 hover:border-[#C97873]/50 transition-all duration-300 shadow-lg backdrop-blur-md"
                 >
-                  <div className="flex gap-3">
-                    {/* Product image */}
-                    <div
-                      className="
-                        relative
-                        flex-shrink-0
-                        w-[82px]
-                        h-[82px]
-                        rounded-xl
-                        overflow-hidden
-                        border border-white/10
-                        bg-black
-                      "
-                    >
+                  <div className="flex gap-3 sm:gap-4">
+                    {/* Product Image */}
+                    <div className="relative flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border border-[#C97873]/30 bg-black/60">
                       <img
                         crossOrigin="anonymous"
                         src={`${UPLOADS_URL}${collection.image}`}
-                        alt={collection.title}
-                        className="
-                          w-full
-                          h-full
-                          object-cover
-                          transition-transform
-                          duration-300
-                          group-hover:scale-105
-                        "
+                        alt={collection.title || collection.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
 
-                    {/* Product information */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between gap-2">
+                    {/* Product Information */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-between">
+                      <div className="flex justify-between items-start gap-2">
                         <div className="min-w-0">
-                          <h3
-                            className="
-                              text-white
-                              font-semibold
-                              text-sm
-                              truncate
-                            "
-                          >
-                            {collection.title}
-                          </h3>
+                          <h4 className="text-white font-extrabold text-sm truncate">
+                            {collection.title || collection.name}
+                          </h4>
 
-                          <p className="text-white/45 text-xs mt-1">
-                            Rs{" "}
-                            {Number(collection.CollectionPrice ?? 0).toFixed(2)}
+                          <p className="text-xs text-[#C97873] font-bold font-mono mt-0.5">
+                            Rs {Number(collection.CollectionPrice ?? 0).toFixed(2)}
                           </p>
                         </div>
 
-                        {/* Delete */}
-                        <div
-                          role="button"
-                          tabIndex={0}
+                        {/* Remove Item Button */}
+                        <button
+                          type="button"
                           onClick={() => handleRemove(collectionId)}
-                          className="group flex-shrink-0 w-7 h-7 flex items-center justify-center outline-none cursor-pointer select-none"
+                          className="cart-remove-btn text-gray-400 hover:text-[#C97873] transition-colors"
+                          title="Remove item"
                         >
-                          <Trash2
-                            size={18}
-                            className="text-white/30 group-hover:text-[#d17f89] transition-colors"
-                          />
-                        </div>
+                          <Trash2 className="w-4 h-4 text-[#C97873]" />
+                        </button>
                       </div>
 
-                      {/* Bottom row */}
-                      <div className="flex items-end justify-between mt-4">
-                        {/* Quantity control */}
-                        <div className="flex items-center h-10 w-[134px] rounded-xl border border-white/10 bg-[#0b0b0b] overflow-hidden">
-                          {/* Minus */}
-                          <div
-                            role="button"
-                            tabIndex={quantity <= 1 ? -1 : 0}
-                            aria-disabled={quantity <= 1}
-                            onClick={() =>
-                              quantity > 1 &&
-                              handleDecrease(collectionId, quantity)
-                            }
-                            className={`group w-10 h-full flex items-center justify-center outline-none select-none ${
-                              quantity <= 1
-                                ? "opacity-30 cursor-not-allowed"
-                                : "cursor-pointer"
-                            }`}
+                      {/* Quantity Control & Subtotal Row */}
+                      <div className="flex items-center justify-between mt-3 pt-2 border-t border-white/5">
+                        {/* Quantity Pill Controls */}
+                        <div className="flex items-center h-8 rounded-xl border border-[#C97873]/30 bg-[#0a0a0c] overflow-hidden px-1">
+                          <button
+                            type="button"
+                            disabled={quantity <= 1}
+                            onClick={() => handleDecrease(collectionId, quantity)}
+                            className="cart-qty-btn text-gray-300 hover:text-[#C97873] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Decrease quantity"
                           >
-                            <Minus
-                              size={20}
-                              strokeWidth={3}
-                              className="text-white hover:!text-[#d17f89] transition-colors"
-                            />
-                          </div>
+                            <Minus className="w-4 h-4 text-[#C97873]" />
+                          </button>
 
-                          {/* Quantity */}
-                          <div className="flex-1 h-full flex items-center justify-center text-white font-semibold text-sm select-none">
+                          <span className="px-3 text-white font-black text-xs font-mono">
                             {quantity}
-                          </div>
+                          </span>
 
-                          {/* Plus */}
-                          <div
-                            role="button"
-                            tabIndex={0}
-                            onClick={() =>
-                              handleIncrease(collectionId, quantity)
-                            }
-                            className="group w-10 h-full flex items-center justify-center outline-none cursor-pointer select-none"
+                          <button
+                            type="button"
+                            onClick={() => handleIncrease(collectionId, quantity)}
+                            className="cart-qty-btn text-gray-300 hover:text-[#C97873] transition-colors"
+                            title="Increase quantity"
                           >
-                            <Plus
-                              size={22}
-                              strokeWidth={3}
-                              className="text-white hover:!text-[#d17f89] transition-colors"
-                            />
-                          </div>
+                            <Plus className="w-4 h-4 text-[#C97873]" />
+                          </button>
                         </div>
 
-                        {/* Item subtotal */}
+                        {/* Item Subtotal */}
                         <div className="text-right">
-                          <p className="text-[#d17f89] font-bold text-sm">
-                            Rs {Number(item.subTotal ?? 0).toFixed(2)}
-                          </p>
+                          <span className="text-xs text-gray-400 block font-normal text-[10px] uppercase tracking-wider">Subtotal</span>
+                          <span className="text-[#C97873] font-extrabold text-sm font-mono">
+                            Rs {Number(item.subTotal ?? (collection.CollectionPrice * quantity)).toFixed(2)}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -379,27 +280,19 @@ export const Cart = ({ showCart, onClose }: any) => {
             })}
           </div>
 
-          <Divider className="!border-white/[0.08] !my-5" />
+          <Divider className="!border-white/10 !my-5" />
 
-          {/* Summary */}
-          <div
-            className="
-              rounded-2xl
-              border border-white/[0.07]
-              bg-white/[0.025]
-              p-4
-            "
-          >
+          {/* Cart Summary Box */}
+          <div className="rounded-2xl border border-[#C97873]/30 bg-[#121215]/95 p-4 shadow-xl space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-white/50 text-sm">Sub-total</span>
-
-              <span className="text-white font-bold text-lg">
+              <span className="text-gray-300 text-xs uppercase tracking-wider font-bold">Total Amount</span>
+              <span className="text-[#C97873] font-black text-xl font-mono">
                 Rs {Number(cart?.totalAmount ?? 0).toFixed(2)}
               </span>
             </div>
 
-            <p className="text-white/30 text-xs mt-1">
-              Taxes and shipping calculated at checkout
+            <p className="text-gray-400 text-[11px] leading-relaxed">
+              Taxes and shipping calculated at checkout.
             </p>
 
             <button
@@ -408,25 +301,10 @@ export const Cart = ({ showCart, onClose }: any) => {
                 onClose();
                 navigate("/checkout");
               }}
-              className="
-                mt-4
-                w-full
-                h-12
-                rounded-xl
-                bg-[#d17f89]
-                border border-[#d17f89]
-                text-white
-                font-bold
-                tracking-wide
-                transition-all duration-300
-                hover:bg-[#c26a75]
-                hover:border-[#c26a75]
-                hover:shadow-[0_8px_25px_rgba(209,127,137,0.2)]
-                disabled:opacity-50
-                disabled:cursor-not-allowed
-              "
+              className="w-full py-3.5 px-4 rounded-xl bg-[#C97873] hover:bg-[#b86762] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              CHECKOUT
+              <span>PROCEED TO CHECKOUT</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </>

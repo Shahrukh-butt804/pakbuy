@@ -126,14 +126,33 @@ header button {
 button.icon-nav-btn,
 button.mobile-menu-btn,
 button.drawer-close-btn,
-button.modal-close-btn {
+button.modal-close-btn,
+button.cart-qty-btn,
+button.cart-remove-btn {
   padding: 0 !important;
-  min-width: 32px !important;
-  min-height: 32px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  border: none !important;
+  background: transparent !important;
 }
+
+.ant-drawer-header-title {
+  flex-direction: row-reverse !important;
+}
+
+.ant-drawer-close {
+  padding: 0 !important;
+  margin-inline-end: 0 !important;
+  color: #ffffff !important;
+}
+
+.ant-drawer-close:hover {
+  color: #C97873 !important;
+}
+
 
 header button.icon-nav-btn,
 header button.mobile-menu-btn {
