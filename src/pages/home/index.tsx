@@ -96,27 +96,28 @@ const Home = () => {
         </div>
       </div>
 
+
       {/* Infinite Marquee Ticker */}
       <div className="w-full bg-gradient-to-r from-[#1c1213] via-[#C97873] to-[#1c1213] py-3.5 overflow-hidden border-y border-[#C97873]/40 shadow-inner">
         <div className="flex whitespace-nowrap animate-marquee">
           <div className="flex items-center space-x-8 text-white font-bold text-xs sm:text-sm uppercase tracking-widest font-mono">
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Member Exclusive Pricing ✦</span>
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Clinically Evaluated Solutions ✦</span>
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Zero Markup Marketplace ✦</span>
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Member Exclusive Pricing ✦</span>
           </div>
           <div className="flex items-center space-x-8 text-white font-bold text-xs sm:text-sm uppercase tracking-widest font-mono ml-8">
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Member Exclusive Pricing ✦</span>
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Clinically Evaluated Solutions ✦</span>
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Zero Markup Marketplace ✦</span>
-            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Pak Buy ✦</span>
             <span>Member Exclusive Pricing ✦</span>
           </div>
         </div>
