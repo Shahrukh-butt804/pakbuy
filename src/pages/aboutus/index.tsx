@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import CategoriesCards from "../../components/categoriesCards";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
@@ -129,12 +128,6 @@ const AboutUs: React.FC = () => {
 
       {/* Footer Section */}
       <section className="ethicsBoundary-bg border-t border-white/10 mt-auto">
-        <div className="relative w-full collections-heading text-center py-8">
-          <h5 className="inset-0 flex items-center justify-center text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-wide">
-            WHAT WE OFFER
-          </h5>
-        </div>
-        <CategoriesCards />
         <ChooseInfoSection />
         <Footer />
       </section>

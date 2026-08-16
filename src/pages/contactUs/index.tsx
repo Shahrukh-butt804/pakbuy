@@ -1,10 +1,10 @@
+import { Info, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router';
 import Swal from "sweetalert2";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useSubmitFormMutation } from "../../redux/services/contactSlice";
-import { useNavigate } from 'react-router';
-import { Phone, Mail, MapPin, ArrowLeft, Send, Sparkles, Info } from "lucide-react";
 
 const Contact: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -65,16 +65,6 @@ const Contact: React.FC = () => {
             <Header />
 
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-                {/* Back Button */}
-                <button
-                    type="button"
-                    onClick={() => window.history.back()}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-[#C97873]/20 border border-white/10 hover:border-[#C97873]/40 text-xs font-bold tracking-wider text-white transition-all duration-200 mb-8 active:scale-95"
-                >
-                    <ArrowLeft className="w-4 h-4 text-[#C97873]" />
-                    <span>Back</span>
-                </button>
-
                 {/* Hero Section Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start mb-16">
                     {/* Left Column: Contact Details */}
@@ -88,8 +78,8 @@ const Contact: React.FC = () => {
                                 Contact <span className="text-[#C97873]">Us</span>
                             </h1>
                             <p className="mt-4 text-sm sm:text-base text-gray-300 leading-relaxed max-w-xl">
-                                We love connecting with our members and vendors! Whether you have a question about your order,
-                                want to learn more about becoming a vendor, or need assistance with anything else, our team is here
+                                We love connecting with our members Whether you have a question about your order,
+                                want to learn more about us, or need assistance with anything else, our team is here
                                 to help. Reach out to us and we'll get back to you as soon as possible.
                             </p>
                         </div>
