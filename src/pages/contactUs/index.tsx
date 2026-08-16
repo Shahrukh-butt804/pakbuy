@@ -4,19 +4,18 @@ import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useSubmitFormMutation } from "../../redux/services/contactSlice";
 import { useNavigate } from 'react-router';
-
+import { Phone, Mail, MapPin, ArrowLeft, Send, Sparkles, Info } from "lucide-react";
 
 const Contact: React.FC = () => {
-
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         subject: "",
         message: "",
     });
-      const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    const [submitForm, { isLoading }] = useSubmitFormMutation()
+    const [submitForm, { isLoading }] = useSubmitFormMutation();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -30,169 +29,266 @@ const Contact: React.FC = () => {
 
         try {
             const response: any = await submitForm(formData);
-            console.log("Response Data:", response);
             if (response?.data?.success) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: response?.data?.message,
-                    timer: 2000
-                })
+                    text: response?.data?.message || 'Message sent successfully!',
+                    timer: 2000,
+                    confirmButtonColor: '#C97873'
+                });
+                setFormData({ name: "", email: "", subject: "", message: "" });
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: response.message || response?.error?.data?.message,
-                })
+                    text: response?.message || response?.error?.data?.message || 'Failed to send message',
+                    confirmButtonColor: '#C97873'
+                });
             }
         } catch (error: any) {
-            console.log("🚀 ~ handleSubmit ~ error:", error)
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: error.message || error?.data?.message || 'Something went wrong',
-            })
-
+                text: error?.message || error?.data?.message || 'Something went wrong',
+                confirmButtonColor: '#C97873'
+            });
         }
-
     };
 
-    useEffect(() => { window.scrollTo(0, 0); }, []);
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
-        <>
+        <div className="min-h-screen bg-[#0a0a0c] text-white selection:bg-[#C97873] selection:text-white flex flex-col justify-between">
             <Header />
-            <section className="bg-[#0d0d0d] text-white py-16 px-4 md:px-24">
+
+            <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+                {/* Back Button */}
                 <button
                     type="button"
-                    className="px-6 py-2 rounded-full font-semibold text-white bg-[#C97873] hover:bg-[#b86762] shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98]"
-                    style={{ marginBottom: '20px' }}
                     onClick={() => window.history.back()}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-[#C97873]/20 border border-white/10 hover:border-[#C97873]/40 text-xs font-bold tracking-wider text-white transition-all duration-200 mb-8 active:scale-95"
                 >
-                    Cancel
+                    <ArrowLeft className="w-4 h-4 text-[#C97873]" />
+                    <span>Back</span>
                 </button>
 
-                <div className=" mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
-
-                    {/* Left Side */}
-                    <div>
-                        <h2 className="text-3xl md:text-6xl font-bold mb-4 text-[#C97873] drop-shadow-lg">CONTACT US</h2>
-                        {/* <h3 className="text-xl md:text-4xl font-semibold mb-6">Get In Touch With Us</h3> */}
-                        <p className="text-sm md:text-xl text-gray-400 mb-6 leading-relaxed">
-                            We love connecting with our customers and vendors! Whether you have a question about your order,
-                            want to learn more about becoming a vendor, or need assistance with anything else, our team is here
-                            to help. Reach out to us and we'll get back to you as soon as possible.
-                        </p>
-
-                        <div className="space-y-4 text-xl">
-                            <div className="flex items-center gap-3">
-                                <span className="text-[#C97873]">📞</span>
-                                <p className="text-gray-300">619.405.6500</p>
+                {/* Hero Section Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start mb-16">
+                    {/* Left Column: Contact Details */}
+                    <div className="space-y-6">
+                        <div>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C97873]/15 border border-[#C97873]/30 text-[#C97873] text-xs font-bold uppercase tracking-widest mb-3">
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>Get In Touch</span>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-[#C97873]">📧</span>
-                                <a href="mailto:mh@choose-well.today" className="text-[#C97873] hover:text-[#E08A83] transition-colors duration-300">
-                                    mh@choose-well.today
-                                </a>
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+                                Contact <span className="text-[#C97873]">Us</span>
+                            </h1>
+                            <p className="mt-4 text-sm sm:text-base text-gray-300 leading-relaxed max-w-xl">
+                                We love connecting with our members and vendors! Whether you have a question about your order,
+                                want to learn more about becoming a vendor, or need assistance with anything else, our team is here
+                                to help. Reach out to us and we'll get back to you as soon as possible.
+                            </p>
+                        </div>
+
+                        {/* Contact Info Cards */}
+                        <div className="space-y-4 pt-2">
+                            <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#121215]/80 border border-[#C97873]/20 backdrop-blur-md">
+                                <div className="w-10 h-10 rounded-xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873] shrink-0">
+                                    <Phone className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Phone Support</h4>
+                                    <p className="text-sm sm:text-base font-semibold text-white">+92 317 2183987</p>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-[#C97873]">📍</span>
-                                <p className="text-gray-300">Pak Buy, Inc., 600 1st Ave, Suite 102 Seattle, WA 98104</p>
+
+                            <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#121215]/80 border border-[#C97873]/20 backdrop-blur-md">
+                                <div className="w-10 h-10 rounded-xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873] shrink-0">
+                                    <Mail className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Email Us</h4>
+                                    <a
+                                        href="mailto:pakbuy.pk"
+                                        className="text-sm sm:text-base font-semibold text-[#C97873] hover:text-[#E08A83] transition-colors"
+                                    >
+                                        pakbuy.pk
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#121215]/80 border border-[#C97873]/20 backdrop-blur-md">
+                                <div className="w-10 h-10 rounded-xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873] shrink-0">
+                                    <MapPin className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Location</h4>
+                                    <p className="text-sm sm:text-base text-gray-200">
+                                        Karachi, Pakistan
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Right Side - Form */}
-                    <div className="bg-gradient-to-b from-[#18181b] to-[#101012] rounded-2xl p-6 md:p-8 shadow-2xl border border-[#C97873]/20">
-                        <form className="space-y-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Full Name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl bg-[#0d0d0d] text-white placeholder-gray-500 border border-[#C97873]/20 focus:outline-none focus:ring-2 focus:ring-[#C97873]/50 focus:border-[#C97873] transition-all duration-300"
-                            />
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email Address"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl bg-[#0d0d0d] text-white placeholder-gray-500 border border-[#C97873]/20 focus:outline-none focus:ring-2 focus:ring-[#C97873]/50 focus:border-[#C97873] transition-all duration-300"
-                            />
-                            <input
-                                type="text"
-                                name="subject"
-                                placeholder="Subject"
-                                value={formData.subject}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl bg-[#0d0d0d] text-white placeholder-gray-500 border border-[#C97873]/20 focus:outline-none focus:ring-2 focus:ring-[#C97873]/50 focus:border-[#C97873] transition-all duration-300"
-                            />
-                            <textarea
-                                name="message"
-                                placeholder="Message"
-                                rows={5}
-                                value={formData.message}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl bg-[#0d0d0d] text-white placeholder-gray-500 border border-[#C97873]/20 focus:outline-none focus:ring-2 focus:ring-[#C97873]/50 focus:border-[#C97873] transition-all duration-300"
-                            ></textarea>
-                            <button
-                                disabled={isLoading}
-                                type="submit"
-                                className="w-full py-3 rounded-full font-semibold text-white bg-[#C97873] hover:bg-[#b86762] shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98] disabled:opacity-50"
-                            >
-                                {isLoading ? 'Submitting...' : 'Submit'}
-                            </button>
-                        </form>
+                    {/* Right Column: Contact Form */}
+                    <div className="bg-[#121215]/90 border border-[#C97873]/25 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#C97873]/5 rounded-full blur-3xl pointer-events-none" />
+
+                        <div className="relative z-10">
+                            <h2 className="text-xl sm:text-2xl font-extrabold text-white mb-1">Send a Message</h2>
+                            <p className="text-xs text-gray-400 mb-6">Fill out the form below and our team will get back to you shortly.</p>
+
+                            <form className="space-y-4" onSubmit={handleSubmit}>
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
+                                        Full Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="John Doe"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-3 rounded-xl bg-[#0a0a0c] text-white placeholder-gray-600 border border-[#C97873]/30 focus:outline-none focus:border-[#C97873] text-sm transition-colors"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
+                                        Email Address
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="name@example.com"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-3 rounded-xl bg-[#0a0a0c] text-white placeholder-gray-600 border border-[#C97873]/30 focus:outline-none focus:border-[#C97873] text-sm transition-colors"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
+                                        Subject
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="subject"
+                                        placeholder="How can we help?"
+                                        value={formData.subject}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-3 rounded-xl bg-[#0a0a0c] text-white placeholder-gray-600 border border-[#C97873]/30 focus:outline-none focus:border-[#C97873] text-sm transition-colors"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
+                                        Message
+                                    </label>
+                                    <textarea
+                                        name="message"
+                                        placeholder="Write your message here..."
+                                        rows={4}
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full px-4 py-3 rounded-xl bg-[#0a0a0c] text-white placeholder-gray-600 border border-[#C97873]/30 focus:outline-none focus:border-[#C97873] text-sm transition-colors resize-none"
+                                    />
+                                </div>
+
+                                <button
+                                    disabled={isLoading}
+                                    type="submit"
+                                    className="w-full py-3.5 px-6 rounded-2xl font-bold text-xs uppercase tracking-wider text-white bg-[#C97873] hover:bg-[#b86762] shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+                                >
+                                    <Send className="w-4 h-4" />
+                                    <span>{isLoading ? 'Submitting...' : 'Send Message'}</span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </section>
-            <section className="bg-[#0d0d0d]">
-                <section className="text-white px-6 py-12">
-                    <div className="max-w-6xl mx-auto flex flex-col gap-6 md:flex-row md:justify-between">
-                        {/* Left Card */}
-                        <div
-                            className="bg-gradient-to-b from-[#18181b] to-[#101012] rounded-2xl p-6 md:w-1/2 border border-[#C97873]/20 shadow-2xl"
-                        >
-                            <h3 className="text-lg font-semibold mb-4 text-[#C97873]">What you need to know</h3>
-                            <ul className="list-disc list-inside text-sm text-gray-400 space-y-2">
-                                {/* <li>We feature only companies with FDA-clearance, strong evidence, and clinical validation.</li> */}
-                                <li>Pak Buy does NOT replace your doctor or insurance.</li>
-                                <li>Member input and evolving evidence shape new Pak Buy Collections.</li>
-                                <li><a  className="text-[#C97873] underline cursor-pointer hover:text-[#E08A83] transition-colors duration-300" onClick={() => navigate("/tips")}>Learn more</a></li>
-                            </ul>
-                        </div>
 
-                        {/* Right Card */}
-                        <div
-                            className="bg-gradient-to-b from-[#18181b] to-[#101012] rounded-2xl p-6 md:w-1/2 border border-[#C97873]/20 shadow-2xl"
-                        >
-                            <h3 className="text-lg font-semibold mb-4 text-[#C97873]">Pak Buy standards:</h3>
-                            <ul className="list-disc list-inside text-sm text-gray-400 space-y-2">
-                                <li>FDA clearance (where applicable). and other relevant approvals</li>
-                                <li>Clinical and peer-reviewed evidence</li>
-                                <li>Outstanding consumer reviews and customer support</li>
-                                <li>Common sense pricing, with no mark-up</li>
-                            </ul>
-                        </div>
+                {/* Bottom Information Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    {/* Left Card */}
+                    <div className="bg-[#121215]/80 border border-[#C97873]/20 rounded-3xl p-6 sm:p-8 backdrop-blur-md">
+                        <h3 className="text-lg font-extrabold text-white mb-4 flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873]">
+                                <Info className="w-4 h-4" />
+                            </div>
+                            What you need to know
+                        </h3>
+                        <ul className="space-y-3 text-sm text-gray-300">
+                            <li className="flex items-start gap-2.5">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <span>Pak Buy does NOT replace your doctor or health insurance.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <span>Member input and evolving clinical evidence shape new Pak Buy Collections.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5 pt-1">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <a
+                                    onClick={() => navigate("/tips")}
+                                    className="text-[#C97873] underline font-semibold cursor-pointer hover:text-[#E08A83] transition-colors"
+                                >
+                                    Learn more details
+                                </a>
+                            </li>
+                        </ul>
                     </div>
 
-                    {/* Bottom Disclaimer */}
-                    <div
-                        className="max-w-6xl mx-auto mt-8 text-xs text-center px-4 leading-relaxed footerinfo-p text-gray-500"
-                    >
-                        <p>
-                            Pak Buy is not a healthcare company nor is it substitute for health insurance. Pak Buy does not provide direct care or offer
-                            medical advice. All statements are true to the best of our knowledge and have been verified by independent evaluation. As new
-                            information and more advanced options develop in the future, Pak Buy will update Members and may modify our Collections.
-                        </p>
+                    {/* Right Card */}
+                    <div className="bg-[#121215]/80 border border-[#C97873]/20 rounded-3xl p-6 sm:p-8 backdrop-blur-md">
+                        <h3 className="text-lg font-extrabold text-white mb-4 flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873]">
+                                <Sparkles className="w-4 h-4" />
+                            </div>
+                            Pak Buy Standards
+                        </h3>
+                        <ul className="space-y-3 text-sm text-gray-300">
+                            <li className="flex items-start gap-2.5">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <span>FDA clearance (where applicable) and relevant clinical approvals.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <span>Clinical and peer-reviewed scientific evidence.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <span>Outstanding consumer reviews and customer support.</span>
+                            </li>
+                            <li className="flex items-start gap-2.5">
+                                <span className="w-2 h-2 rounded-full bg-[#C97873] mt-1.5 shrink-0" />
+                                <span>Common sense pricing, with no mark-up added.</span>
+                            </li>
+                        </ul>
                     </div>
-                </section>
-                <Footer />
-            </section>
-        </>
+                </div>
+
+                {/* Legal Disclaimer */}
+                <div className="text-center text-xs text-gray-500 max-w-4xl mx-auto leading-relaxed pb-8">
+                    <p>
+                        Pak Buy is not a healthcare company nor is it a substitute for health insurance. Pak Buy does not provide direct care or offer
+                        medical advice. All statements are true to the best of our knowledge and have been verified by independent evaluation. As new
+                        information and more advanced options develop in the future, Pak Buy will update Members and may modify our Collections.
+                    </p>
+                </div>
+            </main>
+
+            <Footer />
+        </div>
     );
 };
 
