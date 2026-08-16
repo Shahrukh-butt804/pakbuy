@@ -74,164 +74,146 @@ const Footer: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Row className="px-2 lg:px-0" justify={"center"}>
-      <Col lg={22}>
-        <footer className="w-full text-white py-12 px-8 font-sans footer-box bg-gradient-to-b from-[#18181b] to-[#101012] border-t border-[#C97873]/20 backdrop-blur-2xl">
-          <div className=" mx-auto">
-            <div className=" text-white py-10">
-              <Row>
-                <Col lg={8}>
-                  <div>
-                    <h2 className="text-lg font-semibold mb-4 text-[#C97873]">Pak Buy</h2>
-                    <p className="text-sm text-gray-400 w-[90%] footer-p leading-relaxed">
-                      Pak Buy is a marketplace for proven health options. The
-                      Pak Buy team has selected the best from a variety of
-                      companies located throughout the world and have brought
-                      them together to form the Pak Buy Collections® with
-                      common sense pricing.
-                    </p>
-                  </div>
-                </Col>
-                <Col lg={8}>
-                  <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div>
-                      <h2 className="text-sm font-bold mb-4 text-[#C97873] uppercase tracking-widest">QUICK LINKS</h2>
-                      {/* <ul className="space-y-2 text-sm text-gray-300">
-                                                <li><a href="/" className="hover:text-white">Home</a></li>
-                                                <li><a href="/aboutus" className="hover:text-white">About Us</a></li>
-                                                <li><a href="/shop" className="hover:text-white">Shop</a></li>
-                                                <li><a href="/contactUs" className="hover:text-white">Contact Us</a></li>
-                                                <li><a href="/my-orders" className="hover:text-white">My Orders</a></li>
-                                            </ul> */}
-                      <ul className="space-y-2 text-sm text-gray-400">
-                        {footerLinks.map((link) => (
-                          <li key={link.path}>
-                            <Link to={link.path} className="hover:text-[#C97873] transition-colors duration-300">
-                              {link.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+    <footer className="w-full text-white py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#18181b] via-[#141417] to-[#0d0d0f] border-t border-[#C97873]/25 backdrop-blur-2xl">
+      <div className="max-w-7xl mx-auto space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+          {/* Brand Info */}
+          <div className="lg:col-span-4 space-y-4">
+            <h2 className="text-xl font-extrabold text-[#C97873] tracking-wider uppercase flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C97873]"></span>
+              Pak Buy
+            </h2>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-sm">
+              Pak Buy is a marketplace for proven health options. The Pak Buy team has selected the best from a variety of companies located throughout the world and brought them together to form the Pak Buy Collections® with common sense pricing.
+            </p>
+          </div>
 
-                    <div>
-                      <h2 className="text-sm font-bold mb-4 text-[#C97873] uppercase tracking-widest">USEFUL LINKS</h2>
-                      <ul className="space-y-2 text-sm text-gray-400">
-                        <li>
-                          <a
-                            className="hover:text-[#C97873] transition-colors duration-300 cursor-pointer"
-                            onClick={() => navigate("/privacypolicy")}
-                          >
-                            Privacy Policy
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="hover:text-[#C97873] transition-colors duration-300 cursor-pointer"
-                            onClick={() => navigate("/termsconditions")}
-                          >
-                            Terms & Conditions
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="hover:text-[#C97873] transition-colors duration-300 cursor-pointer"
-                            onClick={() => navigate("/tips")}
-                          >
-                            Tips
-                          </a>
-                        </li>
-                        {/* <li><a href="#" className="hover:text-white">Resource</a></li> */}
-                      </ul>
-                    </div>
-                  </div>
-                </Col>
-                <Col lg={8}>
-                  <div className="bg-gradient-to-b from-[#1e1e22] to-[#151517] border border-[#C97873]/20 p-6 rounded-2xl shadow-2xl text-white email-box">
-                    <h3 className="font-semibold text-sm mb-2 text-[#C97873] uppercase tracking-widest">
-                      STAY IN TOUCH
-                    </h3>
-                    <p className="text-xs mb-3 !text-gray-400">
-                      Provide your email address and we'll keep you updated with
-                      Pak Buy Collections.
-                    </p>
-                    <Space
-                      direction="vertical"
-                      size="middle"
-                      className="mb-4 w-full"
+          {/* Navigation Links */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-xs font-bold mb-4 text-[#C97873] uppercase tracking-widest">
+                QUICK LINKS
+              </h3>
+              <ul className="space-y-2.5 text-sm text-gray-400">
+                {footerLinks.map((link) => (
+                  <li key={link.path}>
+                    <Link
+                      to={link.path}
+                      className="hover:text-[#C97873] transition-colors duration-200 block"
                     >
-                      <div
-                        style={{ display: "flex", gap: "4px", width: "100%" }}
-                      >
-                        <Input
-                          onChange={(e: any) => setEmail(e.target.value)}
-                          value={email}
-                          type="email"
-                          placeholder="Enter your email"
-                          className="!bg-[#0d0d0d] !text-white !border-[#C97873]/30 !placeholder-gray-500"
-                        />
-                        <Button
-                          onClick={handleNewsLetter}
-                          loading={isLoading}
-                          disabled={isLoading}
-                          type="primary"
-                          style={{ backgroundColor: '#C97873', borderColor: '#C97873' }}
-                          className="hover:!bg-[#b86762]"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="white"
-                            viewBox="0 0 24 24"
-                            width="20"
-                            height="20"
-                          >
-                            <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
-                          </svg>
-                        </Button>
-                      </div>
-                    </Space>
-                    <p className="text-[10px] mt-2 !text-gray-500">
-                      By clicking Send, you agree to receive periodic emails
-                      from Pak Buy. We will never disclose your email address to
-                      anyone else.
-                    </p>
-                  </div>
-                </Col>
-              </Row>
-              {/* </div> */}
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Copyright */}
-            <div className="border-t border-[#C97873]/20 pt-2 ">
-              <div className="flex space-x-2 mt-4 justify-between items-center copyright-section">
-                <p className="text-gray-400 text-sm">
-                  Pak Buy © {currentYear} Copyright 2025. All rights reserved
-                </p>
-                <div className="flex space-x-4 copyright-icons">
-                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
-                    <img src={fbIcon} alt="well" className="w-7" />
+            <div>
+              <h3 className="text-xs font-bold mb-4 text-[#C97873] uppercase tracking-widest">
+                USEFUL LINKS
+              </h3>
+              <ul className="space-y-2.5 text-sm text-gray-400">
+                <li>
+                  <a
+                    className="hover:text-[#C97873] transition-colors duration-200 cursor-pointer block"
+                    onClick={() => navigate("/privacypolicy")}
+                  >
+                    Privacy Policy
                   </a>
-                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
-                    <img src={twIcon} alt="well" className="w-7" />
+                </li>
+                <li>
+                  <a
+                    className="hover:text-[#C97873] transition-colors duration-200 cursor-pointer block"
+                    onClick={() => navigate("/termsconditions")}
+                  >
+                    Terms & Conditions
                   </a>
-                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
-                    <img src={inIcon} alt="well" className="w-7" />
+                </li>
+                <li>
+                  <a
+                    className="hover:text-[#C97873] transition-colors duration-200 cursor-pointer block"
+                    onClick={() => navigate("/tips")}
+                  >
+                    Tips & Support
                   </a>
-                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
-                    <img src={ytIcon} alt="well" className="w-7" />
-                  </a>
-                  <a href="#" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
-                    <img src={instaIcon} alt="well" className="w-7" />
-                  </a>
-                  {/* <a href="#"><img src="/icons/youtube.svg" alt="YouTube" className="w-4 h-4" /></a> */}
-                </div>
-              </div>
+                </li>
+              </ul>
             </div>
           </div>
-        </footer>
-      </Col>
-    </Row>
+
+          {/* Newsletter Box */}
+          <div className="lg:col-span-4">
+            <div className="bg-gradient-to-b from-[#1e1e22] to-[#141417] border border-[#C97873]/25 p-6 rounded-3xl shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#C97873]/10 rounded-full blur-2xl pointer-events-none" />
+              
+              <h3 className="font-extrabold text-sm mb-2 text-[#C97873] uppercase tracking-widest">
+                STAY IN TOUCH
+              </h3>
+              <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+                Provide your email address to receive exclusive updates on new Pak Buy Collections.
+              </p>
+
+              <form onSubmit={handleNewsLetter} className="space-y-3">
+                <div className="flex gap-2">
+                  <input
+                    onChange={(e: any) => setEmail(e.target.value)}
+                    value={email}
+                    type="email"
+                    placeholder="Enter your email address"
+                    className="flex-1 bg-[#0d0d0f] text-white text-xs rounded-xl border border-[#C97873]/30 px-3.5 py-2.5 outline-none focus:border-[#C97873] transition-colors placeholder-gray-500"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="bg-[#C97873] hover:bg-[#b86762] text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center min-w-[44px]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="white"
+                      viewBox="0 0 24 24"
+                      width="18"
+                      height="18"
+                    >
+                      <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+                    </svg>
+                  </button>
+                </div>
+                <p className="text-[11px] text-gray-500 leading-snug">
+                  We respect your privacy and will never share your details.
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom copyright & icons */}
+        <div className="border-t border-[#C97873]/20 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-gray-400 text-xs text-center sm:text-left">
+            Pak Buy © {currentYear}. All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-3">
+            <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-70 hover:opacity-100 hover:border-[#C97873] transition-all duration-200">
+              <img src={fbIcon} alt="Facebook" className="w-4 h-4" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-70 hover:opacity-100 hover:border-[#C97873] transition-all duration-200">
+              <img src={twIcon} alt="Twitter" className="w-4 h-4" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-70 hover:opacity-100 hover:border-[#C97873] transition-all duration-200">
+              <img src={inIcon} alt="LinkedIn" className="w-4 h-4" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-70 hover:opacity-100 hover:border-[#C97873] transition-all duration-200">
+              <img src={ytIcon} alt="YouTube" className="w-4 h-4" />
+            </a>
+            <a href="#" className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center opacity-70 hover:opacity-100 hover:border-[#C97873] transition-all duration-200">
+              <img src={instaIcon} alt="Instagram" className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 
 export default Footer;
+

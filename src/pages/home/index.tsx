@@ -1,140 +1,149 @@
-import "animate.css";
-import { useDispatch } from "react-redux";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CategoriesCards from "../../components/categoriesCards";
 import { ChooseFeatures } from "../../components/chooseFeatures";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import { EthicsBound } from "../../components/ethicsBound";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
+import { HeroSection } from "../../components/heroSection/heroSection";
 import InfoCards2 from "../../components/infoCards2";
 import { MemberBenefits } from "../../components/memberBenefits";
 import { toggleRegisterModal } from "../../redux/reducers/modalSlice";
-// import Mainvideo from '../../../public/images/ip.mp4';
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { HeroSection } from "../../components/heroSection/heroSection";
 import { selectUser } from "../../redux/reducers/userSlice";
 
 const Home = () => {
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
-  function closeModal() {
+  function openRegisterModal() {
     dispatch(toggleRegisterModal());
   }
-  useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0d0d0d] via-[#141414] to-[#1a1a1a] text-white flex flex-col font-sans selection:bg-[#C97873]/30 selection:text-white">
+    <div className="min-h-screen bg-[#0a0a0c] text-white flex flex-col font-sans selection:bg-[#C97873]/30 selection:text-white overflow-x-hidden">
+      {/* Header and HeroSection MUST NOT BE CHANGED per user request */}
       <Header />
       <HeroSection />
-   
-      <div className="home-top-bg">
-        {/* <InfoCards /> */}
-        <div
-          className="access-exclusive"
-          data-aos="zoom-in"
-          data-aos-delay="1000"
-        >
-          <h3>Access to exclusive</h3>
-        </div>
 
-        <div className="relative w-full collections-heading" data-aos="fade-up">
-          <h3 className="inset-0 flex items-center justify-center text-6xl font-bold text-white mix-blend-exclusion">
-            Collections
-          </h3>
-        </div>
-
+      {/* Main Home Content Container */}
+      <div className="w-full bg-gradient-to-b from-[#0a0a0c] via-[#101014] to-[#141418] border-b border-[#C97873]/20">
+        {/* Info Cards Section */}
         <InfoCards2 />
+
+        {/* Collections Overview Section Header */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C97873]/15 border border-[#C97873]/30 text-[#C97873] text-xs font-bold uppercase tracking-widest mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            Curated Selections
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+            Explore All <span className="text-[#C97873]">Collections</span>
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-gray-400 max-w-xl mx-auto">
+            Click any collection card below to preview its clinical rationale and member pricing.
+          </p>
+        </div>
+
         <CategoriesCards memberBtn={user ? true : false} />
+
+        {/* Core Methodology Features */}
         <ChooseFeatures />
-        <div className="py-12 px-4 max-w-7xl mx-auto w-full">
-          <section className="flex justify-center leave-bg-content my-6">
-            <div className="w-full text-center bg-gradient-to-b from-[#18181b] to-[#101012] p-8 sm:p-12 rounded-3xl border border-[#C97873]/20 shadow-2xl backdrop-blur-md relative overflow-hidden">
+
+        {/* Become a Member Highlight Section */}
+        <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <section className="my-6">
+            <div className="w-full text-center bg-gradient-to-b from-[#18181b] via-[#141417] to-[#101012] p-8 sm:p-12 md:p-14 rounded-3xl border border-[#C97873]/30 shadow-2xl backdrop-blur-md relative overflow-hidden">
               <div className="absolute top-0 right-0 w-80 h-80 bg-[#C97873]/10 rounded-full blur-3xl pointer-events-none" />
-              <h2
-                data-aos="fade-up"
-                data-aos-delay="1000"
-                data-aos-duration="800"
-                className="text-white text-xl sm:text-2xl md:text-3xl font-extrabold mb-6 tracking-tight relative z-10"
-              >
-                A new marketplace for real health options{" "}
-                <span className="block text-[#C97873] mt-2 font-semibold">
-                  only available to our members
-                </span>
-              </h2>
+              <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#C97873]/5 rounded-full blur-3xl pointer-events-none" />
 
-              <button
-                onClick={closeModal}
-                className="relative z-10 py-3.5 px-8 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-semibold text-sm sm:text-base shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98]"
-                data-aos="zoom-in"
-                data-aos-delay="800"
-                data-aos-duration="800"
-              >
-                Become A Member
-              </button>
+              <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C97873]/15 border border-[#C97873]/30 text-[#C97873] text-xs font-bold uppercase tracking-widest">
+                  Member Opportunity
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-snug">
+                  A new marketplace for real health options{" "}
+                  <span className="block text-[#C97873] mt-2 font-semibold">
+                    only available to our members
+                  </span>
+                </h2>
+
+                <p className="text-sm sm:text-base text-gray-300 max-w-xl mx-auto leading-relaxed">
+                  Join Pak Buy to unlock curated health bundles, direct member-only savings, and full transparency on every single order.
+                </p>
+
+                <div>
+                  <button
+                    onClick={openRegisterModal}
+                    className="group relative inline-flex items-center gap-2 py-4 px-9 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-xl shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-95"
+                  >
+                    <span>Become A Member</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </div>
+              </div>
             </div>
           </section>
 
-          <section className="flex justify-center leave-bg-content">
-            <div className="container w-full">
-              <MemberBenefits />
-            </div>
-          </section>
+          {/* Member Benefits */}
+          <MemberBenefits />
         </div>
       </div>
 
-      <div className="ticker">
-        <div className="ticker-content">
-          <h6>
-            Pak Buy <span>Collection</span> * &nbsp; Pak Buy{" "}
-            <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> *
-            &nbsp; Pak Buy <span>Collection</span> *
-          </h6>
-          <h6>
-            Pak Buy <span>Collection</span> * &nbsp; Pak Buy{" "}
-            <span>Collection</span> * &nbsp; Pak Buy <span>Collection</span> *
-            &nbsp; Pak Buy <span>Collection</span> *
-          </h6>
-        </div>
-      </div>
-      <section className="ethicsBoundary-bg border-t border-white/10 mt-auto">
-        <div className="flex justify-center">
-          <div className="w-full">
-            <EthicsBound />
+      {/* Infinite Marquee Ticker */}
+      <div className="w-full bg-gradient-to-r from-[#1c1213] via-[#C97873] to-[#1c1213] py-3.5 overflow-hidden border-y border-[#C97873]/40 shadow-inner">
+        <div className="flex whitespace-nowrap animate-marquee">
+          <div className="flex items-center space-x-8 text-white font-bold text-xs sm:text-sm uppercase tracking-widest font-mono">
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Member Exclusive Pricing ✦</span>
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Clinically Evaluated Solutions ✦</span>
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Zero Markup Marketplace ✦</span>
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Member Exclusive Pricing ✦</span>
+          </div>
+          <div className="flex items-center space-x-8 text-white font-bold text-xs sm:text-sm uppercase tracking-widest font-mono ml-8">
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Member Exclusive Pricing ✦</span>
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Clinically Evaluated Solutions ✦</span>
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Zero Markup Marketplace ✦</span>
+            <span>Pak Buy <strong className="text-black font-extrabold">Collection</strong> ✦</span>
+            <span>Member Exclusive Pricing ✦</span>
           </div>
         </div>
-        <div className="relative w-full collections-heading text-center py-10">
-          <h5
-            className="inset-0 flex items-center justify-center text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-wide"
-            data-aos="fade-up"
-            data-aos-duration="800"
-            data-aos-delay="1000"
-          >
-            Member only marketplace
-          </h5>
+      </div>
 
-          <button
-            onClick={closeModal}
-            className="py-3.5 px-8 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-semibold text-sm sm:text-base shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98] mt-6 inline-block"
-            data-aos="zoom-in"
-            data-aos-delay="1100"
-            data-aos-duration="800"
-          >
-            GET MEMBERSHIP
-          </button>
+      {/* Bottom Ethics & Info Section */}
+      <section className="bg-gradient-to-b from-[#101014] via-[#0d0d0f] to-[#08080a] border-t border-white/10 mt-auto">
+        <EthicsBound />
+
+        <div className="relative w-full text-center py-14 px-4 bg-gradient-to-b from-transparent via-[#C97873]/10 to-transparent my-4">
+          <div className="max-w-4xl mx-auto space-y-4">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+              Member only <span className="text-[#C97873]">marketplace</span>
+            </h3>
+            <p className="text-sm sm:text-base text-gray-300 max-w-lg mx-auto">
+              Empowering individuals with direct access to vetted, high-value health collections.
+            </p>
+
+            <button
+              onClick={openRegisterModal}
+              className="py-3.5 px-8 rounded-full bg-[#C97873] hover:bg-[#b86762] text-white font-bold text-xs sm:text-sm tracking-widest uppercase shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-95 inline-block mt-4"
+            >
+              GET MEMBERSHIP
+            </button>
+          </div>
         </div>
 
-        <CategoriesCards />
         <ChooseInfoSection />
         <Footer />
       </section>
@@ -143,3 +152,4 @@ const Home = () => {
 };
 
 export default Home;
+

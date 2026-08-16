@@ -842,15 +842,25 @@ footer a:hover {
   animation: tickerMove 30s linear infinite;
 }
 
-@keyframes tickerMove {
-  0% {
-    transform: translateX(0);
-  }
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
 
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
   100% {
     transform: translateX(-50%);
   }
 }
+
 
 .ethicsBoundary-bg {
   background: linear-gradient(135deg, #0d0d0d 0%, #2a2a2a 50%, #3d3d3d 100%);
