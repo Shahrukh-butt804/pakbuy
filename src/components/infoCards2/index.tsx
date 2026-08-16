@@ -1,6 +1,5 @@
-import React from "react";
+import { ArrowRight, Award, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router";
-import { ArrowRight, ShieldCheck, Award } from "lucide-react";
 
 const InfoCards2 = () => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const InfoCards2 = () => {
         {/* Left Card */}
         <div className="group relative bg-[#121215]/80 border border-[#C97873]/20 hover:border-[#C97873]/50 rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#C97873]/10 overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#C97873]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#C97873]/10 transition-colors duration-500" />
-          
+
           <div className="relative z-10">
             <div className="w-12 h-12 rounded-2xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873] mb-6 shadow-inner">
               <Award className="w-6 h-6" />
@@ -34,7 +33,7 @@ const InfoCards2 = () => {
         {/* Right Card */}
         <div className="group relative bg-[#121215]/80 border border-[#C97873]/20 hover:border-[#C97873]/50 rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#C97873]/10 overflow-hidden">
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#C97873]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#C97873]/10 transition-colors duration-500" />
-          
+
           <div className="relative z-10">
             <div className="w-12 h-12 rounded-2xl bg-[#C97873]/15 border border-[#C97873]/30 flex items-center justify-center text-[#C97873] mb-6 shadow-inner">
               <ShieldCheck className="w-6 h-6" />

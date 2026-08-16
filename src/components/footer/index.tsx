@@ -1,15 +1,13 @@
-import { Col, Row, Button, Input, Space } from "antd";
 import React, { useState } from "react";
 // import { ImageUrl } from '../../utils/Functions';
-import { Link } from "react-router";
-import fbIcon from "../../assets/fb.png";
-import twIcon from "../../assets/tw.png";
-import inIcon from "../../assets/in.png";
-import ytIcon from "../../assets/yt.png";
-import instaIcon from "../../assets/insta.png";
-import { useAddToNewsLetterMutation } from "../../redux/services/newsLetterSlice";
+import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
+import fbIcon from "../../assets/fb.png";
+import inIcon from "../../assets/in.png";
+import instaIcon from "../../assets/insta.png";
+import twIcon from "../../assets/tw.png";
+import ytIcon from "../../assets/yt.png";
+import { useAddToNewsLetterMutation } from "../../redux/services/newsLetterSlice";
 
 const Footer: React.FC = () => {
   const [addToNewsLetter, { isLoading }] = useAddToNewsLetterMutation();
@@ -145,7 +143,7 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-4">
             <div className="bg-gradient-to-b from-[#1e1e22] to-[#141417] border border-[#C97873]/25 p-6 rounded-3xl shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#C97873]/10 rounded-full blur-2xl pointer-events-none" />
-              
+
               <h3 className="font-extrabold text-sm mb-2 text-[#C97873] uppercase tracking-widest">
                 STAY IN TOUCH
               </h3>
