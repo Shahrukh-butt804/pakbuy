@@ -1,6 +1,6 @@
 import { EyeOutlined } from "@ant-design/icons";
 import { Button, Table } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
@@ -10,7 +10,12 @@ import { useGetOrderByUserQuery } from "../../redux/services/orderSlice";
 const MyOrders: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data: orderData, isLoading } = useGetOrderByUserQuery({},
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const { data: orderData, isLoading } = useGetOrderByUserQuery(
+    {},
     { refetchOnMountOrArgChange: true, pollingInterval: 3000 },
   );
 
@@ -70,12 +75,35 @@ const MyOrders: React.FC = () => {
       dataIndex: "status",
       key: "status",
       render: (status: string) => {
-        const statusStyles: Record<string, { bg: string; text: string; dot: string }> = {
-          pending: { bg: "rgba(234, 179, 8, 0.12)", text: "#eab308", dot: "#eab308" },
-          confirmed: { bg: "rgba(59, 130, 246, 0.12)", text: "#60a5fa", dot: "#60a5fa" },
-          dispatched: { bg: "rgba(217, 70, 239, 0.12)", text: "#e879f9", dot: "#e879f9" },
-          delivered: { bg: "rgba(34, 197, 94, 0.12)", text: "#4ade80", dot: "#4ade80" },
-          cancelled: { bg: "rgba(239, 68, 68, 0.12)", text: "#f87171", dot: "#f87171" },
+        const statusStyles: Record<
+          string,
+          { bg: string; text: string; dot: string }
+        > = {
+          pending: {
+            bg: "rgba(234, 179, 8, 0.12)",
+            text: "#eab308",
+            dot: "#eab308",
+          },
+          confirmed: {
+            bg: "rgba(59, 130, 246, 0.12)",
+            text: "#60a5fa",
+            dot: "#60a5fa",
+          },
+          dispatched: {
+            bg: "rgba(217, 70, 239, 0.12)",
+            text: "#e879f9",
+            dot: "#e879f9",
+          },
+          delivered: {
+            bg: "rgba(34, 197, 94, 0.12)",
+            text: "#4ade80",
+            dot: "#4ade80",
+          },
+          cancelled: {
+            bg: "rgba(239, 68, 68, 0.12)",
+            text: "#f87171",
+            dot: "#f87171",
+          },
         };
 
         const key = status?.toLowerCase() ?? "";

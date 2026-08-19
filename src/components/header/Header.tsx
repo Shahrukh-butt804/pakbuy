@@ -1,4 +1,13 @@
-import { CircleUser, Eye, EyeOff, LogOut, Menu, ShoppingCart, Sparkles, X } from "lucide-react";
+import {
+  CircleUser,
+  Eye,
+  EyeOff,
+  LogOut,
+  Menu,
+  ShoppingCart,
+  Sparkles,
+  X,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,9 +25,9 @@ import {
   useVerifyOtpMutation,
 } from "../../redux/services/authSlice";
 import { useGetMyCartQuery } from "../../redux/services/cartSlice";
+import { Cart } from "../cart";
 import ChatWidget from "../chat-bot";
 import WhatsAppWidget from "../whatsapp-widget";
-import { Cart } from "../cart";
 
 const navigationItems = [
   { label: "Home", path: "/" },
@@ -34,15 +43,17 @@ const Header: React.FC = () => {
     location.pathname === "/"
       ? "Home"
       : navigationItems.find((item) => location.pathname === item.path)
-        ?.label || "Home",
+          ?.label || "Home",
   );
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showRegPassword, setShowRegPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showphone, setShowphone] = useState(false);
   const dispatch = useDispatch();
-  const isRegisterModalOpen = useSelector((state: any) => state.modal.isRegisterModalOpen);
+  const isRegisterModalOpen = useSelector(
+    (state: any) => state.modal.isRegisterModalOpen,
+  );
 
   function closeModal() {
     dispatch(toggleRegisterModal());
@@ -50,7 +61,10 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
   const user = useSelector(selectUser);
-  const { data: myCart } = useGetMyCartQuery({ skip: !user }, { pollingInterval: 2000 });
+  const { data: myCart } = useGetMyCartQuery(undefined, {
+    skip: !user,
+    pollingInterval: 2000,
+  });
 
   const handleNavClick = (label: string, path: string) => {
     setActiveItem(label);
@@ -68,12 +82,12 @@ const Header: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [showResetPassword, setShowResetPassword] = useState(false);
-  const [showResetConfirmPassword, setShowResetConfirmPassword] = useState(false);
+  const [showResetphone, setShowResetphone] = useState(false);
   const [signupData, setSignupDate] = useState({
     fullName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    phone: "",
   });
 
   const onChange = (e: any) => {
@@ -86,9 +100,11 @@ const Header: React.FC = () => {
   const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
   const [login, { isLoading }] = useLoginMutation();
   const [register] = useRegisterMutation();
-  const [forgetPassword, { isLoading: forgetPasswordLoading }] = useForgetPasswordMutation();
+  const [forgetPassword, { isLoading: forgetPasswordLoading }] =
+    useForgetPasswordMutation();
   const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation();
-  const [resetPassword, { isLoading: resetPasswordLoading }] = useResetPasswordMutation();
+  const [resetPassword, { isLoading: resetPasswordLoading }] =
+    useResetPasswordMutation();
 
   const handleCartClick = () => {
     const alreadyExists = localStorage.getItem("myBooleanFlag");
@@ -111,7 +127,8 @@ const Header: React.FC = () => {
 
     checkStorage();
     window.addEventListener("localStorageUpdated", checkStorage);
-    return () => window.removeEventListener("localStorageUpdated", checkStorage);
+    return () =>
+      window.removeEventListener("localStorageUpdated", checkStorage);
   }, []);
 
   const onClose = () => {
@@ -134,7 +151,10 @@ const Header: React.FC = () => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: response?.data?.message || response?.error?.data?.message,
+          text:
+            response?.data?.message ||
+            response?.error?.data?.message ||
+            response?.error?.data?.errors[0]?.msg,
         });
       }
     } catch (error: any) {
@@ -159,14 +179,17 @@ const Header: React.FC = () => {
           setUser({
             ...response?.data?.user,
             token: response?.data?.accessToken,
-          })
+          }),
         );
         setIsModalOpen(false);
       } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: response.message || response?.error?.data?.message,
+          text:
+            response.message ||
+            response?.error?.data?.message ||
+            response?.error?.data?.errors[0]?.msg,
         });
       }
     } catch (error: any) {
@@ -179,25 +202,17 @@ const Header: React.FC = () => {
   };
 
   async function handleRegister(token: any) {
-    if (signupData.password !== signupData.confirmPassword) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Password and Confirm Password should be same",
-      });
-      return;
-    }
-
     const formdata = new FormData();
     formdata.append("fullName", signupData.fullName);
     formdata.append("email", signupData.email);
     formdata.append("password", signupData.password);
-    formdata.append("confirmPassword", signupData.confirmPassword);
+    formdata.append("phone", signupData.phone);
     formdata.append("role", "user");
     formdata.append("token", token);
 
     try {
       const response: any = await register(formdata);
+      console.log("🚀 ~ handleRegister ~ response:", response);
       if (response?.data?.success) {
         Swal.fire({
           icon: "success",
@@ -209,7 +224,10 @@ const Header: React.FC = () => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: response.message || response?.error?.data?.message,
+          text:
+            response.message ||
+            response?.error?.data?.message ||
+            response?.error?.data?.errors[0]?.msg,
         });
       }
     } catch (error: any) {
@@ -236,7 +254,10 @@ const Header: React.FC = () => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: response.message || response?.error?.data?.message,
+          text:
+            response.message ||
+            response?.error?.data?.message ||
+            response?.error?.data?.errors[0]?.msg,
         });
       }
     } catch (error: any) {
@@ -325,7 +346,6 @@ const Header: React.FC = () => {
       <header className="sticky top-0 z-40 w-full bg-[#0d0d10]/95 backdrop-blur-xl border-b border-[#C97873]/25 shadow-2xl transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between gap-4">
-
             {/* Logo Brand (Hidden on small mobile screens to prevent stacked double logos) */}
             <div
               className="hidden sm:flex items-center gap-2 cursor-pointer group"
@@ -348,8 +368,12 @@ const Header: React.FC = () => {
               ) : (
                 <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#18181b]/90 border border-[#C97873]/40 text-sm font-semibold tracking-wide text-white shadow-inner">
                   <span>Become a Pak Buy member for</span>
-                  <span className="text-[#C97873] font-bold">$119 annually.</span>
-                  <span className="text-gray-300 text-xs font-normal">(&lt; $10/mo)</span>
+                  <span className="text-[#C97873] font-bold">
+                    $119 annually.
+                  </span>
+                  <span className="text-gray-300 text-xs font-normal">
+                    (&lt; $10/mo)
+                  </span>
                 </div>
               )}
             </div>
@@ -430,10 +454,7 @@ const Header: React.FC = () => {
               {user && user._id && (
                 <>
                   <div className="relative">
-                    <button
-                      onClick={handleCartClick}
-                      className="icon-nav-btn"
-                    >
+                    <button onClick={handleCartClick} className="icon-nav-btn">
                       <ShoppingCart className="w-4 h-4 text-[#C97873]" />
                     </button>
                     {myCart && myCart?.items?.length > 0 && (
@@ -456,10 +477,13 @@ const Header: React.FC = () => {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? <X className="w-5 h-5 text-[#C97873]" /> : <Menu className="w-5 h-5 text-[#C97873]" />}
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5 text-[#C97873]" />
+                ) : (
+                  <Menu className="w-5 h-5 text-[#C97873]" />
+                )}
               </button>
             </div>
-
           </div>
         </div>
       </header>
@@ -468,14 +492,16 @@ const Header: React.FC = () => {
       {createPortal(
         <>
           <div
-            className={`fixed inset-0 z-[998] bg-black/70 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${mobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
-              }`}
+            className={`fixed inset-0 z-[998] bg-black/70 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+              mobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
             onClick={() => setMobileMenuOpen(false)}
           />
 
           <div
-            className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] z-[999] bg-gradient-to-b from-[#18181b] via-[#141417] to-[#0f0f11] border-l border-[#C97873]/30 transform transition-transform duration-300 ease-in-out lg:hidden shadow-2xl flex flex-col justify-between ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-              }`}
+            className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] z-[999] bg-gradient-to-b from-[#18181b] via-[#141417] to-[#0f0f11] border-l border-[#C97873]/30 transform transition-transform duration-300 ease-in-out lg:hidden shadow-2xl flex flex-col justify-between ${
+              mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
           >
             <div>
               {/* Drawer Header */}
@@ -497,10 +523,11 @@ const Header: React.FC = () => {
                   <button
                     key={item.label}
                     onClick={() => handleNavClick(item.label, item.path)}
-                    className={`text-left px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${activeItem === item.label
-                      ? "bg-[#C97873]/20 border border-[#C97873]/50 text-white shadow-sm"
-                      : "text-gray-300 hover:bg-white/5 hover:text-white"
-                      }`}
+                    className={`text-left px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                      activeItem === item.label
+                        ? "bg-[#C97873]/20 border border-[#C97873]/50 text-white shadow-sm"
+                        : "text-gray-300 hover:bg-white/5 hover:text-white"
+                    }`}
                   >
                     {item.label}
                   </button>
@@ -558,7 +585,7 @@ const Header: React.FC = () => {
             </div>
           </div>
         </>,
-        document.body
+        document.body,
       )}
 
       {/* Styled Dark Login Modal */}
@@ -575,7 +602,9 @@ const Header: React.FC = () => {
             <span className="text-xs font-bold text-[#C97873] uppercase tracking-widest block mb-1">
               Welcome Back
             </span>
-            <h2 className="text-2xl font-black text-white mb-2">Member Login</h2>
+            <h2 className="text-2xl font-black text-white mb-2">
+              Member Login
+            </h2>
             <p className="text-xs text-gray-400 mb-6">
               Enter your Pak Buy membership credentials below.
             </p>
@@ -611,7 +640,11 @@ const Header: React.FC = () => {
                     className="absolute right-3 top-3 text-gray-400 hover:text-white"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -657,7 +690,6 @@ const Header: React.FC = () => {
       {isRegisterModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-300 overflow-y-auto">
           <div className="relative bg-gradient-to-b from-[#1c1c20] via-[#141417] to-[#0f0f11] border border-[#C97873]/30 rounded-3xl p-6 sm:p-8 w-full max-w-2xl max-h-[90vh] shadow-2xl text-white my-8 overflow-y-auto">
-
             <button
               onClick={() => closeModal()}
               className="modal-close-btn absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-[#C97873] text-gray-300 hover:text-white flex items-center justify-center transition-all z-10"
@@ -723,45 +755,61 @@ const Header: React.FC = () => {
                     className="absolute right-3 top-8 text-gray-400 hover:text-white"
                     onClick={() => setShowRegPassword(!showRegPassword)}
                   >
-                    {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showRegPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
 
                 <div className="relative">
                   <label className="block text-xs font-bold text-gray-300 mb-1.5 uppercase tracking-wider">
-                    Confirm Password
+                    Phone
                   </label>
                   <input
-                    value={signupData.confirmPassword}
-                    name="confirmPassword"
+                    value={signupData.phone}
+                    name="phone"
                     onChange={onChange}
-                    type={showConfirmPassword ? "text" : "password"}
+                    type="tel"
                     placeholder="••••••••"
                     className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors pr-10"
                   />
                   <button
                     type="button"
                     className="absolute right-3 top-8 text-gray-400 hover:text-white"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    onClick={() => setShowphone(!showphone)}
                   >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showphone ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-[#C97873]/10 border border-[#C97873]/30 my-4 space-y-2">
                 <div className="flex items-center justify-between text-xs font-bold">
-                  <span className="text-gray-300">Annual Membership Subscription</span>
-                  <span className="text-[#C97873] font-mono text-base">$119 / year</span>
+                  <span className="text-gray-300">
+                    Annual Membership Subscription
+                  </span>
+                  <span className="text-[#C97873] font-mono text-base">
+                    $119 / year
+                  </span>
                 </div>
                 <p className="text-[11px] text-gray-400">
-                  Unlocks member-only collections, wholesale product pricing, and zero markup.
+                  Unlocks member-only collections, wholesale product pricing,
+                  and zero markup.
                 </p>
               </div>
 
               {/* Stripe Payment Integration */}
               <div className="payment119 custom-stripe-theme">
-                <PaymentPage handleSubmit={handleRegister} showSubmitBtn={true} />
+                <PaymentPage
+                  handleSubmit={handleRegister}
+                  showSubmitBtn={true}
+                />
               </div>
             </form>
 
@@ -792,7 +840,9 @@ const Header: React.FC = () => {
               ✕
             </button>
 
-            <h2 className="text-2xl font-black text-white mb-1">Forgot Password</h2>
+            <h2 className="text-2xl font-black text-white mb-1">
+              Forgot Password
+            </h2>
             <p className="text-xs text-gray-400 mb-5">
               Enter your account email to receive a verification OTP.
             </p>
@@ -827,9 +877,12 @@ const Header: React.FC = () => {
               ✕
             </button>
 
-            <h2 className="text-2xl font-black text-white mb-1">Enter Verification Code</h2>
+            <h2 className="text-2xl font-black text-white mb-1">
+              Enter Verification Code
+            </h2>
             <p className="text-xs text-gray-400 mb-5">
-              We've sent a 6-digit OTP code to <span className="text-[#C97873] font-mono">{email}</span>
+              We've sent a 6-digit OTP code to{" "}
+              <span className="text-[#C97873] font-mono">{email}</span>
             </p>
 
             <input
@@ -837,7 +890,7 @@ const Header: React.FC = () => {
               placeholder="Enter OTP Code"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
-              className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] text-sm placeholder-gray-600 transition-colors mb-4 text-center font-mono text-lg tracking-widest"
+              className="w-full px-4 py-2.5 bg-[#0a0a0c] text-white border border-[#C97873]/30 rounded-xl focus:outline-none focus:border-[#C97873] placeholder-gray-600 transition-colors mb-4 text-center font-mono text-lg tracking-widest"
             />
 
             <button
@@ -862,7 +915,9 @@ const Header: React.FC = () => {
               ✕
             </button>
 
-            <h2 className="text-2xl font-black text-white mb-1">Set New Password</h2>
+            <h2 className="text-2xl font-black text-white mb-1">
+              Set New Password
+            </h2>
             <p className="text-xs text-gray-400 mb-5">
               Enter and confirm your new password.
             </p>
@@ -881,13 +936,17 @@ const Header: React.FC = () => {
                   className="absolute right-3 top-3 text-gray-400 hover:text-white"
                   onClick={() => setShowResetPassword(!showResetPassword)}
                 >
-                  {showResetPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showResetPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
 
               <div className="relative">
                 <input
-                  type={showResetConfirmPassword ? "text" : "password"}
+                  type={showResetphone ? "text" : "password"}
                   placeholder="Confirm New Password"
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -896,9 +955,13 @@ const Header: React.FC = () => {
                 <button
                   type="button"
                   className="absolute right-3 top-3 text-gray-400 hover:text-white"
-                  onClick={() => setShowResetConfirmPassword(!showResetConfirmPassword)}
+                  onClick={() => setShowResetphone(!showResetphone)}
                 >
-                  {showResetConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showResetphone ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -921,4 +984,3 @@ const Header: React.FC = () => {
 };
 
 export default Header;
-

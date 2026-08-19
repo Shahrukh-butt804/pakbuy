@@ -109,11 +109,6 @@ function AppRoutes() {
               <Route path="/shop/:id" element={<Shop />} />
               <Route path="/shop" element={<Shop />} />
             </Route>
-
-            {/* <Route element={<PrivateRoute />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard"  element={<Home />} />
-            </Route> */}
           </Routes>
         </BrowserRouter>
       </Provider>
