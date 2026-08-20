@@ -17,10 +17,23 @@ const QUICK_REPLIES = [
   "What was my last order?",
 ];
 
+const CHAT_STORAGE_KEY = "pakbuy-chat-widget-messages";
+
+const getStoredMessages = () => {
+  try {
+    const raw = sessionStorage.getItem(CHAT_STORAGE_KEY);
+    if (!raw) return INITIAL_MESSAGES;
+
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_MESSAGES;
+  } catch {
+    return INITIAL_MESSAGES;
+  }
+};
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState(INITIAL_MESSAGES);
+  const [messages, setMessages] = useState(getStoredMessages);
   const [input, setInput] = useState("");
   const scrollRef: any = useRef(null);
 
@@ -29,6 +42,14 @@ export default function ChatWidget() {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, open]);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+    } catch {
+      // Ignore storage quota issues.
+    }
+  }, [messages]);
 
   const pushMessage = (msg: any) =>
     setMessages((prev) => [...prev, { id: prev.length + 1, ...msg }]);
