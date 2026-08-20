@@ -13,9 +13,8 @@ const INITIAL_MESSAGES = [
 ];
 
 const QUICK_REPLIES = [
-  "Show new arrivals",
-  "Best sellers this week",
-  "Track my order",
+  "What collections do you have?",
+  "What was my last order?",
 ];
 
 

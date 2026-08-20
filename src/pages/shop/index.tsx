@@ -14,11 +14,13 @@ import { UPLOADS_URL } from "../../constants/api";
 import { useAddToCartMutation } from "../../redux/services/cartSlice";
 import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
 import { amountFormatter } from "../../utils/Functions";
+import Swal from "sweetalert2";
 
 const ProductWithSidebar: React.FC = () => {
   const [isGridView, setIsGridView] = useState(true);
   const [selectedCollection, setSelectedCollection] = useState<string | any>();
   const [saving, setSaving] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
   const { id } = useParams<{ id: string }>();
 
   const { data: collection } = useGetAllCollectionQuery({});
@@ -49,20 +51,27 @@ const ProductWithSidebar: React.FC = () => {
 
   async function handleAddToCart(collection: any) {
     try {
-      await addToCart({
+      const result = await addToCart({
         collectionId: collection._id,
-        quantity: 1,
-      });
+        quantity,
+      }).unwrap();
 
-    //   if (res.data.success) {
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: "Success",
-    //       text: res?.data?.message,
-    //     });
-    //   }
-    } catch (error) {
+      if (result?.success !== false) {
+        Swal.fire({
+          icon: "success",
+          title: "Added to cart",
+          text: result?.message || "Collection added to your cart successfully.",
+          confirmButtonColor: "#C97873",
+        });
+      }
+    } catch (error: any) {
       console.error("Failed to add collection to cart:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Unable to add to cart",
+        text: error?.data?.message || "Something went wrong.",
+        confirmButtonColor: "#C97873",
+      });
     }
   }
 
@@ -72,6 +81,7 @@ const ProductWithSidebar: React.FC = () => {
 
   function handleChange(item: any) {
     setSelectedCollection(item);
+    setQuantity(1);
     let savings = item?.products?.reduce(
       (acc: number, product: any) =>
         acc + (product.retailPrice - product.price),
@@ -204,11 +214,33 @@ const ProductWithSidebar: React.FC = () => {
                     </div>
                   </div>
 
+                    <div className="w-full">
+                      <div className="flex w-full items-center justify-between gap-3 rounded-full border border-[#C97873]/80 bg-[#101315] px-3 py-2">
+                        <button
+                          type="button"
+                          onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C97873]/80 text-2xl font-light leading-none text-[#C97873] transition-colors hover:bg-[#C97873]/10"
+                        >
+                          −
+                        </button>
+                        <span className="min-w-8 text-center text-[1.1rem] font-semibold text-white">
+                          {quantity}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setQuantity((prev) => prev + 1)}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C97873]/80 text-2xl font-light leading-none text-[#C97873] transition-colors hover:bg-[#C97873]/10"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
                   <button
                     onClick={() => handleAddToCart(selectedCollection)}
-                    className="w-full relative group overflow-hidden py-3 px-4 rounded-xl bg-[#C97873] hover:bg-[#b86762] text-white font-semibold text-sm shadow-lg shadow-[#C97873]/25 hover:shadow-[#C97873]/40 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2"
+                    className="w-full relative group overflow-hidden rounded-[16px] border border-[#D89B93]/70 bg-[#D9A39A] px-4 py-3 text-[#1d1a1a] font-bold text-base shadow-[0_8px_18px_rgba(217,163,154,0.25)] transition-all duration-300 hover:brightness-105 active:scale-[0.99] flex items-center justify-center gap-3"
                   >
-                    <ShoppingBag className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+                    <ShoppingBag className="w-5 h-5 shrink-0" />
                     <span>Add To Cart</span>
                   </button>
                 </div>
