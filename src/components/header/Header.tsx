@@ -5,7 +5,6 @@ import {
   LogOut,
   Menu,
   ShoppingCart,
-  Sparkles,
   X,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -357,25 +356,34 @@ const Header: React.FC = () => {
               />
             </div>
 
-            {/* Desktop Center Pill Banner matching reference image */}
-            <div className="hidden lg:flex items-center justify-center flex-1 mx-4">
-              {user && user._id ? (
-                <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#18181b]/90 border border-[#C97873]/40 text-sm font-semibold tracking-wide text-white shadow-inner">
-                  <Sparkles className="w-4 h-4 text-[#C97873]" />
-                  <span>Thank you for being a valued Pak Buy member</span>
+            {user && user._id ? (
+              <nav className="hidden lg:flex items-center justify-center flex-1 mx-4">
+                <div className="flex items-center gap-6">
+                  {navigationItems.map((item) => (
+                    <div
+                      key={item.path}
+                      onClick={() => handleNavClick(item.label, item.path)}
+                      className="group relative inline-flex items-center justify-center px-1 py-2 text-xs font-bold uppercase tracking-[0.12em] text-[#C97873] transition-colors duration-200 hover:text-[#f2a7a2] cursor-pointer"
+                    >
+                      <span className="relative">
+                        {item.label}
+                        <span
+                          className={`absolute left-0 -bottom-1 h-[2px] w-full origin-left rounded-full bg-[#C97873] transition-transform duration-300 ${
+                            activeItem === item.label
+                              ? "scale-x-100"
+                              : "scale-x-0 group-hover:scale-x-100"
+                          }`}
+                        />
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ) : (
-                <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#18181b]/90 border border-[#C97873]/40 text-sm font-semibold tracking-wide text-white shadow-inner">
-                  <span>Become a Pak Buy member for</span>
-                  <span className="text-[#C97873] font-bold">
-                    $119 annually.
-                  </span>
-                  <span className="text-gray-300 text-xs font-normal">
-                    (&lt; $10/mo)
-                  </span>
-                </div>
-              )}
-            </div>
+              </nav>
+            ) : (
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#18181b]/90 border border-[#C97873]/40 text-sm font-semibold tracking-wide text-white shadow-inner">
+                <span>Become a Pak Buy member Now!</span>
+              </div>
+            )}
 
             {/* Right Side Actions Desktop */}
             <div className="hidden lg:flex items-center gap-2.5">
@@ -791,10 +799,10 @@ const Header: React.FC = () => {
               <div className="p-4 rounded-2xl bg-[#C97873]/10 border border-[#C97873]/30 my-4 space-y-2">
                 <div className="flex items-center justify-between text-xs font-bold">
                   <span className="text-gray-300">
-                    Annual Membership Subscription
+                    Lifetime Membership Subscription
                   </span>
                   <span className="text-[#C97873] font-mono text-base">
-                    $119 / year
+                    $300 / Lifetime
                   </span>
                 </div>
                 <p className="text-[11px] text-gray-400">
