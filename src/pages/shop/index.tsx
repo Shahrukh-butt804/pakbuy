@@ -24,7 +24,7 @@ const ProductWithSidebar: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const { data: collection } = useGetAllCollectionQuery({});
-  const [addToCart] = useAddToCartMutation();
+  const [addToCart, { isLoading }] = useAddToCartMutation();
 
   useEffect(() => {
     if (collection && collection.length > 0) {
@@ -60,7 +60,8 @@ const ProductWithSidebar: React.FC = () => {
         Swal.fire({
           icon: "success",
           title: "Added to cart",
-          text: result?.message || "Collection added to your cart successfully.",
+          text:
+            result?.message || "Collection added to your cart successfully.",
           confirmButtonColor: "#C97873",
         });
       }
@@ -214,34 +215,53 @@ const ProductWithSidebar: React.FC = () => {
                     </div>
                   </div>
 
-                    <div className="w-full">
-                      <div className="flex w-full items-center justify-between gap-3 rounded-full border border-[#C97873]/80 bg-[#101315] px-3 py-2">
-                        <button
-                          type="button"
-                          onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C97873]/80 text-2xl font-light leading-none text-[#C97873] transition-colors hover:bg-[#C97873]/10"
-                        >
-                          −
-                        </button>
-                        <span className="min-w-8 text-center text-[1.1rem] font-semibold text-white">
-                          {quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setQuantity((prev) => prev + 1)}
-                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C97873]/80 text-2xl font-light leading-none text-[#C97873] transition-colors hover:bg-[#C97873]/10"
-                        >
-                          +
-                        </button>
-                      </div>
+                  <div className="w-full">
+                    <div className="flex w-full items-center justify-between gap-3 rounded-full border border-[#C97873]/80 bg-[#101315] px-3 py-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setQuantity((prev) => Math.max(1, prev - 1))
+                        }
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C97873]/80 text-2xl font-light leading-none text-[#C97873] transition-colors hover:bg-[#C97873]/10"
+                      >
+                        −
+                      </button>
+                      <span className="min-w-8 text-center text-[1.1rem] font-semibold text-white">
+                        {quantity}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setQuantity((prev) => prev + 1)}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C97873]/80 text-2xl font-light leading-none text-[#C97873] transition-colors hover:bg-[#C97873]/10"
+                      >
+                        +
+                      </button>
                     </div>
+                  </div>
 
                   <button
                     onClick={() => handleAddToCart(selectedCollection)}
-                    className="w-full relative group overflow-hidden rounded-[16px] border border-[#D89B93]/70 bg-[#D9A39A] px-4 py-3 text-[#1d1a1a] font-bold text-base shadow-[0_8px_18px_rgba(217,163,154,0.25)] transition-all duration-300 hover:brightness-105 active:scale-[0.99] flex items-center justify-center gap-3"
+                    disabled={isLoading}
+                    className="
+                        w-full relative group overflow-hidden rounded-[16px]
+                        border border-[#D89B93]/70
+                        px-4 py-3
+                        text-[#1d1a1a] font-bold text-base
+                        shadow-[0_8px_18px_rgba(217,163,154,0.25)]
+                        transition-all duration-300
+                        hover:brightness-105
+                        active:scale-[0.99]
+                        flex items-center justify-center gap-3
+                        bg-[#C97873] hover:bg-[#b86762]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-60
+                        disabled:hover:bg-[#C97873]
+                        disabled:hover:brightness-100
+                        disabled:active:scale-100
+                      "
                   >
                     <ShoppingBag className="w-5 h-5 shrink-0" />
-                    <span>Add To Cart</span>
+                    <span>{isLoading ? "Adding..." : "Add To Cart"}</span>
                   </button>
                 </div>
               )}
