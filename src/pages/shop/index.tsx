@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import Swal from "sweetalert2";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
@@ -14,7 +15,6 @@ import { UPLOADS_URL } from "../../constants/api";
 import { useAddToCartMutation } from "../../redux/services/cartSlice";
 import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
 import { amountFormatter } from "../../utils/Functions";
-import Swal from "sweetalert2";
 
 const ProductWithSidebar: React.FC = () => {
   const [isGridView, setIsGridView] = useState(true);
@@ -24,7 +24,7 @@ const ProductWithSidebar: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const { data: collection } = useGetAllCollectionQuery({});
-  const [addToCart, { isLoading }] = useAddToCartMutation();
+  const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
 
   useEffect(() => {
     if (collection && collection.length > 0) {
@@ -241,7 +241,7 @@ const ProductWithSidebar: React.FC = () => {
 
                   <button
                     onClick={() => handleAddToCart(selectedCollection)}
-                    disabled={isLoading}
+                    disabled={isAdding}
                     className="
                         w-full relative group overflow-hidden rounded-[16px]
                         border border-[#D89B93]/70
@@ -261,7 +261,7 @@ const ProductWithSidebar: React.FC = () => {
                       "
                   >
                     <ShoppingBag className="w-5 h-5 shrink-0" />
-                    <span>{isLoading ? "Adding..." : "Add To Cart"}</span>
+                    <span>Add To Cart</span>
                   </button>
                 </div>
               )}
