@@ -27,7 +27,6 @@ import {
 import { useGetMyCartQuery } from "../../redux/services/cartSlice";
 import { Cart } from "../cart";
 import ChatWidget from "../chat-bot";
-import WhatsAppWidget from "../whatsapp-widget";
 
 const navigationItems = [
   { label: "Home", path: "/" },
@@ -340,7 +339,7 @@ const Header: React.FC = () => {
   return (
     <>
       {user && <ChatWidget />}
-      {user && <WhatsAppWidget />}
+      {/* {user && <WhatsAppWidget />} */}
 
       {/* Sticky Modern Header Bar */}
       <header className="sticky top-0 z-40 w-full bg-[#0d0d10]/95 backdrop-blur-xl border-b border-[#C97873]/25 shadow-2xl transition-all duration-300">
