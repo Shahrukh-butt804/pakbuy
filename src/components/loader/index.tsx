@@ -66,7 +66,7 @@ export const Loader = ({ fullScreen = true }: { fullScreen?: boolean }) => {
         {/* Cycling status text */}
         <div className="flex flex-col items-center gap-2">
           <span className="bg-gradient-to-r from-[#F26B8A] via-[#F4845F] to-[#FDBB74] bg-clip-text text-sm font-semibold uppercase tracking-wide text-transparent">
-            PakBuy AI
+            Pak Buy AI
           </span>
           <p
             key={statusIndex}

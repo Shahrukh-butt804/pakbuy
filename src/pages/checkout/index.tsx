@@ -6,6 +6,7 @@ import PaymentPage from "../../components/check-out";
 import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
+import { Loader } from "../../components/loader";
 import { UPLOADS_URL } from "../../constants/api";
 import { useGetMyCartQuery } from "../../redux/services/cartSlice";
 import { useValidateCouponMutation } from "../../redux/services/couponSlice";
@@ -219,12 +220,8 @@ const Checkout: React.FC = () => {
     }
   };
 
-  if (isLoading || isCartLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[40vh] text-white">
-        Loading...
-      </div>
-    );
+  if (isCartLoading) {
+    return <Loader />;
   }
 
   return (

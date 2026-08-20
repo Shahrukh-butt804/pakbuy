@@ -6,6 +6,7 @@ import { ChooseInfoSection } from "../../components/chooseInfoSection";
 import Footer from "../../components/footer";
 import Header from "../../components/header/Header";
 import { useGetOrderByUserQuery } from "../../redux/services/orderSlice";
+import { Loader } from "../../components/loader";
 
 const MyOrders: React.FC = () => {
   const navigate = useNavigate();
@@ -155,6 +156,10 @@ const MyOrders: React.FC = () => {
       ),
     },
   ];
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
