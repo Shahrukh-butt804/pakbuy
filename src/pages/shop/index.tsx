@@ -15,6 +15,7 @@ import { UPLOADS_URL } from "../../constants/api";
 import { useAddToCartMutation } from "../../redux/services/cartSlice";
 import { useGetAllCollectionQuery } from "../../redux/services/collectionSlice";
 import { amountFormatter } from "../../utils/Functions";
+import { Loader } from "../../components/loader";
 
 const ProductWithSidebar: React.FC = () => {
   const [isGridView, setIsGridView] = useState(true);
@@ -23,7 +24,7 @@ const ProductWithSidebar: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const { id } = useParams<{ id: string }>();
 
-  const { data: collection } = useGetAllCollectionQuery({});
+  const { data: collection, isLoading } = useGetAllCollectionQuery({});
   const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
 
   useEffect(() => {
@@ -89,6 +90,10 @@ const ProductWithSidebar: React.FC = () => {
       0,
     );
     setSaving(savings || 0);
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
