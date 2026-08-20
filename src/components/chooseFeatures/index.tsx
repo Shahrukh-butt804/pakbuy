@@ -10,24 +10,24 @@ type Feature = {
 
 const FEATURES: Feature[] = [
   {
-    title: "REVEAL",
-    subtitle: "Insights & Clarity",
+    title: "EXPLORE",
+    subtitle: "Discover What Matters",
     description:
-      "Gain informed insights into your health to guide your next steps with absolute confidence.",
+      "Explore personalized insights and discover the areas of your health that deserve your attention.",
     icon: <Search className="w-5 h-5 text-[#C97873]" />,
   },
   {
-    title: "IGNITE",
-    subtitle: "Targeted Enhancement",
+    title: "ACTIVATE",
+    subtitle: "Take Focused Action",
     description:
-      "Prioritize and improve health in areas most important to you with specialized product formulas.",
+      "Take meaningful action with targeted products and personalized solutions designed around your needs.",
     icon: <Flame className="w-5 h-5 text-[#C97873]" />,
   },
   {
-    title: "SUSTAIN",
-    subtitle: "Long-term Vitality",
+    title: "EVOLVE",
+    subtitle: "Build Lasting Wellness",
     description:
-      "Enjoy the ongoing benefits of a healthier lifestyle with continuous member-first support.",
+      "Stay consistent, track your progress, and build lasting habits with continued support along your journey.",
     icon: <RefreshCw className="w-5 h-5 text-[#C97873]" />,
   },
 ];

@@ -11,7 +11,6 @@ import ChangePassword from "./pages/profile/changePassword";
 import EditProfile from "./pages/profile/editProfile";
 import Shop from "./pages/shop";
 import TermsConditions from "./pages/termsConditions";
-import Tips from "./pages/tips";
 
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -94,7 +93,6 @@ function AppRoutes() {
             <Route path="/aboutus" element={<Aboutus />} />
             <Route path="/termsconditions" element={<TermsConditions />} />
             <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-            <Route path="/tips" element={<Tips />} />
 
             <Route element={<PrivateRoute />}>
               <Route path="/my-orders" element={<Orderlog />} />

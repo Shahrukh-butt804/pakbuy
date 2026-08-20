@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
           {/* Navigation Links */}
           <div className="lg:col-span-4 grid grid-cols-2 gap-6">
             <div>
-              <h3 className="text-xs font-bold mb-4 text-[#C97873] uppercase tracking-widest">
+              <h3 className="text-xs font-bold !mb-4 text-[#C97873] uppercase tracking-widest">
                 QUICK LINKS
               </h3>
               <ul className="space-y-2.5 text-sm text-gray-400">
@@ -107,7 +107,7 @@ const Footer: React.FC = () => {
             </div>
 
             <div>
-              <h3 className="text-xs font-bold mb-4 text-[#C97873] uppercase tracking-widest">
+              <h3 className="text-xs font-bold !mb-4 text-[#C97873] uppercase tracking-widest">
                 USEFUL LINKS
               </h3>
               <ul className="space-y-2.5 text-sm text-gray-400">
@@ -127,14 +127,14 @@ const Footer: React.FC = () => {
                     Terms & Conditions
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a
                     className="hover:text-[#C97873] transition-colors duration-200 cursor-pointer block"
                     onClick={() => navigate("/tips")}
                   >
                     Tips & Support
                   </a>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
